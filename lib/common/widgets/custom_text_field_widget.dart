@@ -36,34 +36,38 @@ class CustomTextFieldWidget extends StatefulWidget {
   final Color? borderColor;
   final TextStyle? style;
 
-  const CustomTextFieldWidget(
-      {Key? key, this.hintText = 'Write something...',
-      this.controller,
-      this.focusNode,
-      this.nextFocus,
-      this.isEnabled = true,
-      this.inputType = TextInputType.text,
-      this.inputAction = TextInputAction.next,
-      this.maxLines = 1,
-      this.onSuffixTap,
-      this.fillColor,
-      this.onSubmit,
-      this.onChanged,
-      this.capitalization = TextCapitalization.none,
-      this.isCountryPicker = false,
-      this.isShowBorder = false,
-      this.isShowSuffixIcon = false,
-      this.isShowPrefixIcon = false,
-      this.onTap,
-      this.isIcon = false,
-      this.isPassword = false,
-      this.suffixIconUrl,
-      this.prefixIconUrl,
-      this.isSearch = false,
-      this.languageProvider,
-      this.hintFontSize,
-      this.borderColor, this.prefixIconData, this.prefixColor, this.style,
-      }) : super(key: key);
+  const CustomTextFieldWidget({
+    Key? key,
+    this.hintText = 'Write something...',
+    this.controller,
+    this.focusNode,
+    this.nextFocus,
+    this.isEnabled = true,
+    this.inputType = TextInputType.text,
+    this.inputAction = TextInputAction.next,
+    this.maxLines = 1,
+    this.onSuffixTap,
+    this.fillColor,
+    this.onSubmit,
+    this.onChanged,
+    this.capitalization = TextCapitalization.none,
+    this.isCountryPicker = false,
+    this.isShowBorder = false,
+    this.isShowSuffixIcon = false,
+    this.isShowPrefixIcon = false,
+    this.onTap,
+    this.isIcon = false,
+    this.isPassword = false,
+    this.suffixIconUrl,
+    this.prefixIconUrl,
+    this.isSearch = false,
+    this.languageProvider,
+    this.hintFontSize,
+    this.borderColor,
+    this.prefixIconData,
+    this.prefixColor,
+    this.style,
+  }) : super(key: key);
 
   @override
   State<CustomTextFieldWidget> createState() => _CustomTextFieldWidgetState();
@@ -78,7 +82,10 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
       maxLines: widget.maxLines,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      style: widget.style ?? rubikMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeLarge),
+      style: widget.style ??
+          rubikMedium.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+              fontSize: Dimensions.fontSizeLarge),
       textInputAction: widget.inputAction,
       keyboardType: widget.inputType,
       cursorColor: Theme.of(context).primaryColor,
@@ -87,40 +94,79 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
       autofocus: false,
       //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
       obscureText: widget.isPassword ? _obscureText : false,
-      inputFormatters: widget.inputType == TextInputType.phone ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))] : null,
+      inputFormatters: widget.inputType == TextInputType.phone
+          ? <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp('[0-9+]'))
+            ]
+          : null,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: 10),
-        enabledBorder: !widget.isShowBorder ? InputBorder.none : OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-          borderSide: BorderSide(width: 1 , color: widget.borderColor ?? Theme.of(context).hintColor.withOpacity(0.2)),
-        ),
-        focusedBorder: !widget.isShowBorder ? InputBorder.none : OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-          borderSide: BorderSide(width: 1 ,color: widget.borderColor ?? Theme.of(context).primaryColor.withOpacity(0.5)),
-        ),
-        border: !widget.isShowBorder ? InputBorder.none : OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-
-          borderSide: BorderSide( width: 1 , color: widget.borderColor ?? Theme.of(context).hintColor.withOpacity(0.2)),
-        ),
+        contentPadding: const EdgeInsets.symmetric(
+            vertical: Dimensions.paddingSizeDefault, horizontal: 10),
+        enabledBorder: !widget.isShowBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radiusSizeDefault),
+                borderSide: BorderSide(
+                    width: 1,
+                    color: widget.borderColor ??
+                        Theme.of(context).hintColor.withOpacity(0.2)),
+              ),
+        focusedBorder: !widget.isShowBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radiusSizeDefault),
+                borderSide: BorderSide(
+                    width: 1,
+                    color: widget.borderColor ??
+                        Theme.of(context).primaryColor.withOpacity(0.5)),
+              ),
+        border: !widget.isShowBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radiusSizeDefault),
+                borderSide: BorderSide(
+                    width: 1,
+                    color: widget.borderColor ??
+                        Theme.of(context).hintColor.withOpacity(0.2)),
+              ),
         hoverColor: Colors.transparent,
         isDense: true,
         hintText: widget.hintText,
-
         fillColor: widget.fillColor ?? Theme.of(context).cardColor,
-        hintStyle: rubikRegular.copyWith(fontSize: widget.hintFontSize ?? Dimensions.fontSizeSmall, color: Theme.of(context).hintColor.withOpacity(0.7)),
+        hintStyle: rubikRegular.copyWith(
+            fontSize: widget.hintFontSize ?? Dimensions.fontSizeSmall,
+            color: Theme.of(context).hintColor.withOpacity(0.7)),
         filled: true,
-        prefixIcon: widget.isShowPrefixIcon ? Padding(
-          padding: const EdgeInsets.only(left: Dimensions.paddingSizeLarge, right: Dimensions.paddingSizeSmall),
-          child: widget.prefixIconData != null ? Icon(
-            widget.prefixIconData, color: widget.prefixColor ?? Theme.of(context).iconTheme.color?.withOpacity(0.4),
-          ) :  CustomAssetImageWidget(widget.prefixIconUrl!, color: widget.prefixColor ?? Theme.of(context).iconTheme.color?.withOpacity(0.4)),
-        ) : const SizedBox.shrink(),
-        prefixIconConstraints: const BoxConstraints(minWidth: 23, maxHeight: 20),
+        prefixIcon: widget.isShowPrefixIcon
+            ? Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimensions.paddingSizeLarge,
+                    right: Dimensions.paddingSizeSmall),
+                child: widget.prefixIconData != null
+                    ? Icon(
+                        widget.prefixIconData,
+                        color: widget.prefixColor ??
+                            Theme.of(context).iconTheme.color?.withOpacity(0.4),
+                      )
+                    : CustomAssetImageWidget(widget.prefixIconUrl!,
+                        color: widget.prefixColor ??
+                            Theme.of(context)
+                                .iconTheme
+                                .color
+                                ?.withOpacity(0.4)),
+              )
+            : const SizedBox.shrink(),
+        prefixIconConstraints:
+            const BoxConstraints(minWidth: 23, maxHeight: 20),
         suffixIcon: widget.isShowSuffixIcon
             ? widget.isPassword
                 ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Theme.of(context).hintColor.withOpacity(0.3)),
                     onPressed: _toggle)
                 : widget.isIcon
                     ? IconButton(
@@ -136,8 +182,11 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
             : null,
       ),
       onTap: widget.onTap as void Function()?,
-      onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus)
-          : widget.onSubmit != null ? widget.onSubmit!(text) : null,
+      onSubmitted: (text) => widget.nextFocus != null
+          ? FocusScope.of(context).requestFocus(widget.nextFocus)
+          : widget.onSubmit != null
+              ? widget.onSubmit!(text)
+              : null,
       onChanged: widget.onChanged as void Function(String)?,
     );
   }

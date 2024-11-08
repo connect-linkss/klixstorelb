@@ -5,7 +5,6 @@ import 'package:hexacom_user/common/models/product_model.dart';
 import 'package:hexacom_user/features/search/domain/reposotories/search_repo.dart';
 import 'package:hexacom_user/helper/api_checker_helper.dart';
 
-
 class SearchProvider with ChangeNotifier {
   final SearchRepo? searchRepo;
 
@@ -26,37 +25,31 @@ class SearchProvider with ChangeNotifier {
   bool get isSearch => _isSearch;
   List<int> get selectCategoryList => _selectCategoryList;
   List<String> get historyList => _historyList;
-  TextEditingController  get searchController=> _searchController;
+  TextEditingController get searchController => _searchController;
   SearchShortBy? get selectedSearchShotBy => _selectedSearchShotBy;
   int get rating => _rating;
 
-
-
-  void getSearchText(String searchText){
+  void getSearchText(String searchText) {
     _searchController = TextEditingController(text: searchText);
     notifyListeners();
   }
 
-  void changeSearchStatus(){
+  void changeSearchStatus() {
     _isSearch = !_isSearch;
     notifyListeners();
   }
 
-
-  void setLowerAndUpperValue(double? lower, double? upper, {bool isUpdate = true}) {
+  void setLowerAndUpperValue(double? lower, double? upper,
+      {bool isUpdate = true}) {
     _lowerValue = lower;
     _upperValue = upper;
 
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
   }
 
-
   ProductModel? get searchProductModel => _searchProductModel;
-
-
-
 
   Future<void> searchProduct({
     required int offset,
@@ -68,35 +61,37 @@ class SearchProvider with ChangeNotifier {
     SearchShortBy? shortBy,
     bool isUpdate = false,
   }) async {
-
-    if(offset == 1) {
+    if (offset == 1) {
       _searchProductModel = null;
       _upperValue = 0;
       _lowerValue = 0;
 
-      if(isUpdate) {
+      if (isUpdate) {
         notifyListeners();
       }
-
     }
 
     ApiResponseModel apiResponse = await searchRepo!.getSearchProductList(
       offset: offset,
-      query: query, categoryIds: categoryIds,
-      priceHigh: priceHigh, priceLow: priceLow, rating: rating,
+      query: query,
+      categoryIds: categoryIds,
+      priceHigh: priceHigh,
+      priceLow: priceLow,
+      rating: rating,
       shortBy: getShortByValue(shortBy),
     );
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-
-      if(offset == 1){
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      if (offset == 1) {
         _searchProductModel = ProductModel.fromJson(apiResponse.response?.data);
       } else {
-        _searchProductModel!.totalSize = ProductModel.fromJson(apiResponse.response?.data).totalSize;
-        _searchProductModel!.offset = ProductModel.fromJson(apiResponse.response?.data).offset;
-        _searchProductModel!.products!.addAll(ProductModel.fromJson(apiResponse.response?.data).products!);
+        _searchProductModel!.totalSize =
+            ProductModel.fromJson(apiResponse.response?.data).totalSize;
+        _searchProductModel!.offset =
+            ProductModel.fromJson(apiResponse.response?.data).offset;
+        _searchProductModel!.products!.addAll(
+            ProductModel.fromJson(apiResponse.response?.data).products!);
       }
-
-
     } else {
       _searchProductModel = ProductModel(products: []);
       ApiCheckerHelper.checkApi(apiResponse);
@@ -124,28 +119,27 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   void setRating(int rate, {bool isUpdate = true}) {
     _rating = rate;
 
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
-
   }
 
- void selectCategoryListAdd(int index, {bool isClear = false, bool isUpdate = true}) {
-    if(isClear) {
+  void selectCategoryListAdd(int index,
+      {bool isClear = false, bool isUpdate = true}) {
+    if (isClear) {
       _selectCategoryList = [];
-    }else{
-      if(_selectCategoryList.contains(index)) {
+    } else {
+      if (_selectCategoryList.contains(index)) {
         _selectCategoryList.remove(index);
-      }else {
+      } else {
         _selectCategoryList.add(index);
       }
     }
 
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
   }
@@ -154,20 +148,18 @@ class SearchProvider with ChangeNotifier {
     setRating(-1, isUpdate: isUpdate);
     selectCategoryListAdd(-1, isClear: true, isUpdate: isUpdate);
     setLowerAndUpperValue(null, null, isUpdate: isUpdate);
-
   }
 
   void setSelectShortBy(SearchShortBy? shortBy, {bool isUpdate = true}) {
     _selectedSearchShotBy = shortBy;
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
-
   }
 
   String? getShortByValue(SearchShortBy? shortBy) {
     String? value;
-    switch(shortBy) {
+    switch (shortBy) {
       case SearchShortBy.newArrivals:
         value = 'new_arrival';
         break;
@@ -180,8 +172,4 @@ class SearchProvider with ChangeNotifier {
 
     return value;
   }
-
-
-
-
 }

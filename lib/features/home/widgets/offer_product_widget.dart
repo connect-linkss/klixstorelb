@@ -30,121 +30,149 @@ class _OfferProductWidgetState extends State<OfferProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductProvider>(
-      builder: (context, offerProduct, child) {
-
-        return ResponsiveHelper.isDesktop(context) ? CustomSliderListWidget(
-          controller: scrollController,
-          verticalPosition: 270,
-          horizontalPosition: 0,
-          isShowForwardButton: offerProduct.offerProductList != null && offerProduct.offerProductList!.length > 5,
-          child: Container(
-            height: 410,
-            margin: const EdgeInsets.only(top: 30, bottom: 25),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-              color: Theme.of(context).primaryColor.withOpacity(0.2),
-              image: const DecorationImage(
-                image: AssetImage(Images.offerProductBg),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Column(children: [
-
-              Padding(
-                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                  const SizedBox(),
-
-                  Text(getTranslated('offer_product', context), style: rubikMedium.copyWith(fontSize: Dimensions.fontSizeOverLarge)),
-
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onTap: () => Navigator.pushNamed(context, Routes.getSearchResultRoute(shortBy: SearchShortBy.offerProducts)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-                      child: Text(getTranslated('view_all', context), style: rubikMedium),
-                    ),
+    return Consumer<ProductProvider>(builder: (context, offerProduct, child) {
+      return ResponsiveHelper.isDesktop(context)
+          ? CustomSliderListWidget(
+              controller: scrollController,
+              verticalPosition: 270,
+              horizontalPosition: 0,
+              isShowForwardButton: offerProduct.offerProductList != null &&
+                  offerProduct.offerProductList!.length > 5,
+              child: Container(
+                height: 410,
+                margin: const EdgeInsets.only(top: 30, bottom: 25),
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.circular(Dimensions.paddingSizeDefault),
+                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  image: const DecorationImage(
+                    image: AssetImage(Images.offerProductBg),
+                    fit: BoxFit.cover,
                   ),
-
-                ]),
-              ),
-
-              Expanded(
-                child: Consumer<ProductProvider>(
-                    builder: (context, offerProduct, child) {
-                      return offerProduct.offerProductList == null ? const SizedBox() : offerProduct.offerProductList!.isEmpty ? const SizedBox() : SizedBox(
-                        child: ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          controller: scrollController,
-                          itemCount: offerProduct.offerProductList!.length,
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeDefault),
-                          itemBuilder: (ctx, index) => Container(
-                            margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                            width: 210,
-                            child: ProductCardWidget(
-                              product: offerProduct.offerProductList![index],
+                ),
+                child: Column(children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(),
+                          Text(getTranslated('offer_product', context),
+                              style: rubikMedium.copyWith(
+                                  fontSize: Dimensions.fontSizeOverLarge)),
+                          InkWell(
+                            hoverColor: Colors.transparent,
+                            onTap: () => Navigator.pushNamed(
+                                context,
+                                Routes.getSearchResultRoute(
+                                    shortBy: SearchShortBy.offerProducts)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: Dimensions.paddingSizeSmall),
+                              child: Text(getTranslated('view_all', context),
+                                  style: rubikMedium),
                             ),
                           ),
-                        ),
-                      );
-                    }
+                        ]),
+                  ),
+                  Expanded(
+                    child: Consumer<ProductProvider>(
+                        builder: (context, offerProduct, child) {
+                      return offerProduct.offerProductList == null
+                          ? const SizedBox()
+                          : offerProduct.offerProductList!.isEmpty
+                              ? const SizedBox()
+                              : SizedBox(
+                                  child: ListView.builder(
+                                    physics: const ClampingScrollPhysics(),
+                                    controller: scrollController,
+                                    itemCount:
+                                        offerProduct.offerProductList!.length,
+                                    scrollDirection: Axis.horizontal,
+                                    padding: const EdgeInsets.only(
+                                        left: Dimensions.paddingSizeDefault,
+                                        bottom: Dimensions.paddingSizeDefault),
+                                    itemBuilder: (ctx, index) => Container(
+                                      margin: const EdgeInsets.only(
+                                          right: Dimensions.paddingSizeSmall),
+                                      width: 210,
+                                      child: ProductCardWidget(
+                                        newarrival: true,
+                                        product: offerProduct
+                                            .offerProductList![index],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                    }),
+                  ),
+                ]),
+              ),
+            )
+          : Column(children: [
+              Stack(clipBehavior: Clip.none, children: [
+                Container(
+                  height: 300,
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(
+                      top: Dimensions.paddingSizeDefault, bottom: 80),
+                  padding: const EdgeInsets.only(left: 20, top: 17, right: 20),
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.paddingSizeDefault),
+                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    image: const DecorationImage(
+                      image: AssetImage(Images.offerProductBg),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: TitleWidget(
+                    title: getTranslated('offer_product', context),
+                    onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.getSearchResultRoute(
+                            shortBy: SearchShortBy.offerProducts)),
+                  ),
                 ),
-              ),
-
-            ]),
-          ),
-        ) : Column(children: [
-
-          Stack(clipBehavior: Clip.none, children: [
-            Container(
-              height: 300,
-              alignment: Alignment.topCenter,
-              margin: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, bottom: 80),
-              padding: const EdgeInsets.only(left: 20, top: 17, right: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                color: Theme.of(context).primaryColor.withOpacity(0.2),
-                image: const DecorationImage(
-                  image: AssetImage(Images.offerProductBg),
-                  fit: BoxFit.cover,
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  top: 70,
+                  child: SizedBox(
+                    height: 320,
+                    child: Consumer<ProductProvider>(
+                        builder: (context, offerProduct, child) {
+                      return offerProduct.offerProductList == null
+                          ? const SizedBox()
+                          : ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: offerProduct.offerProductList !=
+                                          null &&
+                                      offerProduct.offerProductList!.length > 5
+                                  ? 5
+                                  : offerProduct.offerProductList?.length,
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.paddingSizeDefault),
+                              itemBuilder: (ctx, index) => Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal:
+                                        Dimensions.paddingSizeExtraSmall),
+                                width: MediaQuery.of(context).size.width * 0.55,
+                                height: 320,
+                                child: ProductCardWidget(
+                                  newarrival: false,
+                                  product:
+                                      offerProduct.offerProductList![index],
+                                ),
+                              ),
+                            );
+                    }),
+                  ),
                 ),
-              ),
-              child: TitleWidget(
-                title: getTranslated('offer_product', context),
-                onTap: () => Navigator.pushNamed(context, Routes.getSearchResultRoute(shortBy: SearchShortBy.offerProducts)),
-              ),
-            ),
-
-            Positioned(
-              right: 0, left: 0, top: 70,
-              child: SizedBox(
-                height: 320,
-                child: Consumer<ProductProvider>(
-                    builder: (context, offerProduct, child) {
-                      return offerProduct.offerProductList == null ? const SizedBox() :  ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: offerProduct.offerProductList != null && offerProduct.offerProductList!.length > 5 ? 5 : offerProduct.offerProductList?.length,
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                        itemBuilder: (ctx, index) => Container(
-                          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                          width: MediaQuery.of(context).size.width * 0.55, height: 320,
-                          child: ProductCardWidget(
-                            product: offerProduct.offerProductList![index],
-                          ),
-                        ),
-                      );
-                    }
-                ),
-              ),
-            ),
-          ]),
-
-        ]);
-      }
-    );
+              ]),
+            ]);
+    });
   }
 }

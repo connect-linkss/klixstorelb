@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:hexacom_user/features/home/widgets/category_shimmer_widget.dart';
 import 'package:hexacom_user/localization/language_constrants.dart';
 import 'package:hexacom_user/features/category/providers/category_provider.dart';
@@ -21,84 +23,154 @@ class CategoriesWebWidget extends StatefulWidget {
 }
 
 class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
-
   ScrollController scrollController = ScrollController();
 
+  void scrollDown() {
+    scrollController.animateTo(
+      scrollController.offset + 200, // Scroll down by 200 pixels
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return Consumer<CategoryProvider>(builder: (context,category,child){
-
-      return category.categoryList != null? category.categoryList!.isNotEmpty ?
-      SizedBox(
-        height: 200,
-        child: CustomSliderListWidget(
-          controller: scrollController,
-          verticalPosition: 50,
-          horizontalPosition: 0,
-          isShowForwardButton: category.categoryList != null && category.categoryList!.length > 5,
-          child: ListView.builder(
-            physics: const ClampingScrollPhysics(),
-            controller: scrollController,
-            itemCount: category.categoryList?.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(top: 20, left: 10,right: 10),
-                child: InkWell(
-                  hoverColor: Colors.transparent,
-                  onTap: () => Navigator.pushNamed(context, Routes.getCategoryRoute(category.categoryList![index])),
-                  child: Column(children: [
-                    OnHover(
-                      child: Container(
-                        height: 100, width: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(Provider.of<ThemeProvider>(context).darkTheme ? 0.05 : 1),
-                          borderRadius: BorderRadius.circular(100),
-                          boxShadow:Provider.of<ThemeProvider>(context).darkTheme ? null : [BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 15, offset: const Offset(3,0))],
+    return Consumer<CategoryProvider>(builder: (context, category, child) {
+      return category.categoryList != null
+          ? category.categoryList!.isNotEmpty
+              ? SizedBox(
+                  height: 400,
+                  child: Stack(
+                    children: [
+                      GridView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        controller: scrollController,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 6, // 6 items per row
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 20,
+                          childAspectRatio: 1,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: OnHover(
-                            child: CustomImageWidget(
-                                image: Provider.of<SplashProvider>(context, listen: false).baseUrls != null
-                                    ? '${category.categoryList![index].image}':'',
-                                width: 100, height: 100, fit: BoxFit.cover
+                        itemCount: category.categoryList?.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: InkWell(
+                              hoverColor: Colors.transparent,
+                              onTap: () => Navigator.pushNamed(
+                                  context,
+                                  Routes.getCategoryRoute(
+                                      category.categoryList![index])),
+                              child: Column(
+                                children: [
+                                  // Image Container
+                                  Container(
+                                    height:
+                                        130, // Increased height for the image
+                                    width: 130, // Increased width for the image
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(
+                                          Provider.of<ThemeProvider>(context)
+                                                  .darkTheme
+                                              ? 0.05
+                                              : 1),
+                                      borderRadius: BorderRadius.circular(100),
+                                      boxShadow:
+                                          Provider.of<ThemeProvider>(context)
+                                                  .darkTheme
+                                              ? null
+                                              : [
+                                                  BoxShadow(
+                                                    color: Theme.of(context)
+                                                        .shadowColor,
+                                                    blurRadius: 15,
+                                                    offset: const Offset(3, 0),
+                                                  ),
+                                                ],
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: OnHover(
+                                        child: CustomImageWidget(
+                                          image: Provider.of<SplashProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .baseUrls !=
+                                                  null
+                                              ? '${category.categoryList![index].image}'
+                                              : '',
+                                          width:
+                                              150, // Adjusted to match new size
+                                          height:
+                                              150, // Adjusted to match new size
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text Container (Card-like)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: SizedBox(
+                                      width: 120,
+                                      child: TextHoverWidget(
+                                        builder: (hovered) {
+                                          return Text(
+                                            category.categoryList![index].name!,
+                                            style: rubikRegular.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: hovered
+                                                  ? Theme.of(context)
+                                                      .primaryColor
+                                                  : null,
+                                              fontSize:
+                                                  Dimensions.fontSizeDefault,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+
+                      // Scroll Down Arrow at the bottom
+                      Positioned(
+                        bottom: 10,
+                        left: MediaQuery.of(context).size.width / 2 - 20,
+                        child: GestureDetector(
+                          onTap: scrollDown, // Scroll down when clicked
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.arrow_downward,
+                              color: Colors.white,
+                              size: 24,
                             ),
                           ),
                         ),
                       ),
-                    ),
-
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
-                        child:  SizedBox(
-                          width: 120,
-                          child: TextHoverWidget(
-                            builder: (hovered) {
-                              return Text(
-                                category.categoryList![index].name!,
-                                style: rubikRegular.copyWith(color: hovered ? Theme.of(context).primaryColor : null,fontSize: Dimensions.fontSizeDefault),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              );
-                            }
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  ]),
-                ),
-              );
-            },
-          ),
-        ),
-      ) : Center(child: Text(getTranslated('no_category_available', context))) : const CategoryShimmerWidget();
+                    ],
+                  ),
+                )
+              : Center(
+                  child: Text(getTranslated('no_category_available', context)))
+          : const CategoryShimmerWidget();
     });
   }
 }

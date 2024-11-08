@@ -9,19 +9,21 @@ import 'package:provider/provider.dart';
 class MenuBarWidget extends StatelessWidget {
   const MenuBarWidget({Key? key}) : super(key: key);
 
-
   List<MenuItems> getMenus(BuildContext context) {
-    final bool isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
+    final bool isLoggedIn =
+        Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
     return [
       MenuItems(
         title: getTranslated('home', context),
         icon: Icons.home_filled,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('home')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('home')),
       ),
       MenuItems(
         title: getTranslated('offer', context),
         icon: Icons.local_offer_outlined,
-        onTap: () => Navigator.pushNamed(context, Routes.getSearchResultRoute(shortBy: SearchShortBy.offerProducts)),
+        onTap: () => Navigator.pushNamed(context,
+            Routes.getSearchResultRoute(shortBy: SearchShortBy.offerProducts)),
       ),
       MenuItems(
         title: getTranslated('necessary_links', context),
@@ -39,54 +41,55 @@ class MenuBarWidget extends StatelessWidget {
             title: getTranslated('about_us', context),
             onTap: () => Navigator.pushNamed(context, Routes.getAboutUsRoute()),
           ),
-
         ],
       ),
       MenuItems(
         title: getTranslated('favourite', context),
         icon: Icons.favorite_border,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('favourite')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('favourite')),
       ),
-
       MenuItems(
         title: getTranslated('menu', context),
         icon: Icons.menu,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('menu')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('menu')),
       ),
-
-      isLoggedIn ?  MenuItems(
-        title: getTranslated('profile', context),
-        icon: Icons.person,
-        onTap: () =>  Navigator.pushNamed(context, Routes.getProfileRoute()),
-      ):  MenuItems(
-        title: getTranslated('login', context),
-        icon: Icons.lock,
-        onTap: () => Navigator.pushNamed(context, Routes.getLoginRoute()),
-      ),
+      isLoggedIn
+          ? MenuItems(
+              title: getTranslated('profile', context),
+              icon: Icons.person,
+              onTap: () =>
+                  Navigator.pushNamed(context, Routes.getProfileRoute()),
+            )
+          : MenuItems(
+              title: getTranslated('login', context),
+              icon: Icons.lock,
+              onTap: () => Navigator.pushNamed(context, Routes.getLoginRoute()),
+            ),
       MenuItems(
         title: '',
         icon: Icons.shopping_cart,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
       ),
-
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       //color: Colors.white,
-    width: 700,
+      width: 700,
       child: PlutoMenuBarWidget(
         backgroundColor: Theme.of(context).cardColor,
         gradient: false,
         goBackButtonText: 'Back',
-        textStyle: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
+        textStyle:
+            TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
         moreIconColor: Theme.of(context).textTheme.bodyLarge!.color,
         menuIconColor: Theme.of(context).textTheme.bodyLarge!.color,
         menus: getMenus(context),
-
       ),
     );
   }

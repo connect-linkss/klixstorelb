@@ -3,7 +3,7 @@ import 'package:hexacom_user/common/enums/app_mode.dart';
 import 'package:hexacom_user/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'HexaCom';
+  static const String appName = 'klixstore';
   static const double appVersion = 7.3;
   static const AppMode appMode = AppMode.release;
   static const String fontFamily = 'Exo';

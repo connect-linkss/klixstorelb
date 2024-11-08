@@ -1,4 +1,4 @@
-package com.sixamtech.hexacom_user
+package com.connect.klixstore
 
 import io.flutter.embedding.android.FlutterActivity
 
