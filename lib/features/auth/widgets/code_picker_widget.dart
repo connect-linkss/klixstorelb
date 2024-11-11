@@ -3,10 +3,10 @@ library country_code_picker;
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/custom_directionality_widget.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/custom_directionality_widget.dart';
 import 'package:flutter/material.dart';
 
 class CodePickerWidget extends StatefulWidget {
@@ -125,7 +125,7 @@ class CodePickerWidget extends StatefulWidget {
     List<Map<String, String>> jsonList = countryList;
 
     List<CountryCode> elements =
-    jsonList.map((json) => CountryCode.fromJson(json)).toList();
+        jsonList.map((json) => CountryCode.fromJson(json)).toList();
 
     if (comparator != null) {
       elements.sort(comparator);
@@ -133,12 +133,12 @@ class CodePickerWidget extends StatefulWidget {
 
     if (countryFilter != null && countryFilter!.isNotEmpty) {
       final uppercaseCustomList =
-      countryFilter!.map((criteria) => criteria.toUpperCase()).toList();
+          countryFilter!.map((criteria) => criteria.toUpperCase()).toList();
       elements = elements
           .where((criteria) =>
-      uppercaseCustomList.contains(criteria.code) ||
-          uppercaseCustomList.contains(criteria.name) ||
-          uppercaseCustomList.contains(criteria.dialCode))
+              uppercaseCustomList.contains(criteria.code) ||
+              uppercaseCustomList.contains(criteria.name) ||
+              uppercaseCustomList.contains(criteria.dialCode))
           .toList();
     }
 
@@ -195,13 +195,15 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
               if (!widget.hideMainText)
                 Flexible(
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
-                  child: CustomDirectionalityWidget(child: Text(
+                  child: CustomDirectionalityWidget(
+                      child: Text(
                     widget.showOnlyCountryWhenClosed
                         ? selectedItem!.toCountryStringOnly()
                         : selectedItem.toString(),
-                    style: widget.textStyle ?? rubikMedium.copyWith(
-                      color: Theme.of(context).textTheme.titleMedium?.color,
-                    ),
+                    style: widget.textStyle ??
+                        rubikMedium.copyWith(
+                          color: Theme.of(context).textTheme.titleMedium?.color,
+                        ),
                     overflow: widget.textOverflow,
                   )),
                 ),
@@ -233,9 +235,9 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection != null) {
         selectedItem = elements.firstWhere(
-                (criteria) =>
-            (criteria.code!.toUpperCase() ==
-                widget.initialSelection!.toUpperCase()) ||
+            (criteria) =>
+                (criteria.code!.toUpperCase() ==
+                    widget.initialSelection!.toUpperCase()) ||
                 (criteria.dialCode == widget.initialSelection) ||
                 (criteria.name!.toUpperCase() ==
                     widget.initialSelection!.toUpperCase()),
@@ -253,9 +255,9 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
 
     if (widget.initialSelection != null) {
       selectedItem = elements.firstWhere(
-              (item) =>
-          (item.code!.toUpperCase() ==
-              widget.initialSelection!.toUpperCase()) ||
+          (item) =>
+              (item.code!.toUpperCase() ==
+                  widget.initialSelection!.toUpperCase()) ||
               (item.dialCode == widget.initialSelection) ||
               (item.name!.toUpperCase() ==
                   widget.initialSelection!.toUpperCase()),
@@ -266,11 +268,11 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
 
     favoriteElements = elements
         .where((item) =>
-    widget.favorite.firstWhereOrNull((criteria) =>
-    item.code!.toUpperCase() == criteria.toUpperCase() ||
-        item.dialCode == criteria ||
-        item.name!.toUpperCase() == criteria.toUpperCase()) !=
-        null)
+            widget.favorite.firstWhereOrNull((criteria) =>
+                item.code!.toUpperCase() == criteria.toUpperCase() ||
+                item.dialCode == criteria ||
+                item.name!.toUpperCase() == criteria.toUpperCase()) !=
+            null)
         .toList();
   }
 
@@ -281,7 +283,9 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
       builder: (context) => Center(
         child: Dialog(
           insetPadding: EdgeInsets.symmetric(
-            horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.webScreenWidth / 4 : 0,
+            horizontal: ResponsiveHelper.isDesktop(context)
+                ? Dimensions.webScreenWidth / 4
+                : 0,
           ),
           child: SelectionDialog(
             elements,

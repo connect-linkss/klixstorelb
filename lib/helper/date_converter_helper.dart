@@ -1,27 +1,31 @@
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/main.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/main.dart';
 import 'package:intl/intl.dart';
 
 class DateConverterHelper {
   static String formatDate(DateTime dateTime) {
     return DateFormat('yyyy-MM-dd hh:mm:ss').format(dateTime);
   }
+
   static String dateTimeInDays(String dateTime) {
     DateTime time = DateTime.parse(dateTime);
-    return DateTime.now().difference(time.add(const Duration(days: 1))).inDays.toString();
+    return DateTime.now()
+        .difference(time.add(const Duration(days: 1)))
+        .inDays
+        .toString();
   }
 
-  static String convertToAgo(String input){
+  static String convertToAgo(String input) {
     DateTime time = DateTime.parse(input);
     Duration diff = DateTime.now().difference(time);
 
-    if(diff.inDays >= 1){
+    if (diff.inDays >= 1) {
       return '${diff.inDays} day ago';
-    } else if(diff.inHours >= 1){
+    } else if (diff.inHours >= 1) {
       return '${diff.inHours} hour ago';
-    } else if(diff.inMinutes >= 1){
+    } else if (diff.inMinutes >= 1) {
       return '${diff.inMinutes} minute ago';
-    } else if (diff.inSeconds >= 1){
+    } else if (diff.inSeconds >= 1) {
       return '${diff.inSeconds} second ago';
     } else {
       return 'just now';
@@ -31,6 +35,7 @@ class DateConverterHelper {
   static String estimatedDate(DateTime dateTime) {
     return DateFormat('dd MMM yyyy').format(dateTime);
   }
+
   static String localDateToIsoStringAMPM(DateTime dateTime) {
     return DateFormat('h:mm a | d-MMM-yyyy ').format(dateTime.toLocal());
   }
@@ -40,12 +45,15 @@ class DateConverterHelper {
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime, true).toLocal();
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS')
+        .parse(dateTime, true)
+        .toLocal();
   }
 
   static String isoStringToLocalTimeOnly(String dateTime) {
     return DateFormat('hh:mm aa').format(isoStringToLocalDate(dateTime));
   }
+
   static String isoStringToLocalAMPM(String dateTime) {
     return DateFormat('a').format(isoStringToLocalDate(dateTime));
   }
@@ -64,9 +72,10 @@ class DateConverterHelper {
 
   static String? getRelativeDate(DateTime dateTime) {
     DateTime currentDateTime = DateTime.now();
-    return  dateTime.difference(currentDateTime).inDays == 0
-        ? getTranslated('today', Get.context!) : dateTime.difference(currentDateTime).inDays == -1
-        ? getTranslated('yesterday', Get.context!) : null;
+    return dateTime.difference(currentDateTime).inDays == 0
+        ? getTranslated('today', Get.context!)
+        : dateTime.difference(currentDateTime).inDays == -1
+            ? getTranslated('yesterday', Get.context!)
+            : null;
   }
-
 }

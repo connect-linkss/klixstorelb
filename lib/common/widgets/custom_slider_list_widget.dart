@@ -1,19 +1,22 @@
-import 'package:hexacom_user/features/home/widgets/arrow_icon_button_widget.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/main.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
+import 'package:klixstore/features/home/widgets/arrow_icon_button_widget.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/main.dart';
+import 'package:klixstore/utill/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomSliderListWidget extends StatefulWidget {
   final ScrollController controller;
-  final double  verticalPosition;
-  final double  horizontalPosition;
+  final double verticalPosition;
+  final double horizontalPosition;
   final bool isShowForwardButton;
   final Widget child;
   const CustomSliderListWidget({
-    Key? key,required this.controller, required this.verticalPosition,
+    Key? key,
+    required this.controller,
+    required this.verticalPosition,
     this.horizontalPosition = 0,
-    required this.child, this.isShowForwardButton = true,
+    required this.child,
+    this.isShowForwardButton = true,
   }) : super(key: key);
 
   @override
@@ -21,8 +24,6 @@ class CustomSliderListWidget extends StatefulWidget {
 }
 
 class _CustomSliderListWidgetState extends State<CustomSliderListWidget> {
-
-
   bool showBackButton = false;
   bool showForwardButton = false;
   bool isFirstTime = true;
@@ -35,7 +36,7 @@ class _CustomSliderListWidgetState extends State<CustomSliderListWidget> {
 
   @override
   void dispose() {
-    if(ResponsiveHelper.isDesktop(Get.context!)) {
+    if (ResponsiveHelper.isDesktop(Get.context!)) {
       widget.controller.dispose();
     }
     super.dispose();
@@ -49,7 +50,8 @@ class _CustomSliderListWidgetState extends State<CustomSliderListWidget> {
         showBackButton = true;
       }
 
-      if (widget.controller.position.pixels >= widget.controller.position.maxScrollExtent) {
+      if (widget.controller.position.pixels >=
+          widget.controller.position.maxScrollExtent) {
         showForwardButton = false;
       } else {
         showForwardButton = true;
@@ -59,37 +61,42 @@ class _CustomSliderListWidgetState extends State<CustomSliderListWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(widget.isShowForwardButton && isFirstTime){
+    if (widget.isShowForwardButton && isFirstTime) {
       setState(() {
         showForwardButton = true;
       });
     }
     isFirstTime = false;
 
-
-    return ResponsiveHelper.isDesktop(context) ?  Stack(
-      children: [
-        widget.child,
-
-        if(showBackButton) Positioned(
-          top: widget.verticalPosition, left: widget.horizontalPosition,
-          child: ArrowIconButtonWidget(
-            isRight: false,
-            onTap: () => widget.controller.animateTo(widget.controller.offset - Dimensions.webScreenWidth,
-                duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
-          ),
-        ),
-
-        if(showForwardButton) Positioned(
-          top: widget.verticalPosition, right: widget.horizontalPosition,
-          child: ArrowIconButtonWidget(
-            onTap: () => widget.controller.animateTo(widget.controller.offset + Dimensions.webScreenWidth,
-                duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
-          ),
-        ),
-      ],
-    ) : widget.child;
+    return ResponsiveHelper.isDesktop(context)
+        ? Stack(
+            children: [
+              widget.child,
+              if (showBackButton)
+                Positioned(
+                  top: widget.verticalPosition,
+                  left: widget.horizontalPosition,
+                  child: ArrowIconButtonWidget(
+                    isRight: false,
+                    onTap: () => widget.controller.animateTo(
+                        widget.controller.offset - Dimensions.webScreenWidth,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut),
+                  ),
+                ),
+              if (showForwardButton)
+                Positioned(
+                  top: widget.verticalPosition,
+                  right: widget.horizontalPosition,
+                  child: ArrowIconButtonWidget(
+                    onTap: () => widget.controller.animateTo(
+                        widget.controller.offset + Dimensions.webScreenWidth,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut),
+                  ),
+                ),
+            ],
+          )
+        : widget.child;
   }
 }
-

@@ -1,19 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:hexacom_user/common/widgets/cart_count_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_asset_image_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_text_field_widget.dart';
-import 'package:hexacom_user/common/widgets/web_app_bar_widget.dart';
-import 'package:hexacom_user/features/cart/providers/cart_provider.dart';
-import 'package:hexacom_user/features/category/providers/category_provider.dart';
-import 'package:hexacom_user/features/search/providers/search_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/helper/cart_helper.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
-import 'package:hexacom_user/utill/images.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/utill/styles.dart';
+import 'package:klixstore/common/widgets/cart_count_widget.dart';
+import 'package:klixstore/common/widgets/custom_asset_image_widget.dart';
+import 'package:klixstore/common/widgets/custom_text_field_widget.dart';
+import 'package:klixstore/common/widgets/web_app_bar_widget.dart';
+import 'package:klixstore/features/cart/providers/cart_provider.dart';
+import 'package:klixstore/features/category/providers/category_provider.dart';
+import 'package:klixstore/features/search/providers/search_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/helper/cart_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/utill/app_constants.dart';
+import 'package:klixstore/utill/images.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/utill/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

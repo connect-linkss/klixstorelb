@@ -1,4 +1,4 @@
-import 'package:hexacom_user/helper/responsive_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -36,23 +36,25 @@ class _CustomZoomWidgetState extends State<CustomZoomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveHelper.isDesktop(context) ? GestureDetector(
-      // onTap: _onZoom,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: MouseRegion(
-          cursor: widget.cursor!,
-          onExit: (details) {
-            _transController.value = Matrix4.identity();
-          },
-          onHover: _onMove,
-          child: InteractiveViewer(
-            transformationController: _transController,
-            child: widget.child,
-          ),
-        ),
-      ),
-    ) : widget.child;
+    return ResponsiveHelper.isDesktop(context)
+        ? GestureDetector(
+            // onTap: _onZoom,
+            child: SizedBox(
+              width: widget.width,
+              height: widget.height,
+              child: MouseRegion(
+                cursor: widget.cursor!,
+                onExit: (details) {
+                  _transController.value = Matrix4.identity();
+                },
+                onHover: _onMove,
+                child: InteractiveViewer(
+                  transformationController: _transController,
+                  child: widget.child,
+                ),
+              ),
+            ),
+          )
+        : widget.child;
   }
 }

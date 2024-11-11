@@ -1,19 +1,19 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:hexacom_user/helper/responsive_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hexacom_user/data/datasource/remote/dio/dio_client.dart';
-import 'package:hexacom_user/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/userinfo_model.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/data/datasource/remote/dio/dio_client.dart';
+import 'package:klixstore/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/userinfo_model.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileRepo{
+class ProfileRepo {
   final DioClient? dioClient;
   final SharedPreferences? sharedPreferences;
   ProfileRepo({required this.dioClient, required this.sharedPreferences});
@@ -26,7 +26,10 @@ class ProfileRepo{
         'Office',
         'Other',
       ];
-      Response response = Response(requestOptions: RequestOptions(path: ''), data: addressTypeList, statusCode: 200);
+      Response response = Response(
+          requestOptions: RequestOptions(path: ''),
+          data: addressTypeList,
+          statusCode: 200);
       return ApiResponseModel.withSuccess(response);
     } catch (e) {
       return ApiResponseModel.withError(ApiErrorHandler.getMessage(e));
@@ -42,24 +45,37 @@ class ProfileRepo{
     }
   }
 
-  Future<http.StreamedResponse> updateProfile(UserInfoModel userInfoModel, String password, XFile?  file, String token) async {
-    http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.updateProfileUri}'));
-    request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    if(file != null && ResponsiveHelper.isMobilePhone()) {
+  Future<http.StreamedResponse> updateProfile(UserInfoModel userInfoModel,
+      String password, XFile? file, String token) async {
+    http.MultipartRequest request = http.MultipartRequest('POST',
+        Uri.parse('${AppConstants.baseUrl}${AppConstants.updateProfileUri}'));
+    request.headers.addAll(<String, String>{'Authorization': 'Bearer $token'});
+    if (file != null && ResponsiveHelper.isMobilePhone()) {
       File file0 = File(file.path);
-      request.files.add(http.MultipartFile('image', file0.readAsBytes().asStream(), file0.lengthSync(), filename: file0.path.split('/').last));
-    }else if(file != null && ResponsiveHelper.isWeb()) {
+      request.files.add(http.MultipartFile(
+          'image', file0.readAsBytes().asStream(), file0.lengthSync(),
+          filename: file0.path.split('/').last));
+    } else if (file != null && ResponsiveHelper.isWeb()) {
       Uint8List list = await file.readAsBytes();
-      request.files.add(http.MultipartFile('image', file.readAsBytes().asStream(), list.length, filename: file.path));
+      request.files.add(http.MultipartFile(
+          'image', file.readAsBytes().asStream(), list.length,
+          filename: file.path));
     }
     Map<String, String> fields = {};
-    if(password.isEmpty) {
+    if (password.isEmpty) {
       fields.addAll(<String, String>{
-        '_method': 'put', 'f_name': userInfoModel.fName!, 'l_name': userInfoModel.lName!, 'phone': userInfoModel.phone!
+        '_method': 'put',
+        'f_name': userInfoModel.fName!,
+        'l_name': userInfoModel.lName!,
+        'phone': userInfoModel.phone!
       });
-    }else {
+    } else {
       fields.addAll(<String, String>{
-        '_method': 'put', 'f_name': userInfoModel.fName!, 'l_name': userInfoModel.lName!, 'phone': userInfoModel.phone!, 'password': password
+        '_method': 'put',
+        'f_name': userInfoModel.fName!,
+        'l_name': userInfoModel.lName!,
+        'phone': userInfoModel.phone!,
+        'password': password
       });
     }
     request.fields.addAll(fields);
@@ -79,11 +95,9 @@ class ProfileRepo{
     }
   }
 
-  Future<void> clearUserId()async{
-    if(sharedPreferences!.containsKey(AppConstants.userId)) {
+  Future<void> clearUserId() async {
+    if (sharedPreferences!.containsKey(AppConstants.userId)) {
       await sharedPreferences!.remove(AppConstants.userId);
     }
   }
-
-
 }

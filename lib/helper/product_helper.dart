@@ -1,13 +1,13 @@
-import 'package:hexacom_user/common/enums/product_filter_type_enum.dart';
-import 'package:hexacom_user/features/home/domain/models/banner_model.dart';
-import 'package:hexacom_user/common/models/category_model.dart';
-import 'package:hexacom_user/common/models/product_model.dart';
-import 'package:hexacom_user/features/category/providers/category_provider.dart';
-import 'package:hexacom_user/utill/routes.dart';
+import 'package:klixstore/common/enums/product_filter_type_enum.dart';
+import 'package:klixstore/features/home/domain/models/banner_model.dart';
+import 'package:klixstore/common/models/category_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
+import 'package:klixstore/features/category/providers/category_provider.dart';
+import 'package:klixstore/utill/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class ProductHelper{
+class ProductHelper {
   static String getProductFilterTypeValue(ProductFilterType filterType) {
     String type;
     switch (filterType) {
@@ -24,27 +24,32 @@ class ProductHelper{
 
   static double? getProductRatingValue(Product? product) {
     double? rating;
-    if(product != null && product.rating != null && product.rating!.isNotEmpty && product.rating!.first.average != null){
+    if (product != null &&
+        product.rating != null &&
+        product.rating!.isNotEmpty &&
+        product.rating!.first.average != null) {
       rating = double.tryParse('${product.rating!.first.average}');
     }
     return rating;
   }
 
-  static void onTapBannerForRoute(BannerModel bannerModel, BuildContext context){
-    final CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+  static void onTapBannerForRoute(
+      BannerModel bannerModel, BuildContext context) {
+    final CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
 
-    if(bannerModel.productId != null) {
-      Navigator.of(context).pushNamed(Routes.getProductDetailsRoute(bannerModel.productId));
-
-    }else if(bannerModel.categoryId != null) {
+    if (bannerModel.productId != null) {
+      Navigator.of(context)
+          .pushNamed(Routes.getProductDetailsRoute(bannerModel.productId));
+    } else if (bannerModel.categoryId != null) {
       CategoryModel? category;
-      for(CategoryModel categoryModel in categoryProvider.categoryList!) {
-        if(categoryModel.id == bannerModel.categoryId) {
+      for (CategoryModel categoryModel in categoryProvider.categoryList!) {
+        if (categoryModel.id == bannerModel.categoryId) {
           category = categoryModel;
           break;
         }
       }
-      if(category != null) {
+      if (category != null) {
         Navigator.pushNamed(context, Routes.getCategoryRoute(category));
       }
     }

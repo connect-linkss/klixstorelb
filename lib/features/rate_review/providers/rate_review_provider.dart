@@ -1,18 +1,17 @@
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/order_details_model.dart';
-import 'package:hexacom_user/common/models/response_model.dart';
-import 'package:hexacom_user/common/models/review_body_model.dart';
-import 'package:hexacom_user/common/reposotories/product_repo.dart';
-import 'package:hexacom_user/features/product/domain/models/review_model.dart';
-import 'package:hexacom_user/helper/api_checker_helper.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/main.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/order_details_model.dart';
+import 'package:klixstore/common/models/response_model.dart';
+import 'package:klixstore/common/models/review_body_model.dart';
+import 'package:klixstore/common/reposotories/product_repo.dart';
+import 'package:klixstore/features/product/domain/models/review_model.dart';
+import 'package:klixstore/helper/api_checker_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/main.dart';
 import 'package:flutter/material.dart';
 
 class RateReviewProvider extends ChangeNotifier {
   final ProductRepo? productRepo;
   RateReviewProvider({required this.productRepo});
-
 
   bool _isLoading = false;
   List<int> _ratingList = [];
@@ -38,10 +37,8 @@ class RateReviewProvider extends ChangeNotifier {
 
   int fiveStarLength = 0, fourStar = 0, threeStar = 0, twoStar = 0, oneStar = 0;
 
-  set setProductReviewList(List<ReviewModel>? list)=> _productReviewList = list;
-
-
-
+  set setProductReviewList(List<ReviewModel>? list) =>
+      _productReviewList = list;
 
   void initRatingData(List<OrderDetailsModel> orderDetailsList) {
     _ratingList = [];
@@ -71,7 +68,8 @@ class RateReviewProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ResponseModel> submitProductReview(int index, ReviewBodyModel reviewBody) async {
+  Future<ResponseModel> submitProductReview(
+      int index, ReviewBodyModel reviewBody) async {
     _loadingList[index] = true;
     notifyListeners();
 
@@ -79,29 +77,33 @@ class RateReviewProvider extends ChangeNotifier {
     ResponseModel responseModel;
     if (response.response != null && response.response!.statusCode == 200) {
       _submitList[index] = true;
-      responseModel = ResponseModel(true, getTranslated('review_submit_successfully', Get.context!));
+      responseModel = ResponseModel(
+          true, getTranslated('review_submit_successfully', Get.context!));
       notifyListeners();
     } else {
-
-      responseModel = ResponseModel(false, ApiCheckerHelper.getError(response).errors?.first.message);
+      responseModel = ResponseModel(
+          false, ApiCheckerHelper.getError(response).errors?.first.message);
     }
     _loadingList[index] = false;
     notifyListeners();
     return responseModel;
   }
 
-  Future<ResponseModel> submitDeliveryManReview(ReviewBodyModel reviewBody) async {
+  Future<ResponseModel> submitDeliveryManReview(
+      ReviewBodyModel reviewBody) async {
     _isLoading = true;
     notifyListeners();
-    ApiResponseModel response = await productRepo!.submitDeliveryManReview(reviewBody);
+    ApiResponseModel response =
+        await productRepo!.submitDeliveryManReview(reviewBody);
     ResponseModel responseModel;
     if (response.response != null && response.response!.statusCode == 200) {
       _deliveryManRating = 0;
-      responseModel = ResponseModel(true, getTranslated('review_submit_successfully', Get.context!));
+      responseModel = ResponseModel(
+          true, getTranslated('review_submit_successfully', Get.context!));
       notifyListeners();
     } else {
-
-      responseModel = ResponseModel(false, ApiCheckerHelper.getError(response).errors?.first.message);
+      responseModel = ResponseModel(
+          false, ApiCheckerHelper.getError(response).errors?.first.message);
     }
     _isLoading = false;
     notifyListeners();
@@ -112,25 +114,33 @@ class RateReviewProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    ApiResponseModel response = await productRepo!.getProductReviewList(productID);
+    ApiResponseModel response =
+        await productRepo!.getProductReviewList(productID);
     if (response.response != null && response.response!.statusCode == 200) {
       _productReviewList = [];
       response.response!.data.forEach((review) {
-        ReviewModel reviewModel= ReviewModel.fromJson(review);
+        ReviewModel reviewModel = ReviewModel.fromJson(review);
 
         _productReviewList!.add(reviewModel);
-
       });
-      fiveStarLength = _productReviewList!.where((element) => element.rating! >= 4.5).length;
-      fourStar = _productReviewList!.where((element) => (element.rating! >= 3.5 && element.rating!<4.5)).length;
-      threeStar = _productReviewList!.where((element) => (element.rating! >= 2.5 && element.rating!<3.5)).length;
-      twoStar = _productReviewList!.where((element) => (element.rating! >= 1.5 && element.rating!<2.5)).length;
-      oneStar = _productReviewList!.where((element) => (element.rating! >= 0 && element.rating!<1.5)).length;
+      fiveStarLength =
+          _productReviewList!.where((element) => element.rating! >= 4.5).length;
+      fourStar = _productReviewList!
+          .where((element) => (element.rating! >= 3.5 && element.rating! < 4.5))
+          .length;
+      threeStar = _productReviewList!
+          .where((element) => (element.rating! >= 2.5 && element.rating! < 3.5))
+          .length;
+      twoStar = _productReviewList!
+          .where((element) => (element.rating! >= 1.5 && element.rating! < 2.5))
+          .length;
+      oneStar = _productReviewList!
+          .where((element) => (element.rating! >= 0 && element.rating! < 1.5))
+          .length;
     } else {
       ApiCheckerHelper.checkApi(response);
     }
     _isLoading = false;
     notifyListeners();
   }
-
 }

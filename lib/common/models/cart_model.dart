@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/product_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
 
 class CartModel {
   int? _id;
@@ -12,15 +12,15 @@ class CartModel {
   Product? _product;
 
   CartModel(
-        int? id,
-        double? price,
-        double? discountedPrice,
-        List<Variation> variation,
-        double? discountAmount,
-        int? quantity,
-        double? taxAmount,
-        int? maxQty,
-        Product? product) {
+      int? id,
+      double? price,
+      double? discountedPrice,
+      List<Variation> variation,
+      double? discountAmount,
+      int? quantity,
+      double? taxAmount,
+      int? maxQty,
+      Product? product) {
     _id = id;
     _price = price;
     _discountedPrice = discountedPrice;

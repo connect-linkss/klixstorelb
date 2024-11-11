@@ -1,5 +1,4 @@
-
-import 'package:hexacom_user/helper/responsive_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class OnHover extends StatelessWidget {
@@ -9,18 +8,20 @@ class OnHover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveHelper.isWeb() ? _OnHoverView(isItem: isItem, child: child) : child!;
+    return ResponsiveHelper.isWeb()
+        ? _OnHoverView(isItem: isItem, child: child)
+        : child!;
   }
 }
 
 class _OnHoverView extends StatefulWidget {
   final Widget? child;
   final bool isItem;
-  const _OnHoverView({Key? key, this.child, this.isItem = false}) : super(key: key);
+  const _OnHoverView({Key? key, this.child, this.isItem = false})
+      : super(key: key);
 
   @override
   State<_OnHoverView> createState() => _OnHoverViewState();
-
 }
 
 class _OnHoverViewState extends State<_OnHoverView> {
@@ -54,8 +55,12 @@ class _OnHoverViewState extends State<_OnHoverView> {
       onExit: (event) => onEntered(false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        decoration: widget.isItem ? isHovered ? shedow1 : shedow2 : shedow2,
-        transform: widget.isItem ? Matrix4.identity() : transform  ,
+        decoration: widget.isItem
+            ? isHovered
+                ? shedow1
+                : shedow2
+            : shedow2,
+        transform: widget.isItem ? Matrix4.identity() : transform,
         child: widget.child,
       ),
     );
@@ -67,4 +72,3 @@ class _OnHoverViewState extends State<_OnHoverView> {
     });
   }
 }
-

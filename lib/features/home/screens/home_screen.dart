@@ -1,35 +1,36 @@
-import 'package:hexacom_user/common/enums/footer_type_enum.dart';
-import 'package:hexacom_user/common/enums/product_filter_type_enum.dart';
-import 'package:hexacom_user/common/widgets/custom_app_bar_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_single_child_list_widget.dart';
-import 'package:hexacom_user/common/widgets/footer_web_widget.dart';
-import 'package:hexacom_user/common/widgets/home_app_bar_widget.dart';
-import 'package:hexacom_user/common/widgets/product_filter_popup_widget.dart';
-import 'package:hexacom_user/common/widgets/title_widget.dart';
-import 'package:hexacom_user/features/auth/providers/auth_provider.dart';
-import 'package:hexacom_user/features/category/providers/category_provider.dart';
-import 'package:hexacom_user/features/home/enums/banner_type_enum.dart';
-import 'package:hexacom_user/features/home/providers/banner_provider.dart';
-import 'package:hexacom_user/features/flash_sale/providers/flash_sale_provider.dart';
-import 'package:hexacom_user/features/home/widgets/banner_widget.dart';
-import 'package:hexacom_user/features/home/widgets/category_widget.dart';
-import 'package:hexacom_user/features/home/widgets/feature_category_widget.dart';
-import 'package:hexacom_user/features/home/widgets/flash_sale_widget.dart';
-import 'package:hexacom_user/features/home/widgets/main_slider_shimmer_widget.dart';
-import 'package:hexacom_user/features/home/widgets/main_slider_widget.dart';
-import 'package:hexacom_user/features/home/widgets/new_arrival_widget.dart';
-import 'package:hexacom_user/features/home/widgets/offer_product_widget.dart';
-import 'package:hexacom_user/features/home/widgets/product_list_widget.dart';
-import 'package:hexacom_user/features/menu/widgets/options_widget.dart';
-import 'package:hexacom_user/features/product/providers/product_provider.dart';
-import 'package:hexacom_user/features/profile/providers/profile_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/features/wishlist/providers/wishlist_provider.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/utill/styles.dart';
+import 'package:klixstore/common/enums/footer_type_enum.dart';
+import 'package:klixstore/common/enums/product_filter_type_enum.dart';
+import 'package:klixstore/common/widgets/custom_app_bar_widget.dart';
+import 'package:klixstore/common/widgets/custom_single_child_list_widget.dart';
+import 'package:klixstore/common/widgets/footer_web_widget.dart';
+import 'package:klixstore/common/widgets/home_app_bar_widget.dart';
+import 'package:klixstore/common/widgets/product_filter_popup_widget.dart';
+import 'package:klixstore/common/widgets/title_widget.dart';
+import 'package:klixstore/features/auth/providers/auth_provider.dart';
+import 'package:klixstore/features/category/providers/category_provider.dart';
+import 'package:klixstore/features/home/enums/banner_type_enum.dart';
+import 'package:klixstore/features/home/providers/banner_provider.dart';
+import 'package:klixstore/features/flash_sale/providers/flash_sale_provider.dart';
+import 'package:klixstore/features/home/widgets/banner_widget.dart';
+import 'package:klixstore/features/home/widgets/category_widget.dart';
+import 'package:klixstore/features/home/widgets/feature_category_widget.dart';
+import 'package:klixstore/features/home/widgets/flash_sale_widget.dart';
+import 'package:klixstore/features/home/widgets/main_slider_shimmer_widget.dart';
+import 'package:klixstore/features/home/widgets/main_slider_widget.dart';
+import 'package:klixstore/features/home/widgets/new_arrival_widget.dart';
+import 'package:klixstore/features/home/widgets/offer_product_widget.dart';
+import 'package:klixstore/features/home/widgets/product_list_widget.dart';
+import 'package:klixstore/features/menu/widgets/options_widget.dart';
+import 'package:klixstore/features/product/providers/product_provider.dart';
+import 'package:klixstore/features/profile/providers/profile_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/features/wishlist/providers/wishlist_provider.dart';
+import 'package:klixstore/helper/product_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/utill/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -292,6 +293,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               }),
 
+                            //Banner
+                            BannerDisplayWidget(),
+
                             /// New Arrival
                             const NewArrivalWidget(),
 
@@ -379,5 +383,153 @@ class _SliverDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.maxExtent != 50 ||
         oldDelegate.minExtent != 50 ||
         child != oldDelegate.child;
+  }
+}
+
+class SingleBannerWidget extends StatelessWidget {
+  const SingleBannerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+    final double bannerWidth = isMobile
+        ? MediaQuery.of(context).size.width / 2 -
+            20 // Adjust width for two banners on mobile
+        : (MediaQuery.of(context).size.width / 2) -
+            30; // Adjust width for desktop spacing
+
+    return Column(
+      children: [
+        Consumer<BannerProvider>(
+          builder: (context, banner, child) {
+            return banner.bannerList != null && banner.bannerList!.isNotEmpty
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: banner.bannerList!.take(2).map((bannerItem) {
+                      return Expanded(
+                        child: _buildBannerItem(
+                          context,
+                          bannerItem,
+                          bannerWidth,
+                          isMobile ? 160 : 200,
+                        ),
+                      );
+                    }).toList(),
+                  )
+                : Center(
+                    child: Text(
+                      'No banner available',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
+    return InkWell(
+      onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
+      child: Container(
+        width: width,
+        height: height,
+        margin: const EdgeInsets.all(5), // Adjusted spacing
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).shadowColor,
+              spreadRadius: 1,
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BannerDisplayWidget extends StatelessWidget {
+  const BannerDisplayWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveHelper.isDesktop(context)
+        ? SingleBannerWidget() // Display the original widget on desktop
+        : const MobileBannerWidget(); // Display mobile column layout
+  }
+}
+
+class MobileBannerWidget extends StatelessWidget {
+  const MobileBannerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double bannerWidth = MediaQuery.of(context).size.width -
+        40; // Full width with padding adjustment for mobile
+
+    return Consumer<BannerProvider>(
+      builder: (context, banner, child) {
+        return banner.bannerList != null && banner.bannerList!.isNotEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: _buildBannerItem(
+                      context,
+                      banner.bannerList!
+                          .first, // Display only the first banner item
+                      bannerWidth,
+                      160, // Height for mobile banners
+                    ),
+                  ),
+                ],
+              )
+            : Center(
+                child: Text(
+                  'No banner available',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              );
+      },
+    );
+  }
+
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
+    return InkWell(
+      onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
+      child: Container(
+        width: width,
+        height: height,
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).shadowColor,
+              spreadRadius: 1,
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 }

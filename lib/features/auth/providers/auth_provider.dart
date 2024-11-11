@@ -2,19 +2,19 @@
 
 import 'dart:async';
 
-import 'package:hexacom_user/features/auth/domain/enums/verification_type_enum.dart';
-import 'package:hexacom_user/features/auth/domain/models/social_login_model.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/error_response_model.dart';
-import 'package:hexacom_user/common/models/response_model.dart';
-import 'package:hexacom_user/common/models/userinfo_model.dart';
-import 'package:hexacom_user/features/auth/domain/reposotories/auth_repo.dart';
-import 'package:hexacom_user/features/auth/providers/verification_provider.dart';
-import 'package:hexacom_user/main.dart';
-import 'package:hexacom_user/features/cart/providers/cart_provider.dart';
-import 'package:hexacom_user/features/profile/providers/profile_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/features/wishlist/providers/wishlist_provider.dart';
+import 'package:klixstore/features/auth/domain/enums/verification_type_enum.dart';
+import 'package:klixstore/features/auth/domain/models/social_login_model.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/error_response_model.dart';
+import 'package:klixstore/common/models/response_model.dart';
+import 'package:klixstore/common/models/userinfo_model.dart';
+import 'package:klixstore/features/auth/domain/reposotories/auth_repo.dart';
+import 'package:klixstore/features/auth/providers/verification_provider.dart';
+import 'package:klixstore/main.dart';
+import 'package:klixstore/features/cart/providers/cart_provider.dart';
+import 'package:klixstore/features/profile/providers/profile_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/features/wishlist/providers/wishlist_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -38,62 +38,60 @@ class AuthProvider with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleAccount;
 
-
   bool _isAgreeTerms = false;
   bool get isAgreeTerms => _isAgreeTerms;
-
-
 
   // for login section
   String? _loginErrorMessage = '';
 
   String? get loginErrorMessage => _loginErrorMessage;
 
-
   Future<ResponseModel> login(String? email, String? password) async {
-
-    final VerificationProvider verificationProvider = Provider.of<VerificationProvider>(Get.context!, listen: false);
-    final SplashProvider splashProvider = Provider.of<SplashProvider>(Get.context!, listen: false);
+    final VerificationProvider verificationProvider =
+        Provider.of<VerificationProvider>(Get.context!, listen: false);
+    final SplashProvider splashProvider =
+        Provider.of<SplashProvider>(Get.context!, listen: false);
 
     _isLoading = true;
     _loginErrorMessage = '';
     notifyListeners();
-    ApiResponseModel apiResponse = await authRepo!.login(email: email, password: password);
+    ApiResponseModel apiResponse =
+        await authRepo!.login(email: email, password: password);
     ResponseModel responseModel;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       ResponseModel? verificationResponse;
       String? token;
       String? tempToken;
       Map map = apiResponse.response?.data;
 
-      if(map.containsKey('temporary_token')) {
+      if (map.containsKey('temporary_token')) {
         tempToken = map["temporary_token"];
-      }else if(map.containsKey('token')){
+      } else if (map.containsKey('token')) {
         token = map["token"];
-
       }
-      if(token != null){
+      if (token != null) {
         await updateAuthToken(token);
-
-      }else if(tempToken != null){
+      } else if (tempToken != null) {
         verificationResponse = await verificationProvider.sendVerificationCode(
           emailOrPhone: email,
-          verificationType: (splashProvider.configModel?.phoneVerification ?? false) ? VerificationType.phone : VerificationType.email,
+          verificationType:
+              (splashProvider.configModel?.phoneVerification ?? false)
+                  ? VerificationType.phone
+                  : VerificationType.email,
         );
 
-        if(!verificationResponse.isSuccess) {
+        if (!verificationResponse.isSuccess) {
           _loginErrorMessage = verificationResponse.message;
         }
-
       }
 
-      responseModel = ResponseModel(token != null, (verificationResponse?.isSuccess ?? false) ?  'verification' : null);
-
+      responseModel = ResponseModel(token != null,
+          (verificationResponse?.isSuccess ?? false) ? 'verification' : null);
     } else {
-
-      _loginErrorMessage = ErrorResponseModel.fromJson(apiResponse.error).errors![0].message;
-      responseModel = ResponseModel(false,_loginErrorMessage);
+      _loginErrorMessage =
+          ErrorResponseModel.fromJson(apiResponse.error).errors![0].message;
+      responseModel = ResponseModel(false, _loginErrorMessage);
     }
     _isLoading = false;
     notifyListeners();
@@ -101,7 +99,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> updateToken() async {
-    if(await authRepo!.getDeviceToken() != '@'){
+    if (await authRepo!.getDeviceToken() != '@') {
       await authRepo!.updateToken();
     }
   }
@@ -111,7 +109,6 @@ class AuthProvider with ChangeNotifier {
 
   bool get isForgotPasswordLoading => _isForgotPasswordLoading;
 
-
   Future<ResponseModel> forgetPassword(String email) async {
     _isForgotPasswordLoading = true;
     resendButtonLoading = true;
@@ -120,10 +117,13 @@ class AuthProvider with ChangeNotifier {
     ApiResponseModel apiResponse = await authRepo!.forgetPassword(email);
     ResponseModel responseModel;
 
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      responseModel = ResponseModel(true, apiResponse.response!.data["message"]);
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      responseModel =
+          ResponseModel(true, apiResponse.response!.data["message"]);
     } else {
-      responseModel = ResponseModel(false, ApiCheckerHelper.getError(apiResponse).errors?.first.message);
+      responseModel = ResponseModel(
+          false, ApiCheckerHelper.getError(apiResponse).errors?.first.message);
     }
     resendButtonLoading = false;
     _isForgotPasswordLoading = false;
@@ -132,25 +132,27 @@ class AuthProvider with ChangeNotifier {
     return responseModel;
   }
 
-
-
-  Future<ResponseModel> resetPassword(String? mail, String? resetToken, String password, String confirmPassword) async {
+  Future<ResponseModel> resetPassword(String? mail, String? resetToken,
+      String password, String confirmPassword) async {
     _isForgotPasswordLoading = true;
     notifyListeners();
-    ApiResponseModel apiResponse = await authRepo!.resetPassword(mail, resetToken, password, confirmPassword);
+    ApiResponseModel apiResponse = await authRepo!
+        .resetPassword(mail, resetToken, password, confirmPassword);
     _isForgotPasswordLoading = false;
     notifyListeners();
     ResponseModel responseModel;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      responseModel = ResponseModel(true, apiResponse.response!.data["message"]);
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      responseModel =
+          ResponseModel(true, apiResponse.response!.data["message"]);
     } else {
-      responseModel = ResponseModel(false, ApiCheckerHelper.getError(apiResponse).errors![0].message);
+      responseModel = ResponseModel(
+          false, ApiCheckerHelper.getError(apiResponse).errors![0].message);
     }
     return responseModel;
   }
 
   // for phone verification
-
 
   String _email = '';
   String _phone = '';
@@ -162,14 +164,13 @@ class AuthProvider with ChangeNotifier {
     _email = email;
     notifyListeners();
   }
+
   updatePhone(String phone) {
     _phone = phone;
     notifyListeners();
   }
 
-
   //email
-
 
   Future<void> updateAuthToken(String token) async {
     authRepo?.saveUserToken(token);
@@ -185,11 +186,13 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isLoggedIn()=> authRepo!.isLoggedIn();
+  bool isLoggedIn() => authRepo!.isLoggedIn();
 
   Future<bool> clearSharedData() async {
-    final WishListProvider wishListProvider = Provider.of<WishListProvider>(Get.context!, listen: false);
-    final CartProvider cartProvider = Provider.of<CartProvider>(Get.context!, listen: false);
+    final WishListProvider wishListProvider =
+        Provider.of<WishListProvider>(Get.context!, listen: false);
+    final CartProvider cartProvider =
+        Provider.of<CartProvider>(Get.context!, listen: false);
 
     _isLoading = true;
     notifyListeners();
@@ -211,6 +214,7 @@ class AuthProvider with ChangeNotifier {
   String getUserNumber() {
     return authRepo!.getUserNumber();
   }
+
   String getUserPassword() {
     return authRepo!.getUserPassword();
   }
@@ -229,18 +233,20 @@ class AuthProvider with ChangeNotifier {
     ApiResponseModel response = await authRepo!.deleteUser();
     _isLoading = false;
     if (response.response!.statusCode == 200) {
-      Provider.of<SplashProvider>(Get.context!, listen: false).removeSharedData();
-      showCustomSnackBar(getTranslated('your_account_remove_successfully', Get.context!), Get.context!);
-      Navigator.pushAndRemoveUntil(Get.context!, MaterialPageRoute(builder: (_) => const LoginScreen()), (route) => false);
-    }else{
+      Provider.of<SplashProvider>(Get.context!, listen: false)
+          .removeSharedData();
+      showCustomSnackBar(
+          getTranslated('your_account_remove_successfully', Get.context!),
+          Get.context!);
+      Navigator.pushAndRemoveUntil(
+          Get.context!,
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+          (route) => false);
+    } else {
       Navigator.of(Get.context!).pop();
       ApiCheckerHelper.checkApi(response);
     }
   }
-
-
-
-
 
   Future<GoogleSignInAuthentication> googleLogin() async {
     GoogleSignInAuthentication auth;
@@ -254,68 +260,60 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     ApiResponseModel apiResponse = await authRepo!.socialLogin(socialLogin);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       Map map = apiResponse.response!.data;
       String? message = '';
       String? token = '';
-      try{
+      try {
         message = map['error_message'] ?? '';
-      }catch(e){
+      } catch (e) {
         debugPrint('error ===> $e');
       }
-      try{
+      try {
         token = map['token'];
-      }catch(e){
+      } catch (e) {
         token = null;
       }
 
-      if(token != null){
+      if (token != null) {
         authRepo!.saveUserToken(token);
         await authRepo!.updateToken();
       }
 
       callback(true, token, message);
       notifyListeners();
-
-    }else {
-
-      String? errorMessage = ErrorResponseModel.fromJson(apiResponse.error).errors![0].message;
-      callback(false, '',errorMessage);
+    } else {
+      String? errorMessage =
+          ErrorResponseModel.fromJson(apiResponse.error).errors![0].message;
+      callback(false, '', errorMessage);
       notifyListeners();
     }
   }
 
   Future<void> socialLogout() async {
-    final UserInfoModel user = Provider.of<ProfileProvider>(Get.context!, listen: false).userInfoModel!;
-    if(user.loginMedium!.toLowerCase() == 'google') {
-      try{
-       await _googleSignIn.disconnect();
-      }catch(e){
-
-      }
-    }else if(user.loginMedium!.toLowerCase() == 'facebook'){
+    final UserInfoModel user =
+        Provider.of<ProfileProvider>(Get.context!, listen: false)
+            .userInfoModel!;
+    if (user.loginMedium!.toLowerCase() == 'google') {
+      try {
+        await _googleSignIn.disconnect();
+      } catch (e) {}
+    } else if (user.loginMedium!.toLowerCase() == 'facebook') {
       await FacebookAuth.instance.logOut();
     }
   }
 
-
-
-  bool updateIsUpdateTernsStatus({bool isUpdate = true, bool? value}){
-
-    if(value != null) {
+  bool updateIsUpdateTernsStatus({bool isUpdate = true, bool? value}) {
+    if (value != null) {
       _isAgreeTerms = value;
-
-    }else{
+    } else {
       _isAgreeTerms = !_isAgreeTerms;
-
     }
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
-
     }
 
     return _isAgreeTerms;
   }
-
-
 }

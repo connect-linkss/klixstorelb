@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/product_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
 
 class PlaceOrderModel {
   List<Cart>? _cart;
@@ -14,28 +14,27 @@ class PlaceOrderModel {
   double? _distance;
   String? _transactionReference;
 
-
-  PlaceOrderModel copyWith({String? paymentMethod, String? transactionReference}) {
+  PlaceOrderModel copyWith(
+      {String? paymentMethod, String? transactionReference}) {
     _paymentMethod = paymentMethod;
     _transactionReference = transactionReference;
     return this;
   }
 
-  PlaceOrderModel(
-      {required List<Cart> cart,
-        required double? couponDiscountAmount,
-        required String couponDiscountTitle,
-        required String? couponCode,
-        required double orderAmount,
-        required int? deliveryAddressId,
-        required String? orderType,
-        required String? paymentMethod,
-        required int? branchId,
-        required String orderNote,
-        required double distance,
-        String? transactionReference,
-
-      }) {
+  PlaceOrderModel({
+    required List<Cart> cart,
+    required double? couponDiscountAmount,
+    required String couponDiscountTitle,
+    required String? couponCode,
+    required double orderAmount,
+    required int? deliveryAddressId,
+    required String? orderType,
+    required String? paymentMethod,
+    required int? branchId,
+    required String orderNote,
+    required double distance,
+    String? transactionReference,
+  }) {
     _cart = cart;
     _couponDiscountAmount = couponDiscountAmount;
     _couponDiscountTitle = couponDiscountTitle;
@@ -62,7 +61,6 @@ class PlaceOrderModel {
   int? get branchId => _branchId;
   double? get distance => _distance;
   String? get transactionReference => _transactionReference;
-
 
   PlaceOrderModel.fromJson(Map<String, dynamic> json) {
     if (json['cart'] != null) {
@@ -98,7 +96,7 @@ class PlaceOrderModel {
     data['coupon_code'] = _couponCode;
     data['branch_id'] = _branchId;
     data['distance'] = _distance;
-    if(_transactionReference != null) {
+    if (_transactionReference != null) {
       data['transaction_reference'] = _transactionReference;
     }
     return data;
@@ -116,12 +114,12 @@ class Cart {
 
   Cart(
       String productId,
-        String price,
-        String variant,
-        List<Variation>? variation,
-        double? discountAmount,
-        int? quantity,
-        double? taxAmount) {
+      String price,
+      String variant,
+      List<Variation>? variation,
+      double? discountAmount,
+      int? quantity,
+      double? taxAmount) {
     _productId = productId;
     _price = price;
     _variant = variant;

@@ -1,8 +1,8 @@
-import 'package:hexacom_user/common/models/address_model.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/response_model.dart';
-import 'package:hexacom_user/features/address/domain/reposotories/location_repo.dart';
-import 'package:hexacom_user/helper/api_checker_helper.dart';
+import 'package:klixstore/common/models/address_model.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/response_model.dart';
+import 'package:klixstore/features/address/domain/reposotories/location_repo.dart';
+import 'package:klixstore/helper/api_checker_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -14,7 +14,6 @@ class AddressProvider with ChangeNotifier {
 
   AddressProvider({required this.sharedPreferences, this.locationRepo});
 
-
   GoogleMapController? _mapController;
   List<Prediction> _predictionList = [];
   List<AddressModel>? _addressList;
@@ -23,7 +22,6 @@ class AddressProvider with ChangeNotifier {
   String? _addressStatusMessage = '';
   List<String> _getAllAddressType = [];
   int _selectAddressIndex = 0;
-
 
   final List<Marker> _markers = <Marker>[];
   List<Marker> get markers => _markers;
@@ -35,31 +33,31 @@ class AddressProvider with ChangeNotifier {
   List<String> get getAllAddressType => _getAllAddressType;
   int get selectAddressIndex => _selectAddressIndex;
 
-
-  set setAddressStatusMessage(String? message)=> _addressStatusMessage = message;
-  set setErrorMessage(String? message)=> _errorMessage = message;
-
-
-
-
+  set setAddressStatusMessage(String? message) =>
+      _addressStatusMessage = message;
+  set setErrorMessage(String? message) => _errorMessage = message;
 
   void deleteUserAddressByID(int? id, int index, Function callback) async {
     ApiResponseModel apiResponse = await locationRepo!.removeAddressByID(id);
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       _addressList!.removeAt(index);
       callback(true, 'Deleted address successfully');
       notifyListeners();
     } else {
-      callback(false, ApiCheckerHelper.getError(apiResponse).errors![0].message);
+      callback(
+          false, ApiCheckerHelper.getError(apiResponse).errors![0].message);
     }
   }
 
   Future<ResponseModel?> initAddressList() async {
     ResponseModel? responseModel;
     ApiResponseModel apiResponse = await locationRepo!.getAllAddress();
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       _addressList = [];
-      apiResponse.response!.data.forEach((address) => _addressList!.add(AddressModel.fromJson(address)));
+      apiResponse.response!.data.forEach(
+          (address) => _addressList!.add(AddressModel.fromJson(address)));
       responseModel = ResponseModel(true, 'successful');
     } else {
       ApiCheckerHelper.checkApi(apiResponse);
@@ -68,9 +66,8 @@ class AddressProvider with ChangeNotifier {
     return responseModel;
   }
 
-
-
-  Future<ResponseModel> addAddress(AddressModel addressModel, BuildContext context) async {
+  Future<ResponseModel> addAddress(
+      AddressModel addressModel, BuildContext context) async {
     _isLoading = true;
     notifyListeners();
     _errorMessage = '';
@@ -78,14 +75,14 @@ class AddressProvider with ChangeNotifier {
     ApiResponseModel apiResponse = await locationRepo!.addAddress(addressModel);
     _isLoading = false;
     ResponseModel responseModel;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       Map map = apiResponse.response!.data;
       initAddressList();
       String? message = map["message"];
       responseModel = ResponseModel(true, message);
       _addressStatusMessage = message;
     } else {
-
       _errorMessage = ApiCheckerHelper.getError(apiResponse).errors![0].message;
       responseModel = ResponseModel(false, _errorMessage);
     }
@@ -94,15 +91,18 @@ class AddressProvider with ChangeNotifier {
   }
 
   // for address update screen
-  Future<ResponseModel> updateAddress(BuildContext context, {required AddressModel addressModel, int? addressId}) async {
+  Future<ResponseModel> updateAddress(BuildContext context,
+      {required AddressModel addressModel, int? addressId}) async {
     _isLoading = true;
     notifyListeners();
     _errorMessage = '';
     _addressStatusMessage = null;
-    ApiResponseModel apiResponse = await locationRepo!.updateAddress(addressModel, addressId);
+    ApiResponseModel apiResponse =
+        await locationRepo!.updateAddress(addressModel, addressId);
     _isLoading = false;
     ResponseModel responseModel;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       Map map = apiResponse.response!.data;
       initAddressList();
       String? message = map["message"];
@@ -116,10 +116,9 @@ class AddressProvider with ChangeNotifier {
     return responseModel;
   }
 
-
   updateAddressIndex(int index, bool notify) {
     _selectAddressIndex = index;
-    if(notify) {
+    if (notify) {
       notifyListeners();
     }
   }
@@ -131,12 +130,15 @@ class AddressProvider with ChangeNotifier {
     }
   }
 
-  Future<List<Prediction>> searchAddress(BuildContext context, String text) async {
-    if(text.isNotEmpty) {
+  Future<List<Prediction>> searchAddress(
+      BuildContext context, String text) async {
+    if (text.isNotEmpty) {
       ApiResponseModel response = await locationRepo!.searchLocation(text);
-      if (response.response?.statusCode == 200 && response.response!.data['status'] == 'OK') {
+      if (response.response?.statusCode == 200 &&
+          response.response!.data['status'] == 'OK') {
         _predictionList = [];
-        response.response!.data['predictions'].forEach((prediction) => _predictionList.add(Prediction.fromJson(prediction)));
+        response.response!.data['predictions'].forEach((prediction) =>
+            _predictionList.add(Prediction.fromJson(prediction)));
       } else {
         _predictionList = [];
       }
@@ -144,12 +146,11 @@ class AddressProvider with ChangeNotifier {
     return _predictionList;
   }
 
-
-  int? getAddressIndex(AddressModel address){
+  int? getAddressIndex(AddressModel address) {
     int? index;
-    if(_addressList != null) {
-      for(int i = 0; i < _addressList!.length; i ++) {
-        if(_addressList![i].id == address.id) {
+    if (_addressList != null) {
+      for (int i = 0; i < _addressList!.length; i++) {
+        if (_addressList![i].id == address.id) {
           index = i;
           break;
         }
@@ -157,6 +158,4 @@ class AddressProvider with ChangeNotifier {
     }
     return index;
   }
-
-
 }

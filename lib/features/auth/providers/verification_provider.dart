@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:hexacom_user/features/auth/domain/enums/verification_type_enum.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/response_model.dart';
-import 'package:hexacom_user/features/auth/domain/reposotories/auth_repo.dart';
-import 'package:hexacom_user/main.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/features/auth/domain/enums/verification_type_enum.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/response_model.dart';
+import 'package:klixstore/features/auth/domain/reposotories/auth_repo.dart';
+import 'package:klixstore/main.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../helper/api_checker_helper.dart';
@@ -28,21 +28,24 @@ class VerificationProvider with ChangeNotifier {
   String get verificationCode => _verificationCode;
   bool get isEnableVerificationCode => _isEnableVerificationCode;
 
-  set setVerificationMessage(String value)=> _verificationMsg = value;
-  set setVerificationCode(String value)=> _verificationCode = value;
+  set setVerificationMessage(String value) => _verificationMsg = value;
+  set setVerificationCode(String value) => _verificationCode = value;
 
   Future<ResponseModel> verifyToken(String? email) async {
     _isLoading = true;
     notifyListeners();
 
-    ApiResponseModel? apiResponse = await authRepo.verifyToken(email, _verificationCode);
+    ApiResponseModel? apiResponse =
+        await authRepo.verifyToken(email, _verificationCode);
 
     ResponseModel responseModel;
 
     if (apiResponse.response?.statusCode == 200) {
-      responseModel = ResponseModel(true, apiResponse.response?.data["message"]);
+      responseModel =
+          ResponseModel(true, apiResponse.response?.data["message"]);
     } else {
-      responseModel = ResponseModel(false, ApiCheckerHelper.getError(apiResponse).errors?.first.message);
+      responseModel = ResponseModel(
+          false, ApiCheckerHelper.getError(apiResponse).errors?.first.message);
     }
 
     _isLoading = false;
@@ -51,21 +54,24 @@ class VerificationProvider with ChangeNotifier {
     return responseModel;
   }
 
-  Future<ResponseModel> sendVerificationCode({required String? emailOrPhone, required VerificationType verificationType}) async {
+  Future<ResponseModel> sendVerificationCode(
+      {required String? emailOrPhone,
+      required VerificationType verificationType}) async {
     ResponseModel responseModel;
 
     _isLoading = true;
     _verificationMsg = '';
     notifyListeners();
 
-    ApiResponseModel? apiResponse = await authRepo.sendVerificationCode(emailOrPhone, verificationType);
+    ApiResponseModel? apiResponse =
+        await authRepo.sendVerificationCode(emailOrPhone, verificationType);
 
     if (apiResponse.response?.statusCode == 200) {
       responseModel = ResponseModel(true, apiResponse.response?.data['token']);
       startVerifyTimer();
-
     } else {
-      _verificationMsg = ApiCheckerHelper.getError(apiResponse).errors?.first.message;
+      _verificationMsg =
+          ApiCheckerHelper.getError(apiResponse).errors?.first.message;
       responseModel = ResponseModel(false, _verificationMsg);
     }
 
@@ -73,33 +79,31 @@ class VerificationProvider with ChangeNotifier {
     notifyListeners();
 
     return responseModel;
-
-
-
   }
 
-
-  Future<ResponseModel> verifyVerificationCode({required String emailOrPhone, required VerificationType verificationType}) async {
-
+  Future<ResponseModel> verifyVerificationCode(
+      {required String emailOrPhone,
+      required VerificationType verificationType}) async {
     _isLoading = true;
     _verificationMsg = '';
     notifyListeners();
 
-    ApiResponseModel? apiResponse = await authRepo.verifyVerificationCode(emailOrPhone, _verificationCode, verificationType);
+    ApiResponseModel? apiResponse = await authRepo.verifyVerificationCode(
+        emailOrPhone, _verificationCode, verificationType);
 
     ResponseModel responseModel;
 
     if (apiResponse.response?.statusCode == 200) {
-
       String token = apiResponse.response?.data["token"];
 
       authRepo.saveUserToken(token);
       await authRepo.updateToken();
 
-      responseModel = ResponseModel(true, apiResponse.response?.data["message"]);
-
+      responseModel =
+          ResponseModel(true, apiResponse.response?.data["message"]);
     } else {
-      _verificationMsg = ApiCheckerHelper.getError(apiResponse).errors?.first.message;
+      _verificationMsg =
+          ApiCheckerHelper.getError(apiResponse).errors?.first.message;
 
       responseModel = ResponseModel(false, _verificationMsg);
       showCustomSnackBar(_verificationMsg, Get.context!);
@@ -110,7 +114,6 @@ class VerificationProvider with ChangeNotifier {
 
     return responseModel;
   }
-
 
   void updateVerificationCode(String verificationCode) {
     if (verificationCode.length == 4) {
@@ -124,31 +127,21 @@ class VerificationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-
-  void startVerifyTimer(){
-
+  void startVerifyTimer() {
     _timer?.cancel();
-    currentTime = Provider.of<SplashProvider>(Get.context!, listen: false).configModel?.otpResendTime ?? 0;
+    currentTime = Provider.of<SplashProvider>(Get.context!, listen: false)
+            .configModel
+            ?.otpResendTime ??
+        0;
 
-    _timer =  Timer.periodic(const Duration(seconds: 1), (_){
-
-      if(currentTime! > 0) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (currentTime! > 0) {
         currentTime = currentTime! - 1;
-
-      }else{
+      } else {
         _timer?.cancel();
-
       }
 
       notifyListeners();
     });
-
   }
-
-
-
-
-
-
 }

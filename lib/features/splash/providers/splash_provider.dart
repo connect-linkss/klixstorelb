@@ -1,11 +1,11 @@
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/config_model.dart';
-import 'package:hexacom_user/features/splash/domain/models/policy_model.dart';
-import 'package:hexacom_user/features/splash/domain/reposotories/splash_repo.dart';
-import 'package:hexacom_user/helper/api_checker_helper.dart';
-import 'package:hexacom_user/main.dart';
-import 'package:hexacom_user/features/auth/providers/auth_provider.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/config_model.dart';
+import 'package:klixstore/features/splash/domain/models/policy_model.dart';
+import 'package:klixstore/features/splash/domain/reposotories/splash_repo.dart';
+import 'package:klixstore/helper/api_checker_helper.dart';
+import 'package:klixstore/main.dart';
+import 'package:klixstore/features/auth/providers/auth_provider.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +21,6 @@ class SplashProvider extends ChangeNotifier {
   BaseUrls? _baseUrls;
   final DateTime _currentTime = DateTime.now();
 
-
   ConfigModel? get configModel => _configModel;
   PolicyModel? get policyModel => _policyModel;
 
@@ -31,32 +30,34 @@ class SplashProvider extends ChangeNotifier {
   bool _cookiesShow = true;
   bool get cookiesShow => _cookiesShow;
 
-
   Future<bool> initConfig() async {
     ApiResponseModel apiResponse = await splashRepo!.getConfig();
     bool isSuccess;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       _configModel = ConfigModel.fromJson(apiResponse.response!.data);
       _baseUrls = ConfigModel.fromJson(apiResponse.response!.data).baseUrls;
       isSuccess = true;
 
-      if(!kIsWeb && !Provider.of<AuthProvider>(Get.context!, listen: false).isLoggedIn()){
-        await Provider.of<AuthProvider>(Get.context!, listen: false).updateToken();
+      if (!kIsWeb &&
+          !Provider.of<AuthProvider>(Get.context!, listen: false)
+              .isLoggedIn()) {
+        await Provider.of<AuthProvider>(Get.context!, listen: false)
+            .updateToken();
       }
       notifyListeners();
     } else {
       isSuccess = false;
-     ApiCheckerHelper.checkApi(apiResponse);
+      ApiCheckerHelper.checkApi(apiResponse);
     }
     return isSuccess;
   }
 
   Future<void> getPolicyPage({bool reload = false}) async {
-
-    if(_policyModel == null || reload) {
+    if (_policyModel == null || reload) {
       ApiResponseModel apiResponse = await splashRepo!.getPolicyPage();
-      if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-
+      if (apiResponse.response != null &&
+          apiResponse.response!.statusCode == 200) {
         _policyModel = PolicyModel.fromJson(apiResponse.response!.data);
 
         notifyListeners();
@@ -83,15 +84,19 @@ class SplashProvider extends ChangeNotifier {
   }
 
   void cookiesStatusChange(String? data) {
-    if(data != null){
-      splashRepo!.sharedPreferences!.setString(AppConstants.cookingManagement, data);
+    if (data != null) {
+      splashRepo!.sharedPreferences!
+          .setString(AppConstants.cookingManagement, data);
     }
     _cookiesShow = false;
     notifyListeners();
   }
 
-  bool getAcceptCookiesStatus(String? data) => splashRepo!.sharedPreferences!.getString(AppConstants.cookingManagement) != null
-      && splashRepo!.sharedPreferences!.getString(AppConstants.cookingManagement) == data;
-
-
+  bool getAcceptCookiesStatus(String? data) =>
+      splashRepo!.sharedPreferences!
+              .getString(AppConstants.cookingManagement) !=
+          null &&
+      splashRepo!.sharedPreferences!
+              .getString(AppConstants.cookingManagement) ==
+          data;
 }

@@ -1,17 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:hexacom_user/features/home/widgets/category_shimmer_widget.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/category/providers/category_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/provider/theme_provider.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/custom_image_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_slider_list_widget.dart';
-import 'package:hexacom_user/common/widgets/on_hover.dart';
-import 'package:hexacom_user/common/widgets/text_hover_widget.dart';
+import 'package:klixstore/features/home/widgets/category_shimmer_widget.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/category/providers/category_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/provider/theme_provider.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/custom_image_widget.dart';
+import 'package:klixstore/common/widgets/custom_slider_list_widget.dart';
+import 'package:klixstore/common/widgets/on_hover.dart';
+import 'package:klixstore/common/widgets/text_hover_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

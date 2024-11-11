@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider with ChangeNotifier {

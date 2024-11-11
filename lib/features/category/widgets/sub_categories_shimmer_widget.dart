@@ -1,4 +1,4 @@
-import 'package:hexacom_user/features/category/providers/category_provider.dart';
+import 'package:klixstore/features/category/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -13,7 +13,8 @@ class SubCategoriesShimmerWidget extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Shimmer(
           duration: const Duration(seconds: 2),
-          enabled: Provider.of<CategoryProvider>(context).subCategoryList == null,
+          enabled:
+              Provider.of<CategoryProvider>(context).subCategoryList == null,
           child: Container(
             height: 40,
             margin: const EdgeInsets.only(left: 15, right: 15, top: 15),

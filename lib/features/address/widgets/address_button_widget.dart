@@ -1,14 +1,14 @@
-import 'package:hexacom_user/common/models/address_model.dart';
-import 'package:hexacom_user/common/models/config_model.dart';
-import 'package:hexacom_user/features/address/providers/location_provider.dart';
-import 'package:hexacom_user/features/checkout/providers/checkout_provider.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/address/providers/address_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/custom_button_widget.dart';
-import 'package:hexacom_user/helper/custom_snackbar_helper.dart';
+import 'package:klixstore/common/models/address_model.dart';
+import 'package:klixstore/common/models/config_model.dart';
+import 'package:klixstore/features/address/providers/location_provider.dart';
+import 'package:klixstore/features/checkout/providers/checkout_provider.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/address/providers/address_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/custom_button_widget.dart';
+import 'package:klixstore/helper/custom_snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -35,83 +35,100 @@ class AddressButtonWidget extends StatelessWidget {
     required this.houseNumberController,
     required this.address,
     required this.location,
-
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    return Consumer<AddressProvider>(
-      builder: (context, addressProvider, _) {
-        return Column(
-          children: [
-            addressProvider.addressStatusMessage != null ?
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                addressProvider.addressStatusMessage!.isNotEmpty ? const CircleAvatar(backgroundColor: Colors.green, radius: 5) : const SizedBox.shrink(),
-                const SizedBox(width: 8),
-
-                Expanded(
-                  child: Text(
-                    addressProvider.addressStatusMessage ?? "",
-                    style:
-                    rubikMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.green, height: 1),
-                  ),
+    return Consumer<AddressProvider>(builder: (context, addressProvider, _) {
+      return Column(
+        children: [
+          addressProvider.addressStatusMessage != null
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    addressProvider.addressStatusMessage!.isNotEmpty
+                        ? const CircleAvatar(
+                            backgroundColor: Colors.green, radius: 5)
+                        : const SizedBox.shrink(),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        addressProvider.addressStatusMessage ?? "",
+                        style: rubikMedium.copyWith(
+                            fontSize: Dimensions.fontSizeSmall,
+                            color: Colors.green,
+                            height: 1),
+                      ),
+                    )
+                  ],
                 )
-              ],
-            )  :
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                addressProvider.errorMessage!.isNotEmpty
-                    ? const CircleAvatar(backgroundColor: Colors.red, radius: 5)
-                    : const SizedBox.shrink(),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    addressProvider.errorMessage ?? "",
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.red, height: 1),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
-            Container(
-              height: 50.0,
-              width: Dimensions.webScreenWidth,
-              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              child: Consumer<LocationProvider>(
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    addressProvider.errorMessage!.isNotEmpty
+                        ? const CircleAvatar(
+                            backgroundColor: Colors.red, radius: 5)
+                        : const SizedBox.shrink(),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        addressProvider.errorMessage ?? "",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                fontSize: Dimensions.fontSizeSmall,
+                                color: Colors.red,
+                                height: 1),
+                      ),
+                    )
+                  ],
+                ),
+          const SizedBox(height: Dimensions.paddingSizeSmall),
+          Container(
+            height: 50.0,
+            width: Dimensions.webScreenWidth,
+            margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: Consumer<LocationProvider>(
                 builder: (context, locationProvider, _) {
-                  return CustomButtonWidget(
-                    isLoading: addressProvider.isLoading,
-                    btnTxt: isUpdateEnable ? getTranslated('update_address', context) : getTranslated('save_location', context),
-                    onTap: locationProvider.isLoading ? null : () async => _onPressAction(locationProvider, context),
-                  );
-                }
-              ),
-            )
-          ],
-        );
-      }
-    );
+              return CustomButtonWidget(
+                isLoading: addressProvider.isLoading,
+                btnTxt: isUpdateEnable
+                    ? getTranslated('update_address', context)
+                    : getTranslated('save_location', context),
+                onTap: locationProvider.isLoading
+                    ? null
+                    : () async => _onPressAction(locationProvider, context),
+              );
+            }),
+          )
+        ],
+      );
+    });
   }
 
-  Future<void> _onPressAction(LocationProvider locationProvider, BuildContext context) async {
-    final AddressProvider addressProvider = Provider.of<AddressProvider>(context, listen: false);
-    final CheckoutProvider checkoutProvider = Provider.of<CheckoutProvider>(context, listen: false);
-    List<Branches> branches = Provider.of<SplashProvider>(context, listen: false).configModel!.branches!;
-    bool isAvailable = branches.length == 1 && (branches[0].latitude == null || branches[0].latitude!.isEmpty);
+  Future<void> _onPressAction(
+      LocationProvider locationProvider, BuildContext context) async {
+    final AddressProvider addressProvider =
+        Provider.of<AddressProvider>(context, listen: false);
+    final CheckoutProvider checkoutProvider =
+        Provider.of<CheckoutProvider>(context, listen: false);
+    List<Branches> branches =
+        Provider.of<SplashProvider>(context, listen: false)
+            .configModel!
+            .branches!;
+    bool isAvailable = branches.length == 1 &&
+        (branches[0].latitude == null || branches[0].latitude!.isEmpty);
 
-    if(!isAvailable) {
+    if (!isAvailable) {
       for (Branches branch in branches) {
         double distance = Geolocator.distanceBetween(
-          double.parse(branch.latitude!), double.parse(branch.longitude!),
-          locationProvider.currentPosition.latitude, locationProvider.currentPosition.longitude,
-        ) / 1000;
+              double.parse(branch.latitude!),
+              double.parse(branch.longitude!),
+              locationProvider.currentPosition.latitude,
+              locationProvider.currentPosition.longitude,
+            ) /
+            1000;
 
         if (distance < branch.coverage!) {
           isAvailable = true;
@@ -119,13 +136,13 @@ class AddressButtonWidget extends StatelessWidget {
         }
       }
     }
-    if(!isAvailable) {
-      showCustomSnackBar(getTranslated('service_is_not_available', context), context);
-
-    }else {
-
+    if (!isAvailable) {
+      showCustomSnackBar(
+          getTranslated('service_is_not_available', context), context);
+    } else {
       AddressModel addressModel = AddressModel(
-        addressType: addressProvider.getAllAddressType[addressProvider.selectAddressIndex],
+        addressType: addressProvider
+            .getAllAddressType[addressProvider.selectAddressIndex],
         contactPersonName: contactPersonNameController.text,
         contactPersonNumber: contactPersonNumberController.text,
         address: location,
@@ -143,13 +160,11 @@ class AddressButtonWidget extends StatelessWidget {
         addressModel.userId = address?.userId;
         addressModel.method = 'put';
 
-        await addressProvider.updateAddress(context, addressModel: addressModel, addressId: addressModel.id);
-
+        await addressProvider.updateAddress(context,
+            addressModel: addressModel, addressId: addressModel.id);
       } else {
-
         await addressProvider.addAddress(addressModel, context).then((value) {
           if (value.isSuccess) {
-
             if (fromCheckout) {
               addressProvider.initAddressList();
               checkoutProvider.setOrderAddressIndex(-1);
@@ -157,7 +172,6 @@ class AddressButtonWidget extends StatelessWidget {
 
             Navigator.pop(context);
             showCustomSnackBar(value.message, context, isError: false);
-
           } else {
             showCustomSnackBar(value.message, context);
           }

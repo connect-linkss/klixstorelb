@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/category_model.dart';
-import 'package:hexacom_user/common/models/feature_category_model.dart';
-import 'package:hexacom_user/common/models/product_model.dart';
-import 'package:hexacom_user/features/category/domain/reposotories/category_repo.dart';
-import 'package:hexacom_user/helper/api_checker_helper.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/category_model.dart';
+import 'package:klixstore/common/models/feature_category_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
+import 'package:klixstore/features/category/domain/reposotories/category_repo.dart';
+import 'package:klixstore/helper/api_checker_helper.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProvider extends ChangeNotifier {

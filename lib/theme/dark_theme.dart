@@ -1,16 +1,17 @@
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:flutter/material.dart';
 
 ThemeData dark = ThemeData(
   fontFamily: AppConstants.fontFamily,
-  primaryColor: const Color(0xFF9675c4),
+  primaryColor: const Color(0xFF2e4698),
   secondaryHeaderColor: const Color(0xFFefe6fc),
   brightness: Brightness.dark,
   cardColor: const Color(0xFF29292D),
   hintColor: const Color(0xFFE7F6F8),
   focusColor: const Color(0xFFC3CAD9),
   shadowColor: Colors.black.withOpacity(0.4),
-  popupMenuTheme: const PopupMenuThemeData(color: Color(0xFF29292D), surfaceTintColor: Color(0xFF29292D)),
+  popupMenuTheme: const PopupMenuThemeData(
+      color: Color(0xFF29292D), surfaceTintColor: Color(0xFF29292D)),
   dialogTheme: const DialogTheme(surfaceTintColor: Colors.white10),
   colorScheme: ColorScheme(
     brightness: Brightness.dark,
@@ -23,8 +24,7 @@ ThemeData dark = ThemeData(
     error: Colors.redAccent,
     onError: Colors.redAccent,
     surface: Colors.white10,
-    onSurface:  Colors.white70,
+    onSurface: Colors.white70,
     shadow: Colors.black.withOpacity(0.4),
   ),
-
 );

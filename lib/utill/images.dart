@@ -1,4 +1,4 @@
-import 'package:hexacom_user/provider/theme_provider.dart';
+import 'package:klixstore/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,18 +25,24 @@ class Images {
   static const String noOrderImage = 'assets/image/no_order_image.png';
   static const String shoppingCart = 'assets/image/shopping_cart.png';
   // static const String support = 'assets/image/support.png';
-  static const String deliveryBoyMarker = 'assets/image/delivery_boy_marker.png';
+  static const String deliveryBoyMarker =
+      'assets/image/delivery_boy_marker.png';
   static const String destinationMarker = 'assets/image/destination_marker.png';
   static const String restaurantMarker = 'assets/image/restaurant_marker.png';
-  static const String unselectedRestaurantMarker = 'assets/image/unselected_restaurant_marker.png';
+  static const String unselectedRestaurantMarker =
+      'assets/image/unselected_restaurant_marker.png';
   static const String wallet = 'assets/image/wallet.png';
   static const String guestLogin = 'assets/image/guest_login.png';
   static const String placeholderLight = 'assets/image/placeholder.jpg';
   static const String placeholderDark = 'assets/image/dark_placeholder.png';
-  static const String placeHolderOneToOne = 'assets/image/place_holder_one_one.png';
+  static const String placeHolderOneToOne =
+      'assets/image/place_holder_one_one.png';
   static String placeholder(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? placeholderDark : placeholderLight;
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? placeholderDark
+        : placeholderLight;
   }
+
   static const String logo = 'assets/image/logo.png';
   static const String login = 'assets/icon/login.png';
   // static const String helpSupport = 'assets/icon/help_support.png';
@@ -56,14 +62,13 @@ class Images {
   static const String facebookSocial = 'assets/image/facebook_social.png';
   static const String flashSale = 'assets/image/flash_sale.png';
   static const String offerProductBg = 'assets/image/offer_product_bg.png';
-  static const String deliveryAddressIcon = 'assets/image/delivery_address_icon.png';
+  static const String deliveryAddressIcon =
+      'assets/image/delivery_address_icon.png';
   static const String wishListNoData = 'assets/image/wishlist_nodata.png';
   static const String percent = 'assets/image/percent.png';
   static const String amount = 'assets/image/amount.png';
   // static const String profileMenuIcon = 'assets/image/profile_menu_icon.png';
   // static const String couponMenuIcon = 'assets/image/coupon_menu_icon.png';
-
-
 
   // for Icon
   static const String marker = 'assets/icon/marker.png';
@@ -76,9 +81,11 @@ class Images {
   static const String map = 'assets/icon/map.png';
   static const String notification = 'assets/icon/notification.png';
   static const String closeLock = 'assets/icon/close_lock.png';
-  static const String emailWithBackground = 'assets/icon/email_with_background.png';
+  static const String emailWithBackground =
+      'assets/icon/email_with_background.png';
   static const String openLock = 'assets/icon/open_lock.png';
-  static const String doneWithFullBackground = 'assets/icon/done_with_full_background.png';
+  static const String doneWithFullBackground =
+      'assets/icon/done_with_full_background.png';
   static const String filterIcon = 'assets/icon/filter_icon.png';
   static const String location = 'assets/icon/location.png';
   // static const String couponIcon = 'assets/icon/coupon_icon.png';
@@ -109,16 +116,13 @@ class Images {
   static const String playStore = 'assets/image/play_store.png';
   static const String appStore = 'assets/image/app_store.png';
   static const String linkedin = 'assets/image/linkedin.png';
-  static const String  instagram = 'assets/image/instagram.png';
+  static const String instagram = 'assets/image/instagram.png';
   static const String pinterest = 'assets/image/pinterest.png';
-  static const String locationBannerImage = 'assets/image/location_banner_image.png';
+  static const String locationBannerImage =
+      'assets/image/location_banner_image.png';
   static const String cashOnDelivery = 'assets/image/cash_on_delivery.png';
 
-
-
-
   static String getSocialImage(String name) => 'assets/image/$name.png';
-
 
   ///this is [svg] section don't put other extension
 
@@ -140,10 +144,10 @@ class Images {
   static const String profileMenuIcon = 'assets/svg/profile_menu_icon.svg';
   static const String couponMenuIcon = 'assets/svg/coupon_menu_icon.svg';
   static const String userDeleteIcon = 'assets/svg/user_delete_icon.svg';
-  static const String locationDeleteIcon = 'assets/svg/location_delete_icon.svg';
-  static const String wishListRemoveIcon = 'assets/svg/wish_list_remove_icon.svg';
+  static const String locationDeleteIcon =
+      'assets/svg/location_delete_icon.svg';
+  static const String wishListRemoveIcon =
+      'assets/svg/wish_list_remove_icon.svg';
   static const String lockIcon = 'assets/svg/lock.svg';
   static const String cartCouponIcon = 'assets/svg/cart_coupon_icon.svg';
-
-
 }

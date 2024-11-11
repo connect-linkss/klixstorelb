@@ -1,7 +1,7 @@
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/flash_sale/providers/flash_sale_provider.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/styles.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/flash_sale/providers/flash_sale_provider.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

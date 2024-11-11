@@ -1,7 +1,7 @@
-import 'package:hexacom_user/data/datasource/remote/dio/dio_client.dart';
-import 'package:hexacom_user/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/data/datasource/remote/dio/dio_client.dart';
+import 'package:klixstore/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashRepo {
@@ -17,6 +17,7 @@ class SplashRepo {
       return ApiResponseModel.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponseModel> getPolicyPage() async {
     try {
       final response = await dioClient!.get(AppConstants.policyPage);
@@ -27,22 +28,24 @@ class SplashRepo {
   }
 
   Future<bool> initSharedData() {
-    if(!sharedPreferences!.containsKey(AppConstants.theme)) {
+    if (!sharedPreferences!.containsKey(AppConstants.theme)) {
       return sharedPreferences!.setBool(AppConstants.theme, false);
     }
-    if(!sharedPreferences!.containsKey(AppConstants.countryCode)) {
-      return sharedPreferences!.setString(AppConstants.countryCode, AppConstants.languages[0].countryCode!);
+    if (!sharedPreferences!.containsKey(AppConstants.countryCode)) {
+      return sharedPreferences!.setString(
+          AppConstants.countryCode, AppConstants.languages[0].countryCode!);
     }
-    if(!sharedPreferences!.containsKey(AppConstants.languageCode)) {
-      return sharedPreferences!.setString(AppConstants.languageCode, AppConstants.languages[0].languageCode!);
+    if (!sharedPreferences!.containsKey(AppConstants.languageCode)) {
+      return sharedPreferences!.setString(
+          AppConstants.languageCode, AppConstants.languages[0].languageCode!);
     }
-    if(!sharedPreferences!.containsKey(AppConstants.onBoardingSkip)) {
+    if (!sharedPreferences!.containsKey(AppConstants.onBoardingSkip)) {
       return sharedPreferences!.setBool(AppConstants.onBoardingSkip, false);
     }
     if (!sharedPreferences!.containsKey(AppConstants.langSkip)) {
       sharedPreferences!.setBool(AppConstants.langSkip, true);
     }
-    if(!sharedPreferences!.containsKey(AppConstants.cartList)) {
+    if (!sharedPreferences!.containsKey(AppConstants.cartList)) {
       return sharedPreferences!.setStringList(AppConstants.cartList, []);
     }
     return Future.value(true);
@@ -51,11 +54,12 @@ class SplashRepo {
   Future<bool> removeSharedData() {
     return sharedPreferences!.clear();
   }
+
   void disableLang() {
     sharedPreferences!.setBool(AppConstants.langSkip, false);
   }
 
   bool showLang() {
-    return sharedPreferences!.getBool(AppConstants.langSkip)?? true;
+    return sharedPreferences!.getBool(AppConstants.langSkip) ?? true;
   }
 }

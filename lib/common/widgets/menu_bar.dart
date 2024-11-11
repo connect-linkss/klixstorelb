@@ -1,9 +1,9 @@
-import 'package:hexacom_user/common/enums/search_short_by_enum.dart';
+import 'package:klixstore/common/enums/search_short_by_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/auth/providers/auth_provider.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/common/widgets/pluto_menu_bar_widget.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/auth/providers/auth_provider.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/common/widgets/pluto_menu_bar_widget.dart';
 import 'package:provider/provider.dart';
 
 class MenuBarWidget extends StatelessWidget {

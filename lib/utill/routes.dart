@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:hexacom_user/common/models/place_order_model.dart';
-import 'package:hexacom_user/common/models/address_model.dart';
-import 'package:hexacom_user/common/models/category_model.dart';
-import 'package:hexacom_user/common/models/order_model.dart';
-import 'package:hexacom_user/common/enums/search_short_by_enum.dart';
+import 'package:klixstore/common/models/place_order_model.dart';
+import 'package:klixstore/common/models/address_model.dart';
+import 'package:klixstore/common/models/category_model.dart';
+import 'package:klixstore/common/models/order_model.dart';
+import 'package:klixstore/common/enums/search_short_by_enum.dart';
 
 class Routes {
-
   static const String splashScreen = '/splash';
   static const String languageScreen = '/select-language';
   static const String onBoardingScreen = '/onboarding';
@@ -52,63 +51,71 @@ class Routes {
   static const String orderWebPayment = '/order-web-payment';
   static const String orderListScreen = '/order-list';
 
-
-
-
-
   static String getSplashRoute() => splashScreen;
   static String getLanguageRoute(String page) => '$languageScreen?page=$page';
   static String getOnBoardingRoute() => onBoardingScreen;
   static String getWelcomeRoute() => welcomeScreen;
   static String getLoginRoute() => loginScreen;
   static String getForgetPassRoute() => forgotPassScreen;
-  static String getNewPassRoute(String? email, String token) => '$createNewPassScreen?email=$email&token=$token';
+  static String getNewPassRoute(String? email, String token) =>
+      '$createNewPassScreen?email=$email&token=$token';
   static String getVerifyRoute(String page, String email) {
     String data = Uri.encodeComponent(jsonEncode(email));
     return '$verify?page=$page&email=$data';
   }
+
   static String getCreateAccountRoute() => createAccountScreen;
   static String getMainRoute() => dashboard;
   static String getMaintainRoute() => maintain;
   static String getUpdateRoute() => update;
   static String getDashboardRoute(String page) => '$dashboardScreen?page=$page';
   static String getProductDetailsRoute(int? id) => '$productDetails?id=$id';
-  static String getProductImageRoute(String images) => '$productImages?images=$images';
+  static String getProductImageRoute(String images) =>
+      '$productImages?images=$images';
   static String getSearchRoute() => searchScreen;
   static String getSearchResultRoute({SearchShortBy? shortBy, String? text}) {
     List<int> encoded = utf8.encode(text ?? '');
     String data = base64Encode(encoded);
     return '$searchResultScreen?text=$data&short_by=${shortBy != null ? shortBy.name : ''}';
   }
+
   static String getNotificationRoute() => notificationScreen;
-  static String getCategoryRoute(CategoryModel? categoryModel,{int? subCategoryId}) {
+  static String getCategoryRoute(CategoryModel? categoryModel,
+      {int? subCategoryId}) {
     return '$categoryScreen?sub_id=${subCategoryId ?? '-1'}&id=${categoryModel?.id}';
   }
 
   static String getCheckoutRoute({
     required double amount,
-    double? discount, String? type, String? code,
+    double? discount,
+    String? type,
+    String? code,
     required double deliveryCharge,
     bool? fromCart = true,
-  }){
+  }) {
     String amountData = base64Encode(utf8.encode('$amount'));
     String discountData = base64Encode(utf8.encode('$discount'));
     String deliveryChargeData = base64Encode(utf8.encode('$deliveryCharge'));
     String couponData = base64Encode(utf8.encode('$code'));
     String isFromCart = fromCart! ? '1' : '0';
     return '$checkoutScreen?amount=$amountData&discount=$discountData&type=$type&code=$couponData&del_char=$deliveryChargeData&fr_cart=$isFromCart';
-
   }
 
-  static String getPaymentRoute({String? id = '', String? url, PlaceOrderModel? placeOrderBody}) {
-    String uri = url != null ? Uri.encodeComponent(base64Encode(utf8.encode(url))) : 'null';
-    String data = placeOrderBody != null ? base64Url.encode(utf8.encode(jsonEncode(placeOrderBody.toJson()))) : '';
+  static String getPaymentRoute(
+      {String? id = '', String? url, PlaceOrderModel? placeOrderBody}) {
+    String uri = url != null
+        ? Uri.encodeComponent(base64Encode(utf8.encode(url)))
+        : 'null';
+    String data = placeOrderBody != null
+        ? base64Url.encode(utf8.encode(jsonEncode(placeOrderBody.toJson())))
+        : '';
     return '$paymentScreen?id=$id&uri=$uri&place_order=$data';
   }
 
   static String getOrderDetailsRoute(int? id) => '$orderDetailsScreen?id=$id';
   static String getRateReviewRoute() => rateScreen;
-  static String getOrderTrackingRoute(int? id, {bool fromOrderList = true}) => '$orderTrackingScreen?id=$id&route=${fromOrderList ? 1 : 0}';
+  static String getOrderTrackingRoute(int? id, {bool fromOrderList = true}) =>
+      '$orderTrackingScreen?id=$id&route=${fromOrderList ? 1 : 0}';
   static String getProfileRoute() => profileScreen;
   static String getAddressRoute() => addressScreen;
   static String getMapRoute(AddressModel addressModel) {
@@ -116,15 +123,20 @@ class Routes {
     String data = base64Encode(encoded);
     return '$mapScreen?address=$data';
   }
-  static String getAddAddressRoute(String page, String action, AddressModel addressModel) {
-    String data = base64Url.encode(utf8.encode(jsonEncode(addressModel.toJson())));
+
+  static String getAddAddressRoute(
+      String page, String action, AddressModel addressModel) {
+    String data =
+        base64Url.encode(utf8.encode(jsonEncode(addressModel.toJson())));
     return '$addAddressScreen?page=$page&action=$action&address=$data';
   }
+
   static String getSelectLocationRoute() => selectLocationScreen;
   static String getChatRoute({OrderModel? orderModel}) {
     String orderModel0 = base64Encode(utf8.encode(jsonEncode(orderModel)));
     return '$chatScreen?order=$orderModel0';
   }
+
   static String getCouponRoute() => couponScreen;
   static String getSupportRoute() => supportScreen;
   static String getTermsRoute() => termsScreen;

@@ -1,7 +1,7 @@
-import 'package:hexacom_user/helper/cart_helper.dart';
+import 'package:klixstore/helper/cart_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:hexacom_user/features/cart/providers/cart_provider.dart';
-import 'package:hexacom_user/utill/styles.dart';
+import 'package:klixstore/features/cart/providers/cart_provider.dart';
+import 'package:klixstore/utill/styles.dart';
 import 'package:provider/provider.dart';
 
 class PlutoMenuBarWidget extends StatefulWidget {
@@ -48,7 +48,8 @@ class PlutoMenuBarWidget extends StatefulWidget {
   /// [TextStyle] of Menu title.
   final TextStyle textStyle;
 
-  PlutoMenuBarWidget({Key? key, 
+  PlutoMenuBarWidget({
+    Key? key,
     required this.menus,
     this.goBackButtonText = 'Go back',
     this.height = 45,
@@ -59,7 +60,8 @@ class PlutoMenuBarWidget extends StatefulWidget {
     this.moreIconColor = Colors.black54,
     this.gradient = true,
     this.textStyle = const TextStyle(),
-  })  : assert(menus.isNotEmpty), super(key: key);
+  })  : assert(menus.isNotEmpty),
+        super(key: key);
 
   @override
   State<PlutoMenuBarWidget> createState() => _PlutoMenuBarWidgetState();
@@ -157,15 +159,15 @@ class _MenuWidget extends StatelessWidget {
   final TextStyle? textStyle;
 
   _MenuWidget(
-      this.menu, {
-        this.goBackButtonText,
-        this.height,
-        this.backgroundColor,
-        this.menuIconColor,
-        this.menuIconSize,
-        this.moreIconColor,
-        this.textStyle,
-      }) : super(key: menu._key);
+    this.menu, {
+    this.goBackButtonText,
+    this.height,
+    this.backgroundColor,
+    this.menuIconColor,
+    this.menuIconSize,
+    this.moreIconColor,
+    this.textStyle,
+  }) : super(key: menu._key);
 
   Widget _buildPopupItem(MenuItems menu) {
     return Row(
@@ -202,10 +204,11 @@ class _MenuWidget extends StatelessWidget {
   }
 
   Future<MenuItems?> _showPopupMenu(
-      BuildContext context,
-      List<MenuItems> menuItems,
-      ) async {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    BuildContext context,
+    List<MenuItems> menuItems,
+  ) async {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
 
     final Offset position = menu._position + Offset(0, height! - 11);
 
@@ -229,15 +232,15 @@ class _MenuWidget extends StatelessWidget {
   }
 
   Widget _getMenu(
-      BuildContext context,
-      MenuItems menu,
-      ) {
+    BuildContext context,
+    MenuItems menu,
+  ) {
     Future<MenuItems?> getSelectedMenu(
-        MenuItems menu, {
-          MenuItems? formPreviousMenu,
-          int? stackIdx,
-          List<MenuItems>? stack,
-        }) async {
+      MenuItems menu, {
+      MenuItems? formPreviousMenu,
+      int? stackIdx,
+      List<MenuItems>? stack,
+    }) async {
       if (!menu._hasChildren) {
         return menu;
       }
@@ -312,23 +315,36 @@ class _MenuWidget extends StatelessWidget {
           children: [
             if (menu.icon != null) ...[
               Stack(
-                clipBehavior: Clip.none, children: [
-                Icon(menu.icon, size: menuIconSize,color: menuIconColor,),
-                menu.title!.isEmpty? Positioned(
-                  top: -7, right: -7,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                    child: Center(
-                      child: Text(
-                        CartHelper.getCartItemCount(Provider.of<CartProvider>(context).cartList).toString(),
-                        style: rubikMedium.copyWith(color: Colors.white, fontSize: 8),
-                      ),
-                    ),
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(
+                    menu.icon,
+                    size: menuIconSize,
+                    color: menuIconColor,
                   ),
-                ):const SizedBox()
-              ],
+                  menu.title!.isEmpty
+                      ? Positioned(
+                          top: -7,
+                          right: -7,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            child: Center(
+                              child: Text(
+                                CartHelper.getCartItemCount(
+                                        Provider.of<CartProvider>(context)
+                                            .cartList)
+                                    .toString(),
+                                style: rubikMedium.copyWith(
+                                    color: Colors.white, fontSize: 8),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox()
+                ],
               ),
               // menu.icon,
               // color: menuIconColor,

@@ -1,8 +1,8 @@
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/helper/custom_snackbar_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/helper/custom_snackbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:hexacom_user/common/models/cart_model.dart';
-import 'package:hexacom_user/features/cart/domain/reposotories/cart_repo.dart';
+import 'package:klixstore/common/models/cart_model.dart';
+import 'package:klixstore/features/cart/domain/reposotories/cart_repo.dart';
 
 class CartProvider extends ChangeNotifier {
   final CartRepo? cartRepo;
@@ -17,10 +17,10 @@ class CartProvider extends ChangeNotifier {
   int _productSelect = 0;
   int get productSelect => _productSelect;
 
-  void setSelect(int select, {bool isUpdate = true}){
+  void setSelect(int select, {bool isUpdate = true}) {
     _productSelect = select;
 
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
   }
@@ -31,16 +31,17 @@ class CartProvider extends ChangeNotifier {
     for (var cart in _cartList) {
       _amount = _amount + (cart!.discountedPrice! * cart.quantity!);
     }
-    if(isUpdate) {
+    if (isUpdate) {
       notifyListeners();
     }
   }
 
   void addToCart(CartModel cartModel, int? index) {
-    if(index != null) {
-      _amount = _amount - (_cartList[index]!.discountedPrice! * _cartList[index]!.quantity!);
-      _cartList.replaceRange(index, index+1, [cartModel]);
-    }else {
+    if (index != null) {
+      _amount = _amount -
+          (_cartList[index]!.discountedPrice! * _cartList[index]!.quantity!);
+      _cartList.replaceRange(index, index + 1, [cartModel]);
+    } else {
       _cartList.add(cartModel);
     }
     _amount = _amount + (cartModel.discountedPrice! * cartModel.quantity!);
@@ -48,12 +49,13 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setQuantity(bool isIncrement, CartModel? cart, int? stock, BuildContext context, bool fromProductDetails, int? productIndex) {
-    int? index = fromProductDetails ? productIndex :  _cartList.indexOf(cart);
+  void setQuantity(bool isIncrement, CartModel? cart, int? stock,
+      BuildContext context, bool fromProductDetails, int? productIndex) {
+    int? index = fromProductDetails ? productIndex : _cartList.indexOf(cart);
     if (isIncrement) {
-      if(_cartList[index!]!.quantity! >= stock!) {
+      if (_cartList[index!]!.quantity! >= stock!) {
         showCustomSnackBar(getTranslated('out_of_stock', context), context);
-      }else {
+      } else {
         _cartList[index]!.quantity = _cartList[index]!.quantity! + 1;
         _amount = _amount + _cartList[index]!.discountedPrice!;
       }
@@ -71,7 +73,6 @@ class CartProvider extends ChangeNotifier {
     _amount = _amount - (cart.discountedPrice! * cart.quantity!);
     cartRepo!.addToCartList(_cartList);
 
-
     notifyListeners();
   }
 
@@ -83,26 +84,33 @@ class CartProvider extends ChangeNotifier {
   }
 
   bool isExistInCart(CartModel? cartModel, bool isUpdate, int? cartIndex) {
-    for(int index=0; index<_cartList.length; index++) {
-      if(_cartList[index]!.product!.id == cartModel!.product!.id && (_cartList[index]!.variation!.isNotEmpty ? _cartList[index]!.variation![0].type == cartModel.variation![0].type : true)) {
-        if((isUpdate && index == cartIndex)) {
+    for (int index = 0; index < _cartList.length; index++) {
+      if (_cartList[index]!.product!.id == cartModel!.product!.id &&
+          (_cartList[index]!.variation!.isNotEmpty
+              ? _cartList[index]!.variation![0].type ==
+                  cartModel.variation![0].type
+              : true)) {
+        if ((isUpdate && index == cartIndex)) {
           return false;
-        }else {
+        } else {
           return true;
         }
       }
     }
     return false;
   }
-   int? getCartProductIndex(CartModel? cartModel) {
-    for(int index = 0; index < _cartList.length; index ++) {
-      if(_cartList[index]!.product!.id == cartModel!.product!.id && (
-          _cartList[index]!.variation!.isNotEmpty && cartModel.variation!.isNotEmpty ? _cartList[index]!.variation![0].type == cartModel.variation![0].type : true
-      )) {
-       return index;
+
+  int? getCartProductIndex(CartModel? cartModel) {
+    for (int index = 0; index < _cartList.length; index++) {
+      if (_cartList[index]!.product!.id == cartModel!.product!.id &&
+          (_cartList[index]!.variation!.isNotEmpty &&
+                  cartModel.variation!.isNotEmpty
+              ? _cartList[index]!.variation![0].type ==
+                  cartModel.variation![0].type
+              : true)) {
+        return index;
       }
     }
     return null;
   }
-
 }

@@ -1,9 +1,9 @@
-import 'package:hexacom_user/common/enums/search_short_by_enum.dart';
+import 'package:klixstore/common/enums/search_short_by_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/common/models/product_model.dart';
-import 'package:hexacom_user/features/search/domain/reposotories/search_repo.dart';
-import 'package:hexacom_user/helper/api_checker_helper.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
+import 'package:klixstore/features/search/domain/reposotories/search_repo.dart';
+import 'package:klixstore/helper/api_checker_helper.dart';
 
 class SearchProvider with ChangeNotifier {
   final SearchRepo? searchRepo;

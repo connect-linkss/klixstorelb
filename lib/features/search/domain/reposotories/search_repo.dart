@@ -1,8 +1,7 @@
-
-import 'package:hexacom_user/data/datasource/remote/dio/dio_client.dart';
-import 'package:hexacom_user/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:hexacom_user/common/models/api_response_model.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/data/datasource/remote/dio/dio_client.dart';
+import 'package:klixstore/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:klixstore/common/models/api_response_model.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchRepo {
@@ -19,26 +18,24 @@ class SearchRepo {
     double? priceHigh,
     String? shortBy,
   }) async {
-
     String url = '${AppConstants.searchUri}?limit=10&offset=$offset';
 
-    if(query != null) {
+    if (query != null) {
       url = '$url&name=$query';
-
     }
 
-    if(rating != null) {
+    if (rating != null) {
       url = '$url&rating=$rating';
     }
 
-    if(priceLow != null && priceHigh != null){
+    if (priceLow != null && priceHigh != null) {
       url = '$url&price_low=$priceLow&price_high=$priceHigh';
     }
 
-    if(categoryIds != null && categoryIds.isNotEmpty) {
+    if (categoryIds != null && categoryIds.isNotEmpty) {
       url = '$url&category_id=$categoryIds';
     }
-    if(shortBy != null) {
+    if (shortBy != null) {
       url = '$url&sort_by=$shortBy';
     }
 
@@ -53,11 +50,13 @@ class SearchRepo {
   // for save home address
   Future<void> saveSearchAddress(String searchAddress) async {
     try {
-      List<String> searchKeywordList = sharedPreferences!.getStringList(AppConstants.searchAddress) ?? [];
+      List<String> searchKeywordList =
+          sharedPreferences!.getStringList(AppConstants.searchAddress) ?? [];
       if (!searchKeywordList.contains(searchAddress)) {
         searchKeywordList.add(searchAddress);
       }
-      await sharedPreferences!.setStringList(AppConstants.searchAddress, searchKeywordList);
+      await sharedPreferences!
+          .setStringList(AppConstants.searchAddress, searchKeywordList);
     } catch (e) {
       rethrow;
     }

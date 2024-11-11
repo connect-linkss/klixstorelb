@@ -1,12 +1,12 @@
-import 'package:hexacom_user/common/models/address_model.dart';
-import 'package:hexacom_user/features/address/providers/location_provider.dart';
-import 'package:hexacom_user/features/address/widgets/address_button_widget.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/utill/color_resources.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/custom_text_field_widget.dart';
+import 'package:klixstore/common/models/address_model.dart';
+import 'package:klixstore/features/address/providers/location_provider.dart';
+import 'package:klixstore/features/address/widgets/address_button_widget.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/utill/color_resources.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/custom_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,8 @@ class AddressDetailsWidget extends StatelessWidget {
     Key? key,
     required this.contactPersonNameController,
     required this.contactPersonNumberController,
-    required this.addressNode, required this.nameNode,
+    required this.addressNode,
+    required this.nameNode,
     required this.numberNode,
     required this.isUpdateEnable,
     required this.fromCheckout,
@@ -47,21 +48,27 @@ class AddressDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    locationTextController.text = Provider.of<LocationProvider>(context).address ?? '';
+    locationTextController.text =
+        Provider.of<LocationProvider>(context).address ?? '';
 
     return Container(
-      decoration: ResponsiveHelper.isDesktop(context) ?  BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 10,
-            )
-          ]
-      ) : const BoxDecoration(),
+      decoration: ResponsiveHelper.isDesktop(context)
+          ? BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).shadowColor,
+                    blurRadius: 10,
+                  )
+                ])
+          : const BoxDecoration(),
       //margin: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL,vertical: Dimensions.PADDING_SIZE_LARGE),
-      padding: ResponsiveHelper.isDesktop(context) ?  const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,vertical: Dimensions.paddingSizeLarge) : EdgeInsets.zero,
+      padding: ResponsiveHelper.isDesktop(context)
+          ? const EdgeInsets.symmetric(
+              horizontal: Dimensions.paddingSizeLarge,
+              vertical: Dimensions.paddingSizeLarge)
+          : EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,8 +76,9 @@ class AddressDetailsWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 24.0),
             child: Text(
               getTranslated('delivery_address', context),
-              style:
-              rubikRegular.copyWith(color: ColorResources.getGreyBunkerColor(context), fontSize: Dimensions.fontSizeLarge),
+              style: rubikRegular.copyWith(
+                  color: ColorResources.getGreyBunkerColor(context),
+                  fontSize: Dimensions.fontSizeLarge),
             ),
           ),
           // for Address Field
@@ -92,7 +100,8 @@ class AddressDetailsWidget extends StatelessWidget {
 
           Text(
             '${getTranslated('street', context)} ${getTranslated('number', context)}',
-            style: rubikRegular.copyWith(color: Theme.of(context).hintColor.withOpacity(0.6)),
+            style: rubikRegular.copyWith(
+                color: Theme.of(context).hintColor.withOpacity(0.6)),
           ),
           const SizedBox(height: Dimensions.paddingSizeSmall),
 
@@ -108,40 +117,38 @@ class AddressDetailsWidget extends StatelessWidget {
           const SizedBox(height: Dimensions.paddingSizeLarge),
 
           Text(
-            '${getTranslated('house', context)} / ${
-                getTranslated('floor', context)} ${
-                getTranslated('number', context)}',
-            style: rubikRegular.copyWith(color: Theme.of(context).hintColor.withOpacity(0.6)),
+            '${getTranslated('house', context)} / ${getTranslated('floor', context)} ${getTranslated('number', context)}',
+            style: rubikRegular.copyWith(
+                color: Theme.of(context).hintColor.withOpacity(0.6)),
           ),
           const SizedBox(height: Dimensions.paddingSizeSmall),
-          Row(children: [
-            Expanded(
-              child: CustomTextFieldWidget(
-                hintText: getTranslated('ex_2', context),
-                isShowBorder: true,
-                inputType: TextInputType.streetAddress,
-                inputAction: TextInputAction.next,
-                focusNode: houseNode,
-                nextFocus: florNode,
-                controller: houseNumberController,
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextFieldWidget(
+                  hintText: getTranslated('ex_2', context),
+                  isShowBorder: true,
+                  inputType: TextInputType.streetAddress,
+                  inputAction: TextInputAction.next,
+                  focusNode: houseNode,
+                  nextFocus: florNode,
+                  controller: houseNumberController,
+                ),
               ),
-            ),
-
-            const SizedBox(width: Dimensions.paddingSizeLarge),
-
-            Expanded(
-              child: CustomTextFieldWidget(
-                hintText: getTranslated('ex_2b', context),
-                isShowBorder: true,
-                inputType: TextInputType.streetAddress,
-                inputAction: TextInputAction.next,
-                focusNode: florNode,
-                nextFocus: nameNode,
-                controller: florNumberController,
+              const SizedBox(width: Dimensions.paddingSizeLarge),
+              Expanded(
+                child: CustomTextFieldWidget(
+                  hintText: getTranslated('ex_2b', context),
+                  isShowBorder: true,
+                  inputType: TextInputType.streetAddress,
+                  inputAction: TextInputAction.next,
+                  focusNode: florNode,
+                  nextFocus: nameNode,
+                  controller: florNumberController,
+                ),
               ),
-            ),
-
-          ],),
+            ],
+          ),
           const SizedBox(height: Dimensions.paddingSizeLarge),
 
           // for Contact Person Name
@@ -178,20 +185,22 @@ class AddressDetailsWidget extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.paddingSizeLarge),
 
-          if(ResponsiveHelper.isDesktop(context)) Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
-            child: AddressButtonWidget(
-              isUpdateEnable: isUpdateEnable,
-              fromCheckout: fromCheckout,
-              contactPersonNumberController: contactPersonNumberController,
-              contactPersonNameController: contactPersonNameController,
-              address: address,
-              location: locationTextController.text,
-              streetNumberController: streetNumberController,
-              houseNumberController: houseNumberController,
-              floorNumberController: florNumberController,
-            ),
-          )
+          if (ResponsiveHelper.isDesktop(context))
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.paddingSizeLarge),
+              child: AddressButtonWidget(
+                isUpdateEnable: isUpdateEnable,
+                fromCheckout: fromCheckout,
+                contactPersonNumberController: contactPersonNumberController,
+                contactPersonNameController: contactPersonNameController,
+                address: address,
+                location: locationTextController.text,
+                streetNumberController: streetNumberController,
+                houseNumberController: houseNumberController,
+                floorNumberController: florNumberController,
+              ),
+            )
         ],
       ),
     );

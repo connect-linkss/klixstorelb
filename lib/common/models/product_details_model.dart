@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/product_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
 
 class ProductDetailsModel {
   Product? product;
@@ -8,7 +8,7 @@ class ProductDetailsModel {
 
   ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     product =
-    json['product'] != null ?  Product.fromJson(json['product']) : null;
+        json['product'] != null ? Product.fromJson(json['product']) : null;
     if (json['related_products'] != null) {
       relatedProducts = <Product>[];
       json['related_products'].forEach((v) {

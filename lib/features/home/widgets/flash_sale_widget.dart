@@ -1,14 +1,14 @@
-import 'package:hexacom_user/features/flash_sale/widgets/flash_sale_timer_widget.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/flash_sale/providers/flash_sale_provider.dart';
-import 'package:hexacom_user/provider/localization_provider.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/images.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/product_card_widget.dart';
-import 'package:hexacom_user/common/widgets/product_shimmer_widget.dart';
+import 'package:klixstore/features/flash_sale/widgets/flash_sale_timer_widget.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/flash_sale/providers/flash_sale_provider.dart';
+import 'package:klixstore/provider/localization_provider.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/images.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/product_card_widget.dart';
+import 'package:klixstore/common/widgets/product_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

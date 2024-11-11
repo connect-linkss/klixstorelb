@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/category_model.dart';
+import 'package:klixstore/common/models/category_model.dart';
 
 class ConfigModel {
   String? _ecommerceName;
@@ -38,52 +38,43 @@ class ConfigModel {
   List<CategoryModel>? _featuredCategory;
   List<PaymentMethod>? _activePaymentMethodList;
 
-
-
-
-
-
-  ConfigModel(
-      {String? ecommerceName,
-        String? appLogo,
-        String? ecommerceAddress,
-        String? ecommercePhone,
-        String? ecommerceEmail,
-        EcommerceLocationCoverage? ecommerceLocationCoverage,
-        double? minimumOrderValue,
-        int? selfPickup,
-        BaseUrls? baseUrls,
-        String? currencySymbol,
-        double? deliveryCharge,
-        bool? cashOnDelivery,
-        bool? digitalPayment,
-        List<Branches>? branches,
-        String? termsAndConditions,
-        String? privacyPolicy,
-        String? aboutUs,
-        bool? emailVerification,
-        bool? phoneVerification,
-        String? currencySymbolPosition,
-        bool? maintenanceMode,
-        String? countryCode,
-        DeliveryManagement? deliveryManagement,
-        PlayStoreConfig? playStoreConfig,
-        AppStoreConfig? appStoreConfig,
-        List<SocialMediaLink>? socialMediaLink,
-        String? softwareVersion,
-        int? otpResendTime,
-        CookiesManagement? cookiesManagement,
-        SocialStatus? socialLoginStatus,
-        Whatsapp? whatsapp,
-        Telegram? telegram,
-        Messenger? messenger,
-        List<CategoryModel>? featuredCategory,
-        List<PaymentMethod>? activePaymentMethodList,
-
-
-
-
-      }) {
+  ConfigModel({
+    String? ecommerceName,
+    String? appLogo,
+    String? ecommerceAddress,
+    String? ecommercePhone,
+    String? ecommerceEmail,
+    EcommerceLocationCoverage? ecommerceLocationCoverage,
+    double? minimumOrderValue,
+    int? selfPickup,
+    BaseUrls? baseUrls,
+    String? currencySymbol,
+    double? deliveryCharge,
+    bool? cashOnDelivery,
+    bool? digitalPayment,
+    List<Branches>? branches,
+    String? termsAndConditions,
+    String? privacyPolicy,
+    String? aboutUs,
+    bool? emailVerification,
+    bool? phoneVerification,
+    String? currencySymbolPosition,
+    bool? maintenanceMode,
+    String? countryCode,
+    DeliveryManagement? deliveryManagement,
+    PlayStoreConfig? playStoreConfig,
+    AppStoreConfig? appStoreConfig,
+    List<SocialMediaLink>? socialMediaLink,
+    String? softwareVersion,
+    int? otpResendTime,
+    CookiesManagement? cookiesManagement,
+    SocialStatus? socialLoginStatus,
+    Whatsapp? whatsapp,
+    Telegram? telegram,
+    Messenger? messenger,
+    List<CategoryModel>? featuredCategory,
+    List<PaymentMethod>? activePaymentMethodList,
+  }) {
     _ecommerceName = ecommerceName;
     _appLogo = appLogo;
     _ecommerceAddress = ecommerceAddress;
@@ -119,7 +110,6 @@ class ConfigModel {
     _messenger = messenger;
     _featuredCategory = featuredCategory;
     _activePaymentMethodList = activePaymentMethodList;
-
   }
 
   String? get ecommerceName => _ecommerceName;
@@ -127,7 +117,8 @@ class ConfigModel {
   String? get ecommerceAddress => _ecommerceAddress;
   String? get ecommercePhone => _ecommercePhone;
   String? get ecommerceEmail => _ecommerceEmail;
-  EcommerceLocationCoverage? get ecommerceLocationCoverage => _ecommerceLocationCoverage;
+  EcommerceLocationCoverage? get ecommerceLocationCoverage =>
+      _ecommerceLocationCoverage;
   double? get minimumOrderValue => _minimumOrderValue;
   int? get selfPickup => _selfPickup;
   BaseUrls? get baseUrls => _baseUrls;
@@ -137,8 +128,8 @@ class ConfigModel {
   bool? get digitalPayment => _digitalPayment;
   List<Branches>? get branches => _branches;
   String? get termsAndConditions => _termsAndConditions;
-  String? get aboutUs=> _aboutUs;
-  String? get privacyPolicy=> _privacyPolicy;
+  String? get aboutUs => _aboutUs;
+  String? get privacyPolicy => _privacyPolicy;
   bool? get emailVerification => _emailVerification;
   bool? get phoneVerification => _phoneVerification;
   String? get currencySymbolPosition => _currencySymbolPosition;
@@ -159,10 +150,6 @@ class ConfigModel {
   List<CategoryModel>? get featuredCategory => _featuredCategory;
   List<PaymentMethod>? get activePaymentMethodList => _activePaymentMethodList;
 
-
-
-
-
   ConfigModel.fromJson(Map<String, dynamic> json) {
     _ecommerceName = json['ecommerce_name'];
     _appLogo = json['app_logo'];
@@ -171,13 +158,12 @@ class ConfigModel {
     _ecommerceEmail = json['ecommerce_email'];
     _ecommerceLocationCoverage = json['ecommerce_location_coverage'] != null
         ? EcommerceLocationCoverage.fromJson(
-        json['ecommerce_location_coverage'])
+            json['ecommerce_location_coverage'])
         : null;
     _minimumOrderValue = json['minimum_order_value'].toDouble();
     _selfPickup = json['self_pickup'];
-    _baseUrls = json['base_urls'] != null
-        ? BaseUrls.fromJson(json['base_urls'])
-        : null;
+    _baseUrls =
+        json['base_urls'] != null ? BaseUrls.fromJson(json['base_urls']) : null;
     _currencySymbol = json['currency_symbol'];
     _deliveryCharge = json['delivery_charge'].toDouble();
     _cashOnDelivery = '${json['cash_on_delivery']}'.contains('true');
@@ -212,23 +198,27 @@ class ConfigModel {
       });
     }
 
-    if(json['software_version'] != null && json['software_version'] != ''){
+    if (json['software_version'] != null && json['software_version'] != '') {
       _softwareVersion = json['software_version'];
     }
-    if(json['footer_text']!=null){
+    if (json['footer_text'] != null) {
       _footerCopyright = json['footer_text'];
     }
-    _otpResendTime =  int.tryParse('${json['otp_resend_time']}');
+    _otpResendTime = int.tryParse('${json['otp_resend_time']}');
     _cookiesManagement = json['cookies_management'] != null
         ? CookiesManagement.fromJson(json['cookies_management'])
         : null;
 
-    if(json['social_login'] != null) {
-      _socialLoginStatus = SocialStatus.fromJson(json['social_login']) ;
+    if (json['social_login'] != null) {
+      _socialLoginStatus = SocialStatus.fromJson(json['social_login']);
     }
-    _telegram = json['telegram'] != null ? Telegram.fromJson(json['telegram']) : null;
-    _messenger = json['messenger'] != null ? Messenger.fromJson(json['messenger']) : null;
-    _whatsapp = json['whatsapp'] != null ? Whatsapp.fromJson(json['whatsapp']) : null;
+    _telegram =
+        json['telegram'] != null ? Telegram.fromJson(json['telegram']) : null;
+    _messenger = json['messenger'] != null
+        ? Messenger.fromJson(json['messenger'])
+        : null;
+    _whatsapp =
+        json['whatsapp'] != null ? Whatsapp.fromJson(json['whatsapp']) : null;
     if (json['featured_category'] != null) {
       _featuredCategory = [];
       //todo need to add category
@@ -243,10 +233,6 @@ class ConfigModel {
         activePaymentMethodList!.add(PaymentMethod.fromJson(v));
       });
     }
-
-
-
-
   }
 
   Map<String, dynamic> toJson() {
@@ -297,13 +283,13 @@ class ConfigModel {
   }
 }
 
-
 class EcommerceLocationCoverage {
   String? _longitude;
   String? _latitude;
   double? _coverage;
 
-  EcommerceLocationCoverage({String? longitude, String? latitude, double? coverage}) {
+  EcommerceLocationCoverage(
+      {String? longitude, String? latitude, double? coverage}) {
     _longitude = longitude;
     _latitude = latitude;
     _coverage = coverage;
@@ -328,26 +314,26 @@ class EcommerceLocationCoverage {
   }
 }
 
-class PlayStoreConfig{
+class PlayStoreConfig {
   bool? _status;
   String? _link;
   double? _minVersion;
 
-  PlayStoreConfig({bool? status, String? link, double? minVersion}){
+  PlayStoreConfig({bool? status, String? link, double? minVersion}) {
     _status = status;
     _link = link;
     _minVersion = minVersion;
   }
   bool? get status => _status;
   String? get link => _link;
-  double? get minVersion =>_minVersion;
+  double? get minVersion => _minVersion;
 
   PlayStoreConfig.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
-    if(json['link']!=null){
+    if (json['link'] != null) {
       _link = json['link'];
     }
-    if(json['min_version']!=null && json['min_version']!='' ){
+    if (json['min_version'] != null && json['min_version'] != '') {
       _minVersion = double.parse(json['min_version']);
     }
   }
@@ -361,12 +347,12 @@ class PlayStoreConfig{
   }
 }
 
-class AppStoreConfig{
+class AppStoreConfig {
   bool? _status;
   String? _link;
   double? _minVersion;
 
-  AppStoreConfig({bool? status, String? link, double? minVersion}){
+  AppStoreConfig({bool? status, String? link, double? minVersion}) {
     _status = status;
     _link = link;
     _minVersion = minVersion;
@@ -374,18 +360,16 @@ class AppStoreConfig{
 
   bool? get status => _status;
   String? get link => _link;
-  double? get minVersion =>_minVersion;
-
+  double? get minVersion => _minVersion;
 
   AppStoreConfig.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
-    if(json['link']!=null){
+    if (json['link'] != null) {
       _link = json['link'];
     }
-    if(json['min_version'] !=null  && json['min_version']!=''){
+    if (json['min_version'] != null && json['min_version'] != '') {
       _minVersion = double.parse(json['min_version']);
     }
-
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -397,13 +381,13 @@ class AppStoreConfig{
   }
 }
 
-class SocialMediaLink{
+class SocialMediaLink {
   int? _id;
   String? _name;
   String? _link;
   int? _status;
 
-  SocialMediaLink({int? id, String? name, String? link, int? status}){
+  SocialMediaLink({int? id, String? name, String? link, int? status}) {
     _id = id;
     _name = name;
     _link = link;
@@ -419,7 +403,6 @@ class SocialMediaLink{
     _name = json['name'];
     _link = json['link'];
     _status = json['status'];
-
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -429,7 +412,6 @@ class SocialMediaLink{
     data['status'] = _status;
     return data;
   }
-
 }
 
 class BaseUrls {
@@ -443,20 +425,19 @@ class BaseUrls {
   String? _chatImageUrl;
   String? _getWayImageUrl;
 
-
-  BaseUrls(
-      {String? productImageUrl,
-        String? customerImageUrl,
-        String? bannerImageUrl,
-        String? categoryImageUrl,
-        String? reviewImageUrl,
-        String? notificationImageUrl,
-        String? ecommerceImageUrl,
-        String? deliveryManImageUrl,
-        String? chatImageUrl,
-        String? categoryBanner,
-        String? getWayImageUrl,
-      }) {
+  BaseUrls({
+    String? productImageUrl,
+    String? customerImageUrl,
+    String? bannerImageUrl,
+    String? categoryImageUrl,
+    String? reviewImageUrl,
+    String? notificationImageUrl,
+    String? ecommerceImageUrl,
+    String? deliveryManImageUrl,
+    String? chatImageUrl,
+    String? categoryBanner,
+    String? getWayImageUrl,
+  }) {
     _productImageUrl = productImageUrl;
     _customerImageUrl = customerImageUrl;
     _bannerImageUrl = bannerImageUrl;
@@ -515,12 +496,12 @@ class Branches {
 
   Branches(
       {int? id,
-        String? name,
-        String? email,
-        String? longitude,
-        String? latitude,
-        String? address,
-        double? coverage}) {
+      String? name,
+      String? email,
+      String? longitude,
+      String? latitude,
+      String? address,
+      double? coverage}) {
     _id = id;
     _name = name;
     _email = email;
@@ -592,7 +573,6 @@ class DeliveryManagement {
   }
 }
 
-
 class CookiesManagement {
   bool? status;
   String? content;
@@ -612,13 +592,13 @@ class CookiesManagement {
   }
 }
 
-class SocialStatus{
+class SocialStatus {
   bool? isGoogle;
   bool? isFacebook;
 
   SocialStatus(this.isGoogle, this.isFacebook);
 
-  SocialStatus.fromJson(Map<String, dynamic> json){
+  SocialStatus.fromJson(Map<String, dynamic> json) {
     isGoogle = '${json['google']}' == '1';
     isFacebook = '${json['facebook']}' == '1';
   }
@@ -630,7 +610,6 @@ class SocialStatus{
     return data;
   }
 }
-
 
 class Whatsapp {
   bool? status;
@@ -695,19 +674,17 @@ class FeaturedCategory {
   String? image;
   String? bannerImage;
 
-  FeaturedCategory(
-      {this.id, this.name, this.image, this.bannerImage});
+  FeaturedCategory({this.id, this.name, this.image, this.bannerImage});
 
   FeaturedCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
     bannerImage = json['banner_image'];
-
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic> {};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
@@ -725,7 +702,7 @@ class PaymentMethod {
 
   PaymentMethod({this.getWay, this.getWayTitle, this.getWayImage, this.type});
 
-  PaymentMethod copyWith(String type){
+  PaymentMethod copyWith(String type) {
     this.type = type;
     return this;
   }

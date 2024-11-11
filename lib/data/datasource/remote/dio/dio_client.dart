@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:hexacom_user/data/datasource/remote/dio/logging_interceptor.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
+import 'package:klixstore/data/datasource/remote/dio/logging_interceptor.dart';
+import 'package:klixstore/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
@@ -12,38 +12,36 @@ class DioClient {
   Dio? dio;
   String? token;
 
-  DioClient(this.baseUrl,
-      Dio? dioC, {
-        required this.loggingInterceptor,
-        required this.sharedPreferences,
-      }) {
+  DioClient(
+    this.baseUrl,
+    Dio? dioC, {
+    required this.loggingInterceptor,
+    required this.sharedPreferences,
+  }) {
     token = sharedPreferences.getString(AppConstants.token);
     dio = dioC ?? Dio();
 
     updateHeader(dioC: dioC, getToken: token);
-
-
   }
 
-  Future<void> updateHeader({String? getToken, Dio? dioC})async {
+  Future<void> updateHeader({String? getToken, Dio? dioC}) async {
     dio
       ?..options.baseUrl = baseUrl
       ..options.connectTimeout = const Duration(seconds: 30)
       ..options.receiveTimeout = const Duration(seconds: 30)
       ..httpClientAdapter
       ..options.headers = {
-
         'Content-Type': 'application/json; charset=UTF-8',
-        'X-localization': sharedPreferences.getString(AppConstants.languageCode)
-            ?? AppConstants.languages[0].languageCode,
+        'X-localization':
+            sharedPreferences.getString(AppConstants.languageCode) ??
+                AppConstants.languages[0].languageCode,
         'Authorization': 'Bearer $getToken',
-
       };
     dio?.interceptors.add(loggingInterceptor);
   }
 
-
-  Future<Response> get(String uri, {
+  Future<Response> get(
+    String uri, {
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -67,7 +65,8 @@ class DioClient {
     }
   }
 
-  Future<Response> post(String uri, {
+  Future<Response> post(
+    String uri, {
     data,
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -93,7 +92,8 @@ class DioClient {
     }
   }
 
-  Future<Response> put(String uri, {
+  Future<Response> put(
+    String uri, {
     data,
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -119,7 +119,8 @@ class DioClient {
     }
   }
 
-  Future<Response> delete(String uri, {
+  Future<Response> delete(
+    String uri, {
     data,
     Map<String, dynamic>? queryParameters,
     Options? options,

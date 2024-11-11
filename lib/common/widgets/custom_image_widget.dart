@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:hexacom_user/utill/images.dart';
+import 'package:klixstore/utill/images.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomImageWidget extends StatelessWidget {
@@ -9,14 +9,33 @@ class CustomImageWidget extends StatelessWidget {
   final BoxFit? fit;
   final bool isNotification;
   final String placeholder;
-  const CustomImageWidget({Key? key, required this.image, this.height, this.width, this.fit = BoxFit.cover, this.isNotification = false, this.placeholder = ''}) : super(key: key);
+  const CustomImageWidget(
+      {Key? key,
+      required this.image,
+      this.height,
+      this.width,
+      this.fit = BoxFit.cover,
+      this.isNotification = false,
+      this.placeholder = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: image, height: height, width: width, fit: fit,
-      placeholder: (context, url) => Image.asset(placeholder.isNotEmpty ? placeholder : Images.placeholder(context), height: height, width: width, fit: fit),
-      errorWidget: (context, url, error) => Image.asset(placeholder.isNotEmpty ? placeholder : Images.placeholder(context), height: height, width: width, fit: fit),
+      imageUrl: image,
+      height: height,
+      width: width,
+      fit: fit,
+      placeholder: (context, url) => Image.asset(
+          placeholder.isNotEmpty ? placeholder : Images.placeholder(context),
+          height: height,
+          width: width,
+          fit: fit),
+      errorWidget: (context, url, error) => Image.asset(
+          placeholder.isNotEmpty ? placeholder : Images.placeholder(context),
+          height: height,
+          width: width,
+          fit: fit),
     );
   }
 }

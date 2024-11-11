@@ -1,15 +1,14 @@
-
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'package:hexacom_user/common/models/place_order_model.dart';
-import 'package:hexacom_user/features/checkout/widgets/order_cancel_dialog_widget.dart';
-import 'package:hexacom_user/features/cart/providers/cart_provider.dart';
-import 'package:hexacom_user/features/order/providers/order_provider.dart';
-import 'package:hexacom_user/utill/app_constants.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/common/widgets/custom_loader_widget.dart';
-import 'package:hexacom_user/helper/custom_snackbar_helper.dart';
+import 'package:klixstore/common/models/place_order_model.dart';
+import 'package:klixstore/features/checkout/widgets/order_cancel_dialog_widget.dart';
+import 'package:klixstore/features/cart/providers/cart_provider.dart';
+import 'package:klixstore/features/order/providers/order_provider.dart';
+import 'package:klixstore/utill/app_constants.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/common/widgets/custom_loader_widget.dart';
+import 'package:klixstore/helper/custom_snackbar_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -42,9 +41,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     final settings = InAppBrowserClassSettings(
       browserSettings: InAppBrowserSettings(hideUrlBar: false),
-      webViewSettings: InAppWebViewSettings(javaScriptEnabled: true, isInspectable: kDebugMode),
+      webViewSettings: InAppWebViewSettings(
+          javaScriptEnabled: true, isInspectable: kDebugMode),
     );
-
 
     await browser.openUrlRequest(
       urlRequest: URLRequest(url: WebUri.uri(Uri.parse(selectedUrl))),
@@ -61,9 +60,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         body: Center(
           child: Stack(
             children: [
-              _isLoading ? Center(
-                child: CustomLoaderWidget(color: Theme.of(context).primaryColor),
-              ) : const SizedBox.shrink(),
+              _isLoading
+                  ? Center(
+                      child: CustomLoaderWidget(
+                          color: Theme.of(context).primaryColor),
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -72,22 +74,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Future<bool?> _exitApp(BuildContext context) async {
-    return showDialog(context: context,
-        builder: (context) => OrderCancelDialogWidget(orderID: widget.orderId, fromCheckout: true,));
+    return showDialog(
+        context: context,
+        builder: (context) => OrderCancelDialogWidget(
+              orderID: widget.orderId,
+              fromCheckout: true,
+            ));
   }
 }
-
 
 class MyInAppBrowser extends InAppBrowser {
   final int? orderId;
   final bool? fromCheckout;
   final BuildContext context;
-  MyInAppBrowser(this.context, {
-    required this.orderId,
-    int? windowId,
-    UnmodifiableListView<UserScript>? initialUserScripts,
-    this.fromCheckout
-  })
+  MyInAppBrowser(this.context,
+      {required this.orderId,
+      int? windowId,
+      UnmodifiableListView<UserScript>? initialUserScripts,
+      this.fromCheckout})
       : super(windowId: windowId, initialUserScripts: initialUserScripts);
 
   bool _canRedirect = true;
@@ -100,7 +104,9 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   @override
-  Future onLoadStart(url, ) async {
+  Future onLoadStart(
+    url,
+  ) async {
     if (kDebugMode) {
       print("\n\nStarted: $url\n\n");
     }
@@ -136,8 +142,9 @@ class MyInAppBrowser extends InAppBrowser {
 
   @override
   void onExit() {
-    if(_canRedirect) {
-      Navigator.pushReplacementNamed(context, '${Routes.orderSuccessScreen}/$orderId/payment-fail');
+    if (_canRedirect) {
+      Navigator.pushReplacementNamed(
+          context, '${Routes.orderSuccessScreen}/$orderId/payment-fail');
     }
 
     if (kDebugMode) {
@@ -146,7 +153,8 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   @override
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(navigationAction) async {
+  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
+      navigationAction) async {
     if (kDebugMode) {
       print("\n\nOverride ${navigationAction.request.url}\n\n");
     }
@@ -170,66 +178,73 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   void _pageRedirect(String url) {
-    if(_canRedirect) {
-      bool checkedUrl = (url.contains('${AppConstants.baseUrl}${Routes.orderSuccessScreen}'));
+    if (_canRedirect) {
+      bool checkedUrl =
+          (url.contains('${AppConstants.baseUrl}${Routes.orderSuccessScreen}'));
       bool isSuccess = url.contains('success') && checkedUrl;
       bool isFailed = url.contains('fail') && checkedUrl;
       bool isCancel = url.contains('cancel') && checkedUrl;
 
-
       if (kDebugMode) {
-        print('----------------payment status -----$isCancel -- $isSuccess -- $isFailed');
+        print(
+            '----------------payment status -----$isCancel -- $isSuccess -- $isFailed');
         print('------------------url --- $url');
       }
 
-      if(isSuccess || isFailed || isCancel) {
+      if (isSuccess || isFailed || isCancel) {
         _canRedirect = false;
         close();
       }
-      if(isSuccess){
-        String token = url.replaceRange(0, url.indexOf('token='), '').replaceAll('token=', '');
-        if(token.isNotEmpty) {
-          final orderProvider =  Provider.of<OrderProvider>(context, listen: false);
-          String placeOrderString =  utf8.decode(base64Url.decode(orderProvider.getPlaceOrderData()!.replaceAll(' ', '+')));
+      if (isSuccess) {
+        String token = url
+            .replaceRange(0, url.indexOf('token='), '')
+            .replaceAll('token=', '');
+        if (token.isNotEmpty) {
+          final orderProvider =
+              Provider.of<OrderProvider>(context, listen: false);
+          String placeOrderString = utf8.decode(base64Url
+              .decode(orderProvider.getPlaceOrderData()!.replaceAll(' ', '+')));
 
-          String decodeValue = utf8.decode(base64Url.decode(token.replaceAll(' ', '+')));
-          String paymentMethod = decodeValue.substring(0, decodeValue.indexOf('&&'));
-          String transactionReference = decodeValue.substring(decodeValue.indexOf('&&') + '&&'.length, decodeValue.length);
+          String decodeValue =
+              utf8.decode(base64Url.decode(token.replaceAll(' ', '+')));
+          String paymentMethod =
+              decodeValue.substring(0, decodeValue.indexOf('&&'));
+          String transactionReference = decodeValue.substring(
+              decodeValue.indexOf('&&') + '&&'.length, decodeValue.length);
 
-
-
-          PlaceOrderModel? placeOrderBody =  PlaceOrderModel.fromJson(jsonDecode(placeOrderString)).copyWith(
+          PlaceOrderModel? placeOrderBody =
+              PlaceOrderModel.fromJson(jsonDecode(placeOrderString)).copyWith(
             paymentMethod: paymentMethod.replaceAll('payment_method=', ''),
-            transactionReference:  transactionReference.replaceRange(0, transactionReference.indexOf('transaction_reference='), '').replaceAll('transaction_reference=', ''),
+            transactionReference: transactionReference
+                .replaceRange(0,
+                    transactionReference.indexOf('transaction_reference='), '')
+                .replaceAll('transaction_reference=', ''),
           );
 
-          Provider.of<OrderProvider>(context, listen: false).placeOrder(placeOrderBody, _callback);
-
-        }else{
-          Navigator.pushReplacementNamed(context, '${Routes.orderSuccessScreen}/$orderId/payment-fail');
+          Provider.of<OrderProvider>(context, listen: false)
+              .placeOrder(placeOrderBody, _callback);
+        } else {
+          Navigator.pushReplacementNamed(
+              context, '${Routes.orderSuccessScreen}/$orderId/payment-fail');
         }
-
-
-      }else if(isFailed) {
-        Navigator.pushReplacementNamed(context, '${Routes.orderSuccessScreen}/${''}/payment-fail');
-      }else if(isCancel) {
-        Navigator.pushReplacementNamed(context, '${Routes.orderSuccessScreen}/${''}/payment-cancel');
+      } else if (isFailed) {
+        Navigator.pushReplacementNamed(
+            context, '${Routes.orderSuccessScreen}/${''}/payment-fail');
+      } else if (isCancel) {
+        Navigator.pushReplacementNamed(
+            context, '${Routes.orderSuccessScreen}/${''}/payment-cancel');
       }
     }
-
   }
 
   void _callback(bool isSuccess, String message, String orderID) async {
-
     Provider.of<CartProvider>(context, listen: false).clearCartList();
 
-    if(isSuccess) {
-      Navigator.pushReplacementNamed(context, '${Routes.orderSuccessScreen}/$orderID/success');
-
-    }else {
+    if (isSuccess) {
+      Navigator.pushReplacementNamed(
+          context, '${Routes.orderSuccessScreen}/$orderID/success');
+    } else {
       showCustomSnackBar(message, context);
-
     }
   }
-
 }

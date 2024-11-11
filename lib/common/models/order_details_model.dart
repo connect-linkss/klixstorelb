@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/product_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
 
 class OrderDetailsModel {
   int? _id;
@@ -18,21 +18,20 @@ class OrderDetailsModel {
 
   OrderDetailsModel(
       {int? id,
-        int? productId,
-        int? orderId,
-        double? price,
-        Product? productDetails,
-        // List<Variation> variation,
-        double? discountOnProduct,
-        String? discountType,
-        int? quantity,
-        double? taxAmount,
-        String? createdAt,
-        String? updatedAt,
-        String? variant,
-        int? reviewCount,
-        String? variation
-      }) {
+      int? productId,
+      int? orderId,
+      double? price,
+      Product? productDetails,
+      // List<Variation> variation,
+      double? discountOnProduct,
+      String? discountType,
+      int? quantity,
+      double? taxAmount,
+      String? createdAt,
+      String? updatedAt,
+      String? variant,
+      int? reviewCount,
+      String? variation}) {
     _id = id;
     _productId = productId;
     _orderId = orderId;
@@ -62,7 +61,6 @@ class OrderDetailsModel {
   String? get updatedAt => _updatedAt;
   int? get reviewCount => _reviewCount;
 
-
   OrderDetailsModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _productId = json['product_id'];
@@ -84,7 +82,7 @@ class OrderDetailsModel {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _reviewCount = json['review_count'];
-    if(json['variation']!=null){
+    if (json['variation'] != null) {
       _variation = json['variation'];
     }
   }

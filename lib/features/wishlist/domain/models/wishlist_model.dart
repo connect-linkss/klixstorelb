@@ -1,4 +1,4 @@
-import 'package:hexacom_user/common/models/product_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
 
 class WishListModel {
   int? _totalSize;
@@ -8,9 +8,9 @@ class WishListModel {
 
   WishListModel(
       {int? totalSize,
-        String? limit,
-        String? offset,
-        List<Product>? products}) {
+      String? limit,
+      String? offset,
+      List<Product>? products}) {
     if (totalSize != null) {
       _totalSize = totalSize;
     }

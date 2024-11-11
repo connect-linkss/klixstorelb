@@ -1,25 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:hexacom_user/common/models/cart_model.dart';
-import 'package:hexacom_user/common/models/product_model.dart';
-import 'package:hexacom_user/helper/cart_helper.dart';
-import 'package:hexacom_user/helper/price_converter_helper.dart';
-import 'package:hexacom_user/helper/responsive_helper.dart';
-import 'package:hexacom_user/localization/language_constrants.dart';
-import 'package:hexacom_user/features/auth/providers/auth_provider.dart';
-import 'package:hexacom_user/features/cart/providers/cart_provider.dart';
-import 'package:hexacom_user/features/splash/providers/splash_provider.dart';
-import 'package:hexacom_user/features/wishlist/providers/wishlist_provider.dart';
-import 'package:hexacom_user/utill/color_resources.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/utill/routes.dart';
-import 'package:hexacom_user/utill/styles.dart';
-import 'package:hexacom_user/common/widgets/custom_alert_dialog_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_directionality_widget.dart';
-import 'package:hexacom_user/common/widgets/custom_image_widget.dart';
-import 'package:hexacom_user/helper/custom_snackbar_helper.dart';
-import 'package:hexacom_user/common/widgets/on_hover.dart';
+import 'package:klixstore/common/models/cart_model.dart';
+import 'package:klixstore/common/models/product_model.dart';
+import 'package:klixstore/helper/cart_helper.dart';
+import 'package:klixstore/helper/price_converter_helper.dart';
+import 'package:klixstore/helper/responsive_helper.dart';
+import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/features/auth/providers/auth_provider.dart';
+import 'package:klixstore/features/cart/providers/cart_provider.dart';
+import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/features/wishlist/providers/wishlist_provider.dart';
+import 'package:klixstore/utill/color_resources.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/routes.dart';
+import 'package:klixstore/utill/styles.dart';
+import 'package:klixstore/common/widgets/custom_alert_dialog_widget.dart';
+import 'package:klixstore/common/widgets/custom_directionality_widget.dart';
+import 'package:klixstore/common/widgets/custom_image_widget.dart';
+import 'package:klixstore/helper/custom_snackbar_helper.dart';
+import 'package:klixstore/common/widgets/on_hover.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

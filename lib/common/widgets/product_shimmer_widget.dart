@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hexacom_user/utill/dimensions.dart';
-import 'package:hexacom_user/common/widgets/rating_bar_widget.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/common/widgets/rating_bar_widget.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class ProductShimmerWidget extends StatelessWidget {
   final bool isEnabled;
   final bool isWeb;
-  const ProductShimmerWidget({Key? key, required this.isEnabled, this.isWeb = false}) : super(key: key);
+  const ProductShimmerWidget(
+      {Key? key, required this.isEnabled, this.isWeb = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,10 @@ class ProductShimmerWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 10, spreadRadius: 1)
+          BoxShadow(
+              color: Theme.of(context).shadowColor,
+              blurRadius: 10,
+              spreadRadius: 1)
         ],
       ),
       child: Shimmer(
@@ -42,18 +47,20 @@ class ProductShimmerWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                    Container(
-                        height: 15,
-                        width: double.maxFinite,
-                        color: Theme.of(context).shadowColor),
-                    const SizedBox(height: 5),
-                    const RatingBarWidget(rating: 0.0, size: 12),
-                    const SizedBox(height: 10),
-                    Container(
-                        height: 10, width: 50, color: Theme.of(context).shadowColor),
-                  ]),
+                        Container(
+                            height: 15,
+                            width: double.maxFinite,
+                            color: Theme.of(context).shadowColor),
+                        const SizedBox(height: 5),
+                        const RatingBarWidget(rating: 0.0, size: 12),
+                        const SizedBox(height: 10),
+                        Container(
+                            height: 10,
+                            width: 50,
+                            color: Theme.of(context).shadowColor),
+                      ]),
                   const SizedBox(width: 10),
-                  ],
+                ],
               )
             : Row(children: [
                 Container(
@@ -77,10 +84,12 @@ class ProductShimmerWidget extends StatelessWidget {
                       const SizedBox(height: 5),
                       const RatingBarWidget(rating: 0.0, size: 12),
                       const SizedBox(height: 10),
-                      Container(height: 10, width: 50, color: Theme.of(context).shadowColor),
+                      Container(
+                          height: 10,
+                          width: 50,
+                          color: Theme.of(context).shadowColor),
                     ])),
                 const SizedBox(width: 10),
-
               ]),
       ),
     );
