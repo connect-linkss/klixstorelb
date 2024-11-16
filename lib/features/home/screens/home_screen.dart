@@ -419,7 +419,7 @@ class SingleBannerWidget extends StatelessWidget {
                 : Center(
                     child: Text(
                       'No banner available',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   );
           },
@@ -497,7 +497,7 @@ class MobileBannerWidget extends StatelessWidget {
             : Center(
                 child: Text(
                   'No banner available',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               );
       },
