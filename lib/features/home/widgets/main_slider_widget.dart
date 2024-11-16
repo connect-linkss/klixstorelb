@@ -42,22 +42,24 @@ class _MainSliderWidgetState extends State<MainSliderWidget> {
                 children: [
                   // Main Slider on the left (Large)
                   Expanded(
-                    flex: 2, // Make this part larger
+                    flex: 3, // Increase flex to make this part larger
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(Dimensions.paddingSizeDefault),
                       child: CarouselSlider.builder(
-                        itemCount: widget.bannerList!.length,
+                        itemCount: widget.bannerList!.length > 3
+                            ? 3
+                            : widget.bannerList!.length,
                         options: CarouselOptions(
                           autoPlayInterval: Duration(
-                            milliseconds:
-                                widget.bannerType == BannerType.primary
-                                    ? 4200
-                                    : 5320,
-                          ),
+                              milliseconds:
+                                  widget.bannerType == BannerType.primary
+                                      ? 4200
+                                      : 5320),
                           height:
-                              size.width * 0.6, // Adjust size to make it bigger
-                          aspectRatio: 1.0,
+                              size.width * 0.9, // Increase height if necessary
+                          aspectRatio:
+                              1.2, // Adjust aspect ratio for wider look
                           enlargeCenterPage: true,
                           viewportFraction: 1,
                           autoPlay: true,
@@ -100,33 +102,10 @@ class _MainSliderWidgetState extends State<MainSliderWidget> {
                                       image:
                                           '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${banner.image}',
                                       width: size.width *
-                                          0.6, // Make image width larger
+                                          0.8, // Increased width for image
                                       height: size.width *
-                                          0.6, // Make image height larger
-                                      fit: BoxFit.cover,
-                                    ),
-                                    // Title Overlay
-                                    Positioned(
-                                      bottom: 20,
-                                      left: 20,
-                                      right: 20,
-                                      child: Text(
-                                        banner.title ?? 'No Title',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10,
-                                              color:
-                                                  Colors.black.withOpacity(0.6),
-                                              offset: Offset(2, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
+                                          0.6, // Increased height for image
+                                      fit: BoxFit.contain,
                                     ),
                                   ],
                                 ),
@@ -137,110 +116,19 @@ class _MainSliderWidgetState extends State<MainSliderWidget> {
                       ),
                     ),
                   ),
-                  // Right Section with two smaller sliders stacked vertically
-                  Expanded(
-                    flex: 1, // Smaller size for the right section
+                  // Displaying the current slider number on the right
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0), // spacing from the main slider
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // First Smaller Slider (show different images)
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeDefault),
-                            child: CarouselSlider.builder(
-                              itemCount: widget.bannerList!.length,
-                              options: CarouselOptions(
-                                height: 180, // Smaller height
-                                enlargeCenterPage: true,
-                                viewportFraction: 1.0,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(milliseconds: 3000),
-                              ),
-                              itemBuilder: (ctx, index, realIdx) {
-                                // Get a different banner for this smaller slider
-                                BannerModel banner = widget.bannerList![
-                                    (index + 1) % widget.bannerList!.length];
-                                return InkWell(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.paddingSizeDefault),
-                                  onTap: () =>
-                                      ProductHelper.onTapBannerForRoute(
-                                          banner, context),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).cardColor,
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.paddingSizeDefault),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.paddingSizeDefault),
-                                      child: CustomImageWidget(
-                                        placeholder:
-                                            Images.placeholder(context),
-                                        image:
-                                            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${banner.image}',
-                                        width: size.width -
-                                            50, // Smaller width for smaller sliders
-                                        height: 180,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10), // Spacer between sliders
-                        // Second Smaller Slider (show different images)
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeDefault),
-                            child: CarouselSlider.builder(
-                              itemCount: widget.bannerList!.length,
-                              options: CarouselOptions(
-                                height: 180, // Smaller height
-                                enlargeCenterPage: true,
-                                viewportFraction: 1.0,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(milliseconds: 3000),
-                              ),
-                              itemBuilder: (ctx, index, realIdx) {
-                                // Get a different banner for this smaller slider
-                                BannerModel banner = widget.bannerList![
-                                    (index + 2) % widget.bannerList!.length];
-                                return InkWell(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.paddingSizeDefault),
-                                  onTap: () =>
-                                      ProductHelper.onTapBannerForRoute(
-                                          banner, context),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).cardColor,
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.paddingSizeDefault),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.paddingSizeDefault),
-                                      child: CustomImageWidget(
-                                        placeholder:
-                                            Images.placeholder(context),
-                                        image:
-                                            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${banner.image}',
-                                        width: size.width -
-                                            50, // Smaller width for smaller sliders
-                                        height: 180,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                        Text(
+                          '${currentIndex + 1} / ${widget.bannerList!.length > 3 ? 3 : widget.bannerList!.length}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ],

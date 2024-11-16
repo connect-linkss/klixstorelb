@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>7.1</string>
 	<key>CFBundleName</key>
-	<string>Hexacom</string>
+	<string>Klixstore</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -64,7 +64,7 @@
         Go_to_your_fb_app->Settings->Advance->Security->Client  token
     </string>
     <key>FacebookDisplayName</key>
-    <string>Hexacom</string>
+    <string>Klixstore</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
