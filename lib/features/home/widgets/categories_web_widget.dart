@@ -39,7 +39,7 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
       return category.categoryList != null
           ? category.categoryList!.isNotEmpty
               ? SizedBox(
-                  height: 400,
+                  height: 300,
                   child: Stack(
                     children: [
                       GridView.builder(
@@ -145,26 +145,26 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                         },
                       ),
 
-                      // Scroll Down Arrow at the bottom
-                      Positioned(
-                        bottom: 10,
-                        left: MediaQuery.of(context).size.width / 2 - 20,
-                        child: GestureDetector(
-                          onTap: scrollDown, // Scroll down when clicked
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.arrow_downward,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // // Scroll Down Arrow at the bottom
+                      // Positioned(
+                      //   bottom: 10,
+                      //   left: MediaQuery.of(context).size.width / 2 - 20,
+                      //   child: GestureDetector(
+                      //     onTap: scrollDown, // Scroll down when clicked
+                      //     child: Container(
+                      //       decoration: BoxDecoration(
+                      //         color: Theme.of(context).primaryColor,
+                      //         borderRadius: BorderRadius.circular(50),
+                      //       ),
+                      //       padding: const EdgeInsets.all(8),
+                      //       child: Icon(
+                      //         Icons.arrow_downward,
+                      //         color: Colors.white,
+                      //         size: 24,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 )
