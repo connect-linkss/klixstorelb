@@ -9,6 +9,9 @@ import 'package:klixstore/utill/dimensions.dart';
 import 'package:klixstore/utill/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../providers/cart_provider.dart';
 
 class ButtonViewWidget extends StatelessWidget {
   final double itemPrice;
@@ -24,6 +27,56 @@ class ButtonViewWidget extends StatelessWidget {
     required this.discount,
   }) : super(key: key);
 
+  Future<void> _sendOrderToWhatsApp(BuildContext context) async {
+    final CartProvider cartProvider =
+        Provider.of<CartProvider>(context, listen: false);
+    final CheckoutProvider checkoutProvider =
+        Provider.of<CheckoutProvider>(context, listen: false);
+    final CouponProvider couponProvider =
+        Provider.of<CouponProvider>(context, listen: false);
+
+    String itemPriceString = PriceConverterHelper.convertPrice(itemPrice);
+    String totalString = PriceConverterHelper.convertPrice(total);
+    String deliveryChargeString =
+        PriceConverterHelper.convertPrice(deliveryCharge);
+    String discountString = PriceConverterHelper.convertPrice(discount);
+
+    StringBuffer message = StringBuffer("Order Invoice:\n\n");
+
+    if (cartProvider.cartList.isNotEmpty) {
+      for (var cartItem in cartProvider.cartList) {
+        String productName = cartItem!.product?.name ?? 'Unknown';
+        String productPrice =
+            PriceConverterHelper.convertPrice(cartItem.price ?? 0);
+        int productQuantity = cartItem.quantity ?? 0;
+        String productVariation =
+            cartItem.variation?.map((v) => v.type).join(', ') ?? 'None';
+
+        message.write("Product: $productName\n");
+        message.write("Price: $productPrice\n");
+        message.write("Quantity: $productQuantity\n");
+        message.write("Variation: $productVariation\n\n");
+      }
+    }
+
+    message.write("Item Price: $itemPriceString\n");
+    message.write("Delivery Charge: $deliveryChargeString\n");
+    message.write("Coupon Code: ${couponProvider.coupon?.code ?? 'None'}\n");
+    message.write("Discount: $discountString\n");
+    message.write("Order Type: ${checkoutProvider.orderType}\n");
+    message.write("\n--------------------------------------\n");
+    message.write("Total: $totalString\n");
+
+    final String whatsappUrl =
+        "https://wa.me/96176180943?text=${Uri.encodeComponent(message.toString())}";
+
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final CheckoutProvider checkoutProvider =
@@ -34,29 +87,48 @@ class ButtonViewWidget extends StatelessWidget {
     return Container(
       width: Dimensions.webScreenWidth,
       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-      child: CustomButtonWidget(
-          btnTxt: getTranslated('proceed_to_checkout', context),
-          onTap: () {
-            if (itemPrice <
-                Provider.of<SplashProvider>(context, listen: false)
-                    .configModel!
-                    .minimumOrderValue!) {
-              showCustomSnackBar(
-                  'Minimum order amount is ${PriceConverterHelper.convertPrice(Provider.of<SplashProvider>(context, listen: false).configModel!.minimumOrderValue)}, you have ${PriceConverterHelper.convertPrice(itemPrice)} in your cart, please add more item.',
-                  context);
-            } else {
-              Navigator.pushNamed(
-                  context,
-                  Routes.getCheckoutRoute(
-                    amount: total,
-                    deliveryCharge: deliveryCharge,
-                    type: checkoutProvider.orderType,
-                    discount: discount,
-                    code: couponProvider.coupon?.code,
-                    fromCart: true,
-                  ));
-            }
-          }),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: CustomButtonWidget(
+              btnTxt: getTranslated('proceed_to_checkout', context),
+              onTap: () {
+                if (itemPrice <
+                    Provider.of<SplashProvider>(context, listen: false)
+                        .configModel!
+                        .minimumOrderValue!) {
+                  showCustomSnackBar(
+                    'Minimum order amount is ${PriceConverterHelper.convertPrice(Provider.of<SplashProvider>(context, listen: false).configModel!.minimumOrderValue)}, you have ${PriceConverterHelper.convertPrice(itemPrice)} in your cart, please add more items.',
+                    context,
+                  );
+                } else {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.getCheckoutRoute(
+                      amount: total,
+                      deliveryCharge: deliveryCharge,
+                      type: checkoutProvider.orderType,
+                      discount: discount,
+                      code: couponProvider.coupon?.code,
+                      fromCart: true,
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+          const SizedBox(width: 10),
+          // WhatsApp Button
+          Expanded(
+            child: CustomButtonWidget(
+              backgroundColor: Colors.green,
+              btnTxt: "Send to WhatsApp",
+              onTap: () => _sendOrderToWhatsApp(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

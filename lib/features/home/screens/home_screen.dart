@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:klixstore/common/enums/footer_type_enum.dart';
 import 'package:klixstore/common/enums/product_filter_type_enum.dart';
 import 'package:klixstore/common/widgets/custom_app_bar_widget.dart';
@@ -319,6 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : const SizedBox();
                             }),
 
+                            NewMobileBannerWidget(),
                             Consumer<ProductProvider>(
                                 builder: (context, productProvider, _) {
                               return Padding(
@@ -346,6 +349,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 filterType: filterType),
                             const SizedBox(
                                 height: Dimensions.paddingSizeExtraSmall),
+                            if (ResponsiveHelper.isDesktop(context))
+                              NewSingleBannerWidget(),
                           ]),
                     )),
                   ],
@@ -439,18 +444,18 @@ class SingleBannerWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              spreadRadius: 1,
-              blurRadius: 5,
-            ),
+            // BoxShadow(
+            //   color: Theme.of(context).shadowColor,
+            //   spreadRadius: 1,
+            //   blurRadius: 5,
+            // ),
           ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(
             '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
         ),
       ),
@@ -514,19 +519,167 @@ class MobileBannerWidget extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              spreadRadius: 1,
-              blurRadius: 5,
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context).shadowColor,
+          //     spreadRadius: 1,
+          //     blurRadius: 5,
+          //   ),
+          // ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(
             '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/////// new widget for banner
+
+class NewSingleBannerWidget extends StatelessWidget {
+  const NewSingleBannerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+    final double bannerWidth = isMobile
+        ? MediaQuery.of(context).size.width / 2 - 20
+        : (MediaQuery.of(context).size.width / 2) - 30;
+
+    return Column(
+      children: [
+        Consumer<BannerProvider>(
+          builder: (context, banner, child) {
+            if (banner.bannerList != null && banner.bannerList!.length > 7) {
+              final bannerItems = [
+                banner.bannerList![6],
+                banner.bannerList![7],
+              ];
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: bannerItems.map((bannerItem) {
+                  return Expanded(
+                    child: _buildBannerItem(
+                      context,
+                      bannerItem,
+                      bannerWidth,
+                      isMobile ? 160 : 200,
+                    ),
+                  );
+                }).toList(),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'No banner available',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
+    return InkWell(
+      onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
+      child: Container(
+        width: width,
+        height: height,
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context).shadowColor,
+          //     spreadRadius: 1,
+          //     blurRadius: 5,
+          //   ),
+          // ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NewMobileBannerWidget extends StatelessWidget {
+  const NewMobileBannerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double bannerWidth = MediaQuery.of(context).size.width - 40;
+
+    return Consumer<BannerProvider>(
+      builder: (context, banner, child) {
+        if (banner.bannerList != null && banner.bannerList!.length > 6) {
+          final bannerItem = banner.bannerList!.length > 7
+              ? banner.bannerList![7]
+              : banner.bannerList![6];
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: _buildBannerItem(
+                  context,
+                  bannerItem,
+                  bannerWidth,
+                  160, // Height for mobile banners
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Center(
+            child: Text(
+              'No banner available',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
+    return InkWell(
+      onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
+      child: Container(
+        width: width,
+        height: height,
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context).shadowColor,
+          //     spreadRadius: 1,
+          //     blurRadius: 5,
+          //   ),
+          // ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${bannerItem.image}',
+            fit: BoxFit.contain,
           ),
         ),
       ),
