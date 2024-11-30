@@ -65,7 +65,7 @@ class _BannerWidgetState extends State<BannerWidget> {
       ),
       Stack(children: [
         SizedBox(
-          height: (size), // Height for the large image
+          height: (size / 2), // Height for the large image
           child: Consumer<BannerProvider>(
             builder: (context, banner, child) {
               if (banner.bannerList != null) {
@@ -116,42 +116,42 @@ class _BannerWidgetState extends State<BannerWidget> {
                                 },
                               ),
                             ),
-                            SizedBox(height: Dimensions.paddingSizeSmall),
+                            // SizedBox(height: Dimensions.paddingSizeSmall),
 
-                            // Carousel for Two Smaller Banners Below the Carousel
-                            CarouselSlider.builder(
-                              itemCount: banner.bannerList!.length,
-                              itemBuilder: (context, index, realIndex) {
-                                // Show only smaller banners (skip the first one for large banner)
-                                if (index == 0)
-                                  return Container(); // Skip first large banner
-                                return InkWell(
-                                  onTap: () =>
-                                      ProductHelper.onTapBannerForRoute(
-                                          banner.bannerList![index], context),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CustomImageWidget(
-                                      placeholder: Images.placeholder(context),
-                                      image:
-                                          '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${banner.bannerList![index].image}',
-                                      width: size / 2 -
-                                          Dimensions.paddingSizeSmall,
-                                      height: (size /
-                                          3), // Height for small banners
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                height: size / 3,
-                                viewportFraction: 0.45,
-                                enlargeCenterPage: true,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 3),
-                              ),
-                            ),
+                            // // Carousel for Two Smaller Banners Below the Carousel
+                            // CarouselSlider.builder(
+                            //   itemCount: banner.bannerList!.length,
+                            //   itemBuilder: (context, index, realIndex) {
+                            //     // Show only smaller banners (skip the first one for large banner)
+                            //     if (index == 0)
+                            //       return Container(); // Skip first large banner
+                            //     return InkWell(
+                            //       onTap: () =>
+                            //           ProductHelper.onTapBannerForRoute(
+                            //               banner.bannerList![index], context),
+                            //       child: ClipRRect(
+                            //         borderRadius: BorderRadius.circular(10),
+                            //         child: CustomImageWidget(
+                            //           placeholder: Images.placeholder(context),
+                            //           image:
+                            //               '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}/${banner.bannerList![index].image}',
+                            //           width: size / 2 -
+                            //               Dimensions.paddingSizeSmall,
+                            //           height: (size /
+                            //               3), // Height for small banners
+                            //           fit: BoxFit.cover,
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            //   options: CarouselOptions(
+                            //     height: size / 3,
+                            //     viewportFraction: 0.45,
+                            //     enlargeCenterPage: true,
+                            //     autoPlay: true,
+                            //     autoPlayInterval: Duration(seconds: 3),
+                            //   ),
+                            // ),
                           ],
                         )
                       : Center(
