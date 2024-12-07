@@ -68,7 +68,7 @@ class ButtonViewWidget extends StatelessWidget {
     message.write("Total: $totalString\n");
 
     final String whatsappUrl =
-        "https://wa.me/96176180943?text=${Uri.encodeComponent(message.toString())}";
+        "https://wa.me/96171947359?text=${Uri.encodeComponent(message.toString())}";
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
