@@ -51,8 +51,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
       key: drawerGlobalKey,
       endDrawerEnableOpenDragGesture: false,
       drawer: ResponsiveHelper.isTab(context) ? const Drawer(child: OptionsWidget(onTap: null)) : const SizedBox(),
-      appBar:
-          ResponsiveHelper.isDesktop(context) ? const PreferredSize(preferredSize: Size.fromHeight(90), child: WebAppBarWidget()) : null,
+      appBar: ResponsiveHelper.isDesktop(context) ? const PreferredSize(preferredSize: Size.fromHeight(90), child: WebAppBarWidget()) : null,
       body: Consumer<CategoryProvider>(
         builder: (context, category, child) {
           return category.subCategoryList != null && category.categoryList != null

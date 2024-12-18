@@ -180,6 +180,8 @@ class SearchMobileWidgetState extends State<SearchMobileWidget> {
             searchProvider.changeSearchStatus();
           }
         },
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+
       ),
     );
   }
