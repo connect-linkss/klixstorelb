@@ -82,10 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // delete save area here
+    return Scaffold( 
       key: drawerGlobalKey,
       endDrawerEnableOpenDragGesture: false,
       drawer: ResponsiveHelper.isTab(context) ? const Drawer(child: OptionsWidget(onTap: null)) : const SizedBox(),
+      // appBar: const CustomAppBarWidget(onlyDesktop: true, space: 0),
       appBar: ResponsiveHelper.isDesktop(context) ? const PreferredSize(preferredSize: Size.fromHeight(90), child: WebAppBarWidget()) : null,
       body: RefreshIndicator(
         color: Theme.of(context).secondaryHeaderColor,
