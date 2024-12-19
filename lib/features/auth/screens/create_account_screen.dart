@@ -399,6 +399,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                           getTranslated(
                                               'enter_phone_number', context),
                                           context);
+                                    } else if (_countryDialCode == "+961" && _numberController.text.length != 8) {
+                                      showCustomSnackBar(
+                                          getTranslated(
+                                              'enter_valid_phone_number', context),
+                                          context);
                                     } else if (email.isEmpty) {
                                       showCustomSnackBar(
                                           getTranslated(
