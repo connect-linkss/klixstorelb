@@ -22,7 +22,6 @@
             <data android:mimeType="*/*" />
         </intent>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
-
     </queries>
 
     <application
@@ -33,7 +32,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDulziP0Kqepx1ORDNp3yrEyEApn1b9Xc4"/>
+            android:value="AIzaSyAGbjKho9jzwiIrzuKlv4aKbXaRyVRf5jk"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

@@ -1,6 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:klixstore/common/enums/footer_type_enum.dart';
-import 'package:klixstore/features/auth/widgets/social_login_widget.dart';
 import 'package:klixstore/helper/responsive_helper.dart';
 import 'package:klixstore/localization/language_constrants.dart';
 import 'package:klixstore/main.dart';

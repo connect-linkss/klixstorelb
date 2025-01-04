@@ -5,6 +5,7 @@ import 'package:klixstore/features/splash/providers/splash_provider.dart';
 import 'package:klixstore/helper/custom_snackbar_helper.dart';
 import 'package:klixstore/helper/price_converter_helper.dart';
 import 'package:klixstore/localization/language_constrants.dart';
+import 'package:klixstore/main.dart';
 import 'package:klixstore/utill/dimensions.dart';
 import 'package:klixstore/utill/routes.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class ButtonViewWidget extends StatelessWidget {
   const ButtonViewWidget({
     Key? key,
     required this.itemPrice,
-    required this.total,
+    required this.total, 
     required this.deliveryCharge,
     required this.discount,
   }) : super(key: key);
@@ -67,13 +68,13 @@ class ButtonViewWidget extends StatelessWidget {
     message.write("\n--------------------------------------\n");
     message.write("Total: $totalString\n");
 
-    final String whatsappUrl =
-        "https://wa.me/96171947359?text=${Uri.encodeComponent(message.toString())}";
+    final String whatsappUrl = "https://wa.me/96171947359?text=${Uri.encodeComponent(message.toString())}";
 
     if (await canLaunch(whatsappUrl)) {
+      Provider.of<CartProvider>(Get.context!, listen: false).clearCartList();
       await launch(whatsappUrl);
     } else {
-      throw 'Could not launch $whatsappUrl';
+      throw 'Could not00 launch $whatsappUrl';
     }
   }
 
