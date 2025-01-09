@@ -116,24 +116,24 @@ class _MainSliderWidgetState extends State<MainSliderWidget> {
                       ),
                     ),
                   ),
-                  // Displaying the current slider number on the right
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0), // spacing from the main slider
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${currentIndex + 1} / ${widget.bannerList!.length > 3 ? 3 : widget.bannerList!.length}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // // Displaying the current slider number on the right
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       left: 8.0), // spacing from the main slider
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         '${currentIndex + 1} / ${widget.bannerList!.length > 3 ? 3 : widget.bannerList!.length}',
+                  //         style: TextStyle(
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Theme.of(context).primaryColor,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               )
             : const SizedBox();

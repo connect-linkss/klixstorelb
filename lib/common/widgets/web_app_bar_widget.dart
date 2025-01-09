@@ -145,8 +145,8 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                   builder: (context, splash, child) =>
                                       Row(children: [
                                         SizedBox(
-                                            height: 30,
-                                            width: 30,
+                                            height: 70,
+                                            width: 70,
                                             child: CustomImageWidget(
                                               placeholder: Images.logo,
                                               image: splash.baseUrls != null

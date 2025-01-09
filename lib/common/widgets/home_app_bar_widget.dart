@@ -43,7 +43,7 @@ class HomeAppBarWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 6.0),
           child: Image.asset(
             Images.logo,
-            height: 30,
+            height: 50,
           ),
         ),
 
@@ -63,7 +63,9 @@ class HomeAppBarWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).secondaryHeaderColor,
               shape: BoxShape.circle,
-              boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+              boxShadow: const [
+                BoxShadow(color: Colors.black26, blurRadius: 4)
+              ],
             ),
             padding: const EdgeInsets.all(8),
             child: Image.asset(Images.coupon, height: 16, width: 16),
@@ -73,14 +75,16 @@ class HomeAppBarWidget extends StatelessWidget {
 
         // Notification icon
         IconButton(
-          onPressed: () => Navigator.pushNamed(context, Routes.getNotificationRoute()),
+          onPressed: () =>
+              Navigator.pushNamed(context, Routes.getNotificationRoute()),
           icon: Icon(Icons.notifications, color: Colors.white, size: 28),
         ),
 
         // Cart icon with badge
         if (ResponsiveHelper.isTab(context))
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
+            onPressed: () =>
+                Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
             icon: Consumer<CartProvider>(
               builder: (context, cartProvider, _) => CartCountWidget(
                 count: CartHelper.getCartItemCount(cartProvider.cartList),
@@ -114,7 +118,9 @@ class SearchMobileWidgetState extends State<SearchMobileWidget> {
       if (mounted) {
         setState(() {
           _currentCategoryIndex = (_currentCategoryIndex + 1) %
-              Provider.of<CategoryProvider>(context, listen: false).categoryList!.length;
+              Provider.of<CategoryProvider>(context, listen: false)
+                  .categoryList!
+                  .length;
         });
         _startCategoryRotation(); // Schedule the next rotation
       }
@@ -155,16 +161,23 @@ class SearchMobileWidgetState extends State<SearchMobileWidget> {
         suffixIconUrl: Images.search,
         onChanged: (str) {
           str.length = 0;
-          Provider.of<SearchProvider>(context, listen: false).getSearchText(str);
+          Provider.of<SearchProvider>(context, listen: false)
+              .getSearchText(str);
         },
         onSuffixTap: () {
-          final searchProvider = Provider.of<SearchProvider>(context, listen: false);
-          if (searchProvider.searchController.text.isNotEmpty && searchProvider.isSearch == true) {
-            searchProvider.saveSearchAddress(searchProvider.searchController.text);
+          final searchProvider =
+              Provider.of<SearchProvider>(context, listen: false);
+          if (searchProvider.searchController.text.isNotEmpty &&
+              searchProvider.isSearch == true) {
+            searchProvider
+                .saveSearchAddress(searchProvider.searchController.text);
             Navigator.pushNamed(
-                context, Routes.getSearchResultRoute(text: searchProvider.searchController.text));
+                context,
+                Routes.getSearchResultRoute(
+                    text: searchProvider.searchController.text));
             searchProvider.changeSearchStatus();
-          } else if (searchProvider.searchController.text.isNotEmpty && searchProvider.isSearch == false) {
+          } else if (searchProvider.searchController.text.isNotEmpty &&
+              searchProvider.isSearch == false) {
             searchProvider.searchController.clear();
             searchProvider.getSearchText('');
             searchProvider.changeSearchStatus();
@@ -174,14 +187,15 @@ class SearchMobileWidgetState extends State<SearchMobileWidget> {
         inputAction: TextInputAction.search,
         onSubmit: (text) {
           if (text.isNotEmpty) {
-            final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+            final searchProvider =
+                Provider.of<SearchProvider>(context, listen: false);
             searchProvider.saveSearchAddress(text);
-            Navigator.pushNamed(context, Routes.getSearchResultRoute(text: text));
+            Navigator.pushNamed(
+                context, Routes.getSearchResultRoute(text: text));
             searchProvider.changeSearchStatus();
           }
         },
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       ),
     );
   }
