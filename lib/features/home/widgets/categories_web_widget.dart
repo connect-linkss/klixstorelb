@@ -46,7 +46,7 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                         physics: const ClampingScrollPhysics(),
                         controller: scrollController,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 6, // 6 items per row
+                          crossAxisCount: 7, // 6 items per row
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 20,
                           childAspectRatio: 1,
