@@ -25,9 +25,9 @@ class CategoriesWebWidget extends StatefulWidget {
 class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
   ScrollController scrollController = ScrollController();
 
-  void scrollDown() {
+  void scrollRight() {
     scrollController.animateTo(
-      scrollController.offset + 200, // Scroll down by 200 pixels
+      scrollController.offset + 200, // Scroll right by 200 pixels
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
@@ -39,21 +39,17 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
       return category.categoryList != null
           ? category.categoryList!.isNotEmpty
               ? SizedBox(
-                  height: 300,
+                  height: 200, // Adjust height for horizontal scrolling
                   child: Stack(
                     children: [
-                      GridView.builder(
-                        physics: const ClampingScrollPhysics(),
+                      ListView.builder(
+                        scrollDirection:
+                            Axis.horizontal, // Horizontal scrolling
                         controller: scrollController,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7, // 6 items per row
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 20,
-                          childAspectRatio: 1,
-                        ),
                         itemCount: category.categoryList?.length,
                         itemBuilder: (context, index) {
                           return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(12),
@@ -65,19 +61,20 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                                   Routes.getCategoryRoute(
                                       category.categoryList![index])),
                               child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   // Image Container
                                   Container(
-                                    height:
-                                        130, // Increased height for the image
-                                    width: 130, // Increased width for the image
+                                    height: 150, // Outer container height
+                                    width: 150, // Outer container width
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(
-                                          Provider.of<ThemeProvider>(context)
-                                                  .darkTheme
-                                              ? 0.05
-                                              : 1),
-                                      borderRadius: BorderRadius.circular(100),
+                                      // color: Colors.white.withOpacity(
+                                      //     Provider.of<ThemeProvider>(context)
+                                      //             .darkTheme
+                                      //         ? 0.05
+                                      //         : 1),
+                                      // borderRadius: BorderRadius.circular(
+                                      //     100), // Circular shape
                                       boxShadow:
                                           Provider.of<ThemeProvider>(context)
                                                   .darkTheme
@@ -91,32 +88,34 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                                                   ),
                                                 ],
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: OnHover(
-                                        child: CustomImageWidget(
-                                          image: Provider.of<SplashProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .baseUrls !=
-                                                  null
-                                              ? '${category.categoryList![index].image}'
-                                              : '',
-                                          width:
-                                              150, // Adjusted to match new size
-                                          height:
-                                              150, // Adjusted to match new size
-                                          fit: BoxFit.cover,
+                                    child: Center(
+                                      // Center the image inside the container
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            75), // Smaller radius for the image
+                                        child: OnHover(
+                                          child: CustomImageWidget(
+                                            image: Provider.of<SplashProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .baseUrls !=
+                                                    null
+                                                ? '${category.categoryList![index].image}'
+                                                : '',
+                                            width: 120, // Smaller image width
+                                            height: 120, // Smaller image height
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
 
-                                  // Text Container (Card-like)
+                                  // Text Container
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: SizedBox(
-                                      width: 120,
+                                      width: 130,
                                       child: TextHoverWidget(
                                         builder: (hovered) {
                                           return Text(
@@ -145,12 +144,12 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                         },
                       ),
 
-                      // // Scroll Down Arrow at the bottom
+                      // Scroll Right Button (Optional)
                       // Positioned(
-                      //   bottom: 10,
-                      //   left: MediaQuery.of(context).size.width / 2 - 20,
+                      //   right: 10,
+                      //   top: 80,
                       //   child: GestureDetector(
-                      //     onTap: scrollDown, // Scroll down when clicked
+                      //     onTap: scrollRight,
                       //     child: Container(
                       //       decoration: BoxDecoration(
                       //         color: Theme.of(context).primaryColor,
@@ -158,7 +157,7 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                       //       ),
                       //       padding: const EdgeInsets.all(8),
                       //       child: Icon(
-                      //         Icons.arrow_downward,
+                      //         Icons.arrow_forward,
                       //         color: Colors.white,
                       //         size: 24,
                       //       ),
