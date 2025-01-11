@@ -78,17 +78,19 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).cardColor,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              Images.logo,
-              width: 170,
-            ),
-            Text(AppConstants.appName,
-                style: rubikBold.copyWith(fontSize: 30, color: Colors.white)),
+              Images.logo2,
+              width: 150,
+              height: 150,
+              fit: BoxFit.cover,
+            ), // Increased size
+            // Text(AppConstants.appName,
+            //     style: rubikBold.copyWith(fontSize: 30, color: Colors.white)),
           ],
         ),
       ),

@@ -44,6 +44,7 @@ class Images {
   }
 
   static const String logo = 'assets/image/logo.png';
+  static const String logo2 = 'assets/image/logo2.png';
   static const String login = 'assets/icon/login.png';
   // static const String helpSupport = 'assets/icon/help_support.png';
   // static const String privacyPolicy = 'assets/icon/privacy_policy.png';
