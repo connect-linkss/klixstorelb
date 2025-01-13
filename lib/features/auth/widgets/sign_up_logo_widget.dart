@@ -20,7 +20,6 @@ class SignUpLogoWidget extends StatelessWidget {
           Images.logo,
           height: ResponsiveHelper.isDesktop(context) ? 100.0 : 80,
           fit: BoxFit.scaleDown,
-          matchTextDirection: true,
         ),
         const SizedBox(height: Dimensions.paddingSizeSmall),
         Text(getTranslated('signup', context),
