@@ -41,7 +41,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
     return Scaffold(
       appBar: ResponsiveHelper.isDesktop(context)
-          ? const CustomAppBarWidget()
+          ? const CustomAppBarWidget() 
           : null,
       body: Consumer<ProfileProvider>(builder: (ctx, userController, _) {
         final bool isLoggedIn = authProvider.isLoggedIn();
@@ -107,8 +107,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                           style: rubikBold.copyWith(
                                               fontSize:
                                                   Dimensions.fontSizeExtraLarge,
-                                              color:
-                                                  Theme.of(context).cardColor),
+                                              color: Colors.white),
                                         ),
                                         if (isLoggedIn)
                                           Text(
@@ -118,8 +117,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                             style: rubikRegular.copyWith(
                                                 fontSize:
                                                     Dimensions.fontSizeSmall,
-                                                color: Theme.of(context)
-                                                    .cardColor),
+                                                color: Colors.white),
                                           ),
                                       ],
                                     ),

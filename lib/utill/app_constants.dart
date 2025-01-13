@@ -30,8 +30,7 @@ class AppConstants {
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String placeOrderUri = '/api/v1/customer/order/place';
   static const String addressListUri = '/api/v1/customer/address/list';
-  static const String removeAddressUri =
-      '/api/v1/customer/address/delete?address_id=';
+  static const String removeAddressUri = '/api/v1/customer/address/delete?address_id=';
   static const String addAddressUri = '/api/v1/customer/address/add';
   static const String updateAddressUri = '/api/v1/customer/address/update/';
   static const String offerProductUri = '/api/v1/products/discounted';
@@ -40,8 +39,7 @@ class AppConstants {
   static const String couponApplyUri = '/api/v1/coupon/apply?code=';
   static const String orderListUri = '/api/v1/customer/order/list';
   static const String orderCancelUri = '/api/v1/customer/order/cancel';
-  static const String orderDetailsUri =
-      '/api/v1/customer/order/details?order_id=';
+  static const String orderDetailsUri = '/api/v1/customer/order/details?order_id=';
   static const String wishListGetUri = '/api/v1/customer/wish-list';
   static const String addWishListUri = '/api/v1/customer/wish-list/add';
   static const String removeWishListUri = '/api/v1/customer/wish-list/remove';
@@ -50,14 +48,11 @@ class AppConstants {
   static const String searchUri = '/api/v1/products/search';
   static const String reviewUri = '/api/v1/products/reviews/submit';
   static const String productDetailsUri = '/api/v1/products/details/';
-  static const String lastLocationUri =
-      '/api/v1/delivery-man/last-location?order_id=';
-  static const String deliverManReviewUri =
-      '/api/v1/delivery-man/reviews/submit';
+  static const String lastLocationUri = '/api/v1/delivery-man/last-location?order_id=';
+  static const String deliverManReviewUri = '/api/v1/delivery-man/reviews/submit';
   static const String productReviewUri = '/api/v1/products/reviews/';
   static const String distanceMatrixUri = '/api/v1/mapapi/distance-api';
-  static const String searchLocationUri =
-      '/api/v1/mapapi/place-api-autocomplete';
+  static const String searchLocationUri = '/api/v1/mapapi/place-api-autocomplete';
   static const String placeDetailsUri = '/api/v1/mapapi/place-api-details';
   static const String geocodeUri = '/api/v1/mapapi/geocode-api';
   static const String emailSubscribeUri = '/api/v1/subscribe-newsletter';
@@ -71,14 +66,10 @@ class AppConstants {
   static const String reorderProductList = '/api/v1/customer/reorder/products';
 
   //MESSAGING
-  static const String getDeliverymanMessageUri =
-      '/api/v1/customer/message/get-order-message';
-  static const String getAdminMessageUrl =
-      '/api/v1/customer/message/get-admin-message';
-  static const String sendMessageToAdminUrl =
-      '/api/v1/customer/message/send-admin-message';
-  static const String sendMessageToDeliveryManUrl =
-      '/api/v1/customer/message/send/customer';
+  static const String getDeliverymanMessageUri = '/api/v1/customer/message/get-order-message';
+  static const String getAdminMessageUrl = '/api/v1/customer/message/get-admin-message';
+  static const String sendMessageToAdminUrl = '/api/v1/customer/message/send-admin-message';
+  static const String sendMessageToDeliveryManUrl = '/api/v1/customer/message/send/customer';
 
   // Shared Key
   static const String theme = 'theme';
@@ -98,15 +89,7 @@ class AppConstants {
   static const String placeOrderData = 'place_order_data';
 
   static List<LanguageModel> languages = [
-    LanguageModel(
-        imageUrl: Images.unitedKingdom,
-        languageName: 'English',
-        countryCode: 'US',
-        languageCode: 'en'),
-    LanguageModel(
-        imageUrl: Images.arabic,
-        languageName: 'Arabic',
-        countryCode: 'SA',
-        languageCode: 'ar'),
+    LanguageModel(imageUrl: Images.unitedKingdom, languageName: 'English', countryCode: 'US', languageCode: 'en'),
+    LanguageModel(imageUrl: Images.arabic, languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
   ];
 }

@@ -53,16 +53,10 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<LanguageProvider>(context, listen: false)
-        .initializeAllLanguages(context);
-    LanguageModel currentLanguage = AppConstants.languages.firstWhere(
-        (language) =>
-            language.languageCode ==
-            Provider.of<LocalizationProvider>(context, listen: false)
-                .locale
-                .languageCode);
-    final SplashProvider splashProvider =
-        Provider.of<SplashProvider>(context, listen: false);
+    Provider.of<LanguageProvider>(context, listen: false).initializeAllLanguages(context);
+    LanguageModel currentLanguage = AppConstants.languages
+        .firstWhere((language) => language.languageCode == Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode);
+    final SplashProvider splashProvider = Provider.of<SplashProvider>(context, listen: false);
 
     return Consumer<ThemeProvider>(builder: (context, themeProvider, _) {
       return Container(
@@ -75,16 +69,13 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
         ]),
         child: Column(children: [
           Container(
-            color: Theme.of(context)
-                .secondaryHeaderColor
-                .withOpacity(themeProvider.darkTheme ? 0.2 : 0.5),
+            color: Theme.of(context).secondaryHeaderColor.withOpacity(themeProvider.darkTheme ? 0.2 : 0.5),
             height: 30,
             child: Center(
                 child: SizedBox(
                     width: Dimensions.webScreenWidth,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: Dimensions.paddingSizeExtraSmall),
+                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -98,24 +89,17 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                 //     context,
                                 //     PopupMenuType.language),
                                 child: Row(children: [
-                                  Text(
-                                      '${currentLanguage.languageCode?.toUpperCase()}',
-                                      style: rubikMedium.copyWith(
-                                          fontSize: Dimensions.fontSizeSmall)),
-                                  const SizedBox(
-                                      width: Dimensions.paddingSizeExtraSmall),
+                                  Text('${currentLanguage.languageCode?.toUpperCase()}',
+                                      style: rubikMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                   Icon(
                                     Icons.expand_more,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.color,
+                                    color: Theme.of(context).textTheme.bodyMedium?.color,
                                     size: Dimensions.paddingSizeLarge,
                                   )
                                 ]),
                               )),
-                          const SizedBox(
-                              width: Dimensions.paddingSizeExtraLarge),
+                          const SizedBox(width: Dimensions.paddingSizeExtraLarge),
                         ],
                       ),
                     ))),
@@ -135,15 +119,11 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Provider.of<ProductProvider>(context,
-                                        listen: false)
-                                    .offset = 1;
-                                Navigator.pushNamed(
-                                    context, Routes.getMainRoute());
+                                Provider.of<ProductProvider>(context, listen: false).offset = 1;
+                                Navigator.pushNamed(context, Routes.getMainRoute());
                               },
                               child: Consumer<SplashProvider>(
-                                  builder: (context, splash, child) =>
-                                      Row(children: [
+                                  builder: (context, splash, child) => Row(children: [
                                         SizedBox(
                                             height: 70,
                                             width: 70,
@@ -154,8 +134,9 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                                   : '',
                                               fit: BoxFit.contain,
                                             )),
-                                        const SizedBox(
-                                            width: Dimensions.paddingSizeSmall),
+                                        
+                                        const SizedBox(width: Dimensions.paddingSizeSmall),
+                                        
                                         // FittedBox(
                                         //   child: Text(
                                         //     splash.configModel?.ecommerceName ??
@@ -173,20 +154,13 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                 builder: (isHovered) => OnHover(
                                       child: InkWell(
                                         onTap: () {
-                                          Provider.of<ProductProvider>(context,
-                                                  listen: false)
-                                              .offset = 1;
-                                          Navigator.pushNamed(context,
-                                              Routes.getDashboardRoute('home'));
+                                          Provider.of<ProductProvider>(context, listen: false).offset = 1;
+                                          Navigator.pushNamed(context, Routes.getDashboardRoute('home'));
                                         },
-                                        child:
-                                            Text(getTranslated('home', context),
-                                                style: rubikMedium.copyWith(
-                                                  color: isHovered
-                                                      ? Theme.of(context)
-                                                          .primaryColor
-                                                      : null,
-                                                )),
+                                        child: Text(getTranslated('home', context),
+                                            style: rubikMedium.copyWith(
+                                              color: isHovered ? Theme.of(context).primaryColor : null,
+                                            )),
                                       ),
                                     )),
                             const SizedBox(width: 25),
@@ -194,30 +168,15 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                 builder: (isHovered) => OnHover(
                                       child: MouseRegion(
                                           onHover: (details) {
-                                            if (Provider.of<CategoryProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .categoryList !=
-                                                null) {
-                                              _showPopupMenu(
-                                                  details.position,
-                                                  context,
-                                                  PopupMenuType.category);
+                                            if (Provider.of<CategoryProvider>(context, listen: false).categoryList != null) {
+                                              _showPopupMenu(details.position, context, PopupMenuType.category);
                                             }
                                           },
                                           child: Row(children: [
-                                            Text(
-                                                getTranslated(
-                                                    'categories', context),
-                                                style: rubikMedium),
-                                            const SizedBox(
-                                                width: Dimensions
-                                                    .paddingSizeExtraSmall),
+                                            Text(getTranslated('categories', context), style: rubikMedium),
+                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                             Icon(Icons.expand_more,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                size: Dimensions
-                                                    .paddingSizeDefault),
+                                                color: Theme.of(context).primaryColor, size: Dimensions.paddingSizeDefault),
                                           ])),
                                     )),
                           ],
@@ -229,18 +188,14 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                   height: 41,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.03),
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.paddingSizeLarge),
+                                    color: Theme.of(context).primaryColor.withOpacity(0.03),
+                                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeLarge),
                                   ),
                                   child: SearchWidget())),
                           const SizedBox(width: Dimensions.paddingSizeLarge),
                           OnHover(
                               child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, Routes.getCouponRoute()),
+                            onTap: () => Navigator.pushNamed(context, Routes.getCouponRoute()),
                             child: Container(
                               height: 40,
                               decoration: BoxDecoration(
@@ -251,87 +206,60 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                 horizontal: Dimensions.paddingSizeDefault,
                               ),
                               child: Row(children: [
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeExtraSmall),
+                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                 Image.asset(Images.coupon, height: 16),
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeSmall),
+                                const SizedBox(width: Dimensions.paddingSizeSmall),
                                 Text(getTranslated('coupon', context),
                                     style: rubikMedium.copyWith(
                                       fontSize: Dimensions.fontSizeSmall,
                                       color: themeProvider.darkTheme
                                           ? Theme.of(context).primaryColor
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.color,
+                                          : Theme.of(context).textTheme.titleMedium?.color,
                                     )),
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeExtraSmall),
+                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                               ]),
                             ),
                           )),
                           const SizedBox(width: Dimensions.paddingSizeLarge),
                           OnHover(
                               child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, Routes.getDashboardRoute('favourite')),
+                            onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('favourite')),
                             child: Consumer<WishListProvider>(
-                                builder: (context, wishListProvider, _) =>
-                                    CartCountWidget(
-                                      count:
-                                          wishListProvider.wishList?.length ??
-                                              0,
+                                builder: (context, wishListProvider, _) => CartCountWidget(
+                                      count: wishListProvider.wishList?.length ?? 0,
                                       icon: Icons.favorite,
                                     )),
                           )),
                           const SizedBox(width: Dimensions.paddingSizeLarge),
                           OnHover(
                               child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, Routes.getDashboardRoute('cart')),
+                            onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
                             child: Consumer<CartProvider>(
-                                builder: (context, cartProvider, _) =>
-                                    CartCountWidget(
-                                      count: CartHelper.getCartItemCount(
-                                          cartProvider.cartList),
+                                builder: (context, cartProvider, _) => CartCountWidget(
+                                      count: CartHelper.getCartItemCount(cartProvider.cartList),
                                       icon: Icons.shopping_cart,
                                     )),
                           )),
                           const SizedBox(width: Dimensions.paddingSizeLarge),
                           Consumer<AuthProvider>(
                               builder: (context, authProvider, _) => InkWell(
-                                    onTap: () => !authProvider.isLoggedIn()
-                                        ? Navigator.pushNamed(
-                                            context, Routes.getLoginRoute())
-                                        : () {},
+                                    onTap: () => !authProvider.isLoggedIn() ? Navigator.pushNamed(context, Routes.getLoginRoute()) : () {},
                                     child: TextHoverWidget(
                                         builder: (isHover) => OnHover(
                                             child: MouseRegion(
                                                 onHover: (details) {
-                                                  if (authProvider
-                                                      .isLoggedIn()) {
-                                                    _showPopupMenu(
-                                                        details.position,
-                                                        context,
-                                                        PopupMenuType.profile);
+                                                  if (authProvider.isLoggedIn()) {
+                                                    _showPopupMenu(details.position, context, PopupMenuType.profile);
                                                   }
                                                 },
                                                 child: authProvider.isLoggedIn()
-                                                    ? Consumer<ProfileProvider>(
-                                                        builder: (context,
-                                                            profileProvider,
-                                                            child) {
+                                                    ? Consumer<ProfileProvider>(builder: (context, profileProvider, child) {
                                                         return ClipRRect(
-                                                          borderRadius: BorderRadius
-                                                              .circular(Dimensions
-                                                                  .radiusSizeFifty),
-                                                          child:
-                                                              CustomImageWidget(
+                                                          borderRadius: BorderRadius.circular(Dimensions.radiusSizeFifty),
+                                                          child: CustomImageWidget(
                                                             image:
                                                                 '${splashProvider.baseUrls!.customerImageUrl}/${profileProvider.userInfoModel != null ? profileProvider.userInfoModel!.image : ''}',
-                                                            placeholder:
-                                                                Images.profile,
+                                                            placeholder: Images.profile,
                                                             height: 24,
                                                             width: 24,
                                                           ),
@@ -341,21 +269,14 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
                                                         Images.profile,
                                                         height: 24,
                                                         width: 24,
-                                                        color: isHover
-                                                            ? Theme.of(context)
-                                                                .primaryColor
-                                                            : Theme.of(context)
-                                                                .focusColor,
+                                                        color: isHover ? Theme.of(context).primaryColor : Theme.of(context).focusColor,
                                                       )))),
                                   )),
                           const SizedBox(width: Dimensions.paddingSizeLarge),
                           OnHover(
                               child: IconButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, Routes.getDashboardRoute('menu')),
-                            icon: Icon(Icons.menu,
-                                size: Dimensions.paddingSizeExtraLarge,
-                                color: Theme.of(context).primaryColor),
+                            onPressed: () => Navigator.pushNamed(context, Routes.getDashboardRoute('menu')),
+                            icon: Icon(Icons.menu, size: Dimensions.paddingSizeExtraLarge, color: Theme.of(context).primaryColor),
                           )),
                         ])
                       ],
@@ -370,8 +291,7 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
 
   List<PopupMenuEntry<Object>> _categoryPopupList(BuildContext context) {
     List<PopupMenuEntry<Object>> list = <PopupMenuEntry<Object>>[];
-    List<CategoryModel>? categoryList =
-        Provider.of<CategoryProvider>(context, listen: false).categoryList;
+    List<CategoryModel>? categoryList = Provider.of<CategoryProvider>(context, listen: false).categoryList;
     list.add(PopupMenuItem(
       padding: EdgeInsets.zero,
       value: categoryList,
@@ -384,8 +304,7 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
   }
 
   List<PopupMenuEntry<Object>> _popUpLanguageList(BuildContext context) {
-    List<PopupMenuEntry<Object>> languagePopupMenuEntryList =
-        <PopupMenuEntry<Object>>[];
+    List<PopupMenuEntry<Object>> languagePopupMenuEntryList = <PopupMenuEntry<Object>>[];
     List<LanguageModel> languageList = AppConstants.languages;
     languagePopupMenuEntryList.add(PopupMenuItem(
       padding: EdgeInsets.zero,
@@ -399,8 +318,7 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
   }
 
   List<PopupMenuEntry<Object>> _profilePopUpMenuList(BuildContext context) {
-    List<PopupMenuEntry<Object>> profilePopupMenuEntryList =
-        <PopupMenuEntry<Object>>[];
+    List<PopupMenuEntry<Object>> profilePopupMenuEntryList = <PopupMenuEntry<Object>>[];
     profilePopupMenuEntryList.add(const PopupMenuItem(
       padding: EdgeInsets.zero,
       child: MouseRegion(
@@ -421,22 +339,18 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
     }
   }
 
-  void _showPopupMenu(
-      Offset offset, BuildContext context, PopupMenuType type) async {
+  void _showPopupMenu(Offset offset, BuildContext context, PopupMenuType type) async {
     double left = offset.dx;
     double top = offset.dy;
 
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(
-          left, top, overlay.size.width, overlay.size.height),
+      position: RelativeRect.fromLTRB(left, top, overlay.size.width, overlay.size.height),
       items: _getPopupItems(type),
       elevation: 8.0,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }
 }
@@ -452,8 +366,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CategoryProvider>(context, listen: false)
-        .getCategoryList(false);
+    Provider.of<CategoryProvider>(context, listen: false).getCategoryList(false);
   }
 
   @override
@@ -463,15 +376,13 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     final searchProvider = Provider.of<SearchProvider>(context);
 
-    String categoryName = categoryList != null && categoryList.isNotEmpty
-        ? categoryList[_currentCategoryIndex].name ?? 'No Category'
-        : 'Search';
+    String categoryName =
+        categoryList != null && categoryList.isNotEmpty ? categoryList[_currentCategoryIndex].name ?? 'No Category' : 'Search';
 
     if (categoryList != null && categoryList.isNotEmpty) {
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 5), () {
         setState(() {
-          _currentCategoryIndex =
-              (_currentCategoryIndex + 1) % categoryList.length;
+          _currentCategoryIndex = (_currentCategoryIndex + 1) % categoryList.length;
         });
       });
     }
@@ -488,7 +399,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         hintText: categoryName,
         hintFontSize: 16,
         fillColor: Colors.transparent,
-        style: TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: 14),
         isShowSuffixIcon: true,
         suffixIconUrl: Images.search,
         onChanged: (str) {
@@ -496,18 +407,12 @@ class _SearchWidgetState extends State<SearchWidget> {
           searchProvider.getSearchText(str);
         },
         onSuffixTap: () {
-          if (searchProvider.searchController.text.isNotEmpty &&
-              searchProvider.isSearch == true) {
-            Provider.of<SearchProvider>(context, listen: false)
-                .saveSearchAddress(searchProvider.searchController.text);
-            Navigator.pushNamed(
-                context,
-                Routes.getSearchResultRoute(
-                    text: searchProvider.searchController.text));
+          if (searchProvider.searchController.text.isNotEmpty && searchProvider.isSearch == true) {
+            Provider.of<SearchProvider>(context, listen: false).saveSearchAddress(searchProvider.searchController.text);
+            Navigator.pushNamed(context, Routes.getSearchResultRoute(text: searchProvider.searchController.text));
 
             searchProvider.changeSearchStatus();
-          } else if (searchProvider.searchController.text.isNotEmpty &&
-              searchProvider.isSearch == false) {
+          } else if (searchProvider.searchController.text.isNotEmpty && searchProvider.isSearch == false) {
             searchProvider.searchController.clear();
             searchProvider.getSearchText('');
 
@@ -519,8 +424,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         onSubmit: (text) {
           if (text.isNotEmpty) {
             searchProvider.saveSearchAddress(text);
-            Navigator.pushNamed(
-                context, Routes.getSearchResultRoute(text: text));
+            Navigator.pushNamed(context, Routes.getSearchResultRoute(text: text));
             searchProvider.changeSearchStatus();
           }
         },

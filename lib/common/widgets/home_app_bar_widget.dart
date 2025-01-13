@@ -23,7 +23,7 @@ class HomeAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      floating: true,
+      floating: true, 
       elevation: 2,
       centerTitle: true,
       automaticallyImplyLeading: false,
@@ -31,7 +31,7 @@ class HomeAppBarWidget extends StatelessWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue.shade400, Colors.indigo.shade600],
+            colors: [Colors.indigo.shade600, Colors.indigo.shade600],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -40,10 +40,10 @@ class HomeAppBarWidget extends StatelessWidget {
       pinned: ResponsiveHelper.isTab(context),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(left: 6.0),
+          padding: const EdgeInsets.only(left: 6.0, right: 6.0),
           child: Image.asset(
-            Images.logo,
-            height: 50,
+            Images.logoMob,
+            height: 40,
           ),
         ),
 

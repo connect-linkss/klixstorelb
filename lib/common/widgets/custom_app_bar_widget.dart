@@ -7,7 +7,7 @@ import 'package:klixstore/utill/styles.dart';
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  final String? title;
+  final String? title; 
   final bool isBackButtonExist;
   final bool onlyDesktop;
   final Function? onBackPressed;

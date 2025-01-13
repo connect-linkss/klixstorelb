@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           : const SizedBox(),
       // appBar: const CustomAppBarWidget(onlyDesktop: true, space: 0),
       appBar: ResponsiveHelper.isDesktop(context)
-          ? const PreferredSize(
+          ? const PreferredSize( 
               preferredSize: Size.fromHeight(90), child: WebAppBarWidget())
           : null,
       body: RefreshIndicator(

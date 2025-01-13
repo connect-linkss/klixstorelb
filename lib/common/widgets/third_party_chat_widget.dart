@@ -4,6 +4,7 @@ import 'package:klixstore/features/splash/providers/splash_provider.dart';
 import 'package:klixstore/utill/dimensions.dart';
 import 'package:klixstore/utill/images.dart';
 import 'package:flutter/material.dart';
+import 'package:klixstore/utill/routes.dart';
 import 'package:provider/provider.dart';
 
 import 'package:simple_speed_dial/simple_speed_dial.dart';
@@ -23,6 +24,25 @@ class _ThirdPartyChatWidgetState extends State<ThirdPartyChatWidget> {
     final ConfigModel? configModel =
         Provider.of<SplashProvider>(context, listen: false).configModel;
     List<SpeedDialChild> dialList = [];
+
+   
+    dialList.add(SpeedDialChild(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: Dimensions.paddingSizeExtraSmall,
+            horizontal: Dimensions.paddingSizeSmall,
+          ),
+          height: 35,
+          width: 55,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20), color: Colors.white),
+          child: Image.asset(Images.emailWithBackground),
+        ),
+        onPressed: () async {
+          Navigator.of(context).pushNamed(Routes.getChatRoute());
+        },
+      ));
 
     if ((configModel != null &&
         configModel.whatsapp != null &&
