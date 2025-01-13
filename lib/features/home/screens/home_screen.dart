@@ -44,14 +44,22 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 
   static Future<void> loadData(BuildContext context, bool reload) async {
-    final CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
-    final BannerProvider bannerProvider = Provider.of<BannerProvider>(context, listen: false);
-    final ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
-    final SplashProvider splashProvider = Provider.of<SplashProvider>(context, listen: false);
-    final WishListProvider wishListProvider = Provider.of<WishListProvider>(context, listen: false);
-    final FlashSaleProvider flashSaleProvider = Provider.of<FlashSaleProvider>(context, listen: false);
-    final ProfileProvider profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    final AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final CategoryProvider categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
+    final BannerProvider bannerProvider =
+        Provider.of<BannerProvider>(context, listen: false);
+    final ProductProvider productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    final SplashProvider splashProvider =
+        Provider.of<SplashProvider>(context, listen: false);
+    final WishListProvider wishListProvider =
+        Provider.of<WishListProvider>(context, listen: false);
+    final FlashSaleProvider flashSaleProvider =
+        Provider.of<FlashSaleProvider>(context, listen: false);
+    final ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    final AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
 
     if (reload) {
       await splashProvider.initConfig();
@@ -59,7 +67,8 @@ class HomeScreen extends StatefulWidget {
 
     splashProvider.getPolicyPage(reload: reload);
 
-    if (authProvider.isLoggedIn() && (profileProvider.userInfoModel == null || reload)) {
+    if (authProvider.isLoggedIn() &&
+        (profileProvider.userInfoModel == null || reload)) {
       await profileProvider.getUserInfo();
       await wishListProvider.getWishList();
     }
@@ -77,19 +86,43 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> drawerGlobalKey = GlobalKey();
   ProductFilterType? filterType;
-  final ScrollController scrollController = ScrollController();
-  final ScrollController newArrivalScrollController = ScrollController();
+  late ScrollController scrollController; // Initialize in `initState`.
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the scroll controller and add a listener.
+    scrollController = ScrollController();
+    scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    // Remove the listener before disposing the controller.
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!mounted) return; // Prevent accessing the widget when it's not mounted.
+    // Perform actions based on scroll events.
+    print("Scrolling: ${scrollController.offset}");
+  }
 
   @override
   Widget build(BuildContext context) {
-    // delete save area here
     return Scaffold(
       key: drawerGlobalKey,
       endDrawerEnableOpenDragGesture: false,
-      drawer: ResponsiveHelper.isTab(context) ? const Drawer(child: OptionsWidget(onTap: null)) : const SizedBox(),
-      // appBar: const CustomAppBarWidget(onlyDesktop: true, space: 0),
-      appBar:
-          ResponsiveHelper.isDesktop(context) ? const PreferredSize(preferredSize: Size.fromHeight(90), child: WebAppBarWidget()) : null,
+      drawer: ResponsiveHelper.isTab(context)
+          ? const Drawer(child: OptionsWidget(onTap: null))
+          : const SizedBox(),
+      appBar: ResponsiveHelper.isDesktop(context)
+          ? const PreferredSize(
+              preferredSize: Size.fromHeight(90), child: WebAppBarWidget())
+          : null,
       body: RefreshIndicator(
         color: Theme.of(context).secondaryHeaderColor,
         onRefresh: () async {
@@ -101,211 +134,163 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
-            // App Bar
             ResponsiveHelper.isDesktop(context)
                 ? const SliverToBoxAdapter(child: SizedBox())
                 : HomeAppBarWidget(drawerGlobalKey: drawerGlobalKey),
-
-            // Search Button
-            // ResponsiveHelper.isDesktop(context)
-            //     ? const SliverToBoxAdapter(child: SizedBox())
-            //     : SliverPersistentHeader(
-            //         pinned: true,
-            //         delegate: _SliverDelegate(
-            //           child: Center(
-            //             child: InkWell(
-            //               onTap: () => Navigator.pushNamed(
-            //                   context, Routes.getSearchRoute()),
-            //               child: Container(
-            //                 height: 60,
-            //                 width: Dimensions.webScreenWidth,
-            //                 padding: const EdgeInsets.symmetric(
-            //                   horizontal: Dimensions.paddingSizeSmall,
-            //                   vertical: Dimensions.paddingSizeExtraSmall,
-            //                 ),
-            //                 child: Container(
-            //                   decoration: BoxDecoration(
-            //                     color: Theme.of(context)
-            //                         .primaryColor
-            //                         .withOpacity(0.04),
-            //                     borderRadius: BorderRadius.circular(50),
-            //                     border: Border.all(
-            //                       color: Theme.of(context)
-            //                           .primaryColor
-            //                           .withOpacity(0.05),
-            //                     ),
-            //                   ),
-            //                   child: Row(
-            //                     children: [
-            //                       Padding(
-            //                         padding: const EdgeInsets.symmetric(
-            //                           horizontal: Dimensions.paddingSizeSmall,
-            //                         ),
-            //                         child: Icon(
-            //                           Icons.search,
-            //                           size: 25,
-            //                           color: Theme.of(context).primaryColor,
-            //                         ),
-            //                       ),
-            //                       Expanded(
-            //                         child: Text(
-            //                           getTranslated(
-            //                               'search_for_products', context),
-            //                           style:
-            //                               rubikRegular.copyWith(fontSize: 12),
-            //                         ),
-            //                       ),
-            //                       Spacer(),
-            //                       Container(
-            //                         padding: const EdgeInsets.symmetric(
-            //                           horizontal: 16,
-            //                           vertical: 8,
-            //                         ),
-            //                         decoration: BoxDecoration(
-            //                           color: Colors.white, // White background
-            //                           borderRadius: BorderRadius.circular(
-            //                               30), // Circular radius
-            //                         ),
-            //                         child: Text(
-            //                           'Search',
-            //                           style: rubikRegular.copyWith(
-            //                             fontSize: 14,
-            //                             color: Theme.of(context).primaryColor,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-
             SliverToBoxAdapter(
               child: Column(
                 children: [
                   Center(
                       child: SizedBox(
                     width: Dimensions.webScreenWidth,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      ResponsiveHelper.isDesktop(context)
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
-                              child: Consumer<BannerProvider>(builder: (context, bannerProvider, _) {
-                                return bannerProvider.bannerList == null
-                                    ? const MainSliderShimmerWidget()
-                                    : SizedBox(
-                                        height: 380,
-                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                          if (bannerProvider.bannerList!.isNotEmpty)
-                                            SizedBox(
-                                              width: bannerProvider.secondaryBannerList!.isNotEmpty ? 780 : Dimensions.webScreenWidth,
-                                              child: MainSliderWidget(
-                                                bannerList: bannerProvider.bannerList,
-                                                bannerType: BannerType.primary,
-                                                isMainOnly: bannerProvider.secondaryBannerList!.isEmpty,
-                                              ),
-                                            ),
-                                          if (bannerProvider.secondaryBannerList!.isNotEmpty)
-                                            SizedBox(
-                                              width: 380,
-                                              child: MainSliderWidget(
-                                                bannerList: bannerProvider.secondaryBannerList,
-                                                bannerType: BannerType.secondary,
-                                              ),
-                                            ),
-                                        ]),
-                                      );
-                              }),
-                            )
-                          : const SizedBox(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ResponsiveHelper.isDesktop(context)
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    top: Dimensions.paddingSizeDefault),
+                                child: Consumer<BannerProvider>(
+                                    builder: (context, bannerProvider, _) {
+                                  return bannerProvider.bannerList == null
+                                      ? const MainSliderShimmerWidget()
+                                      : SizedBox(
+                                          height: 380,
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                if (bannerProvider
+                                                    .bannerList!.isNotEmpty)
+                                                  SizedBox(
+                                                    width: bannerProvider
+                                                            .secondaryBannerList!
+                                                            .isNotEmpty
+                                                        ? 780
+                                                        : Dimensions
+                                                            .webScreenWidth,
+                                                    child: MainSliderWidget(
+                                                      bannerList: bannerProvider
+                                                          .bannerList,
+                                                      bannerType:
+                                                          BannerType.primary,
+                                                      isMainOnly: bannerProvider
+                                                          .secondaryBannerList!
+                                                          .isEmpty,
+                                                    ),
+                                                  ),
+                                                if (bannerProvider
+                                                    .secondaryBannerList!
+                                                    .isNotEmpty)
+                                                  SizedBox(
+                                                    width: 380,
+                                                    child: MainSliderWidget(
+                                                      bannerList: bannerProvider
+                                                          .secondaryBannerList,
+                                                      bannerType:
+                                                          BannerType.secondary,
+                                                    ),
+                                                  ),
+                                              ]),
+                                        );
+                                }),
+                              )
+                            : const SizedBox(),
 
-                      const CategoryWidget(),
+                        const CategoryWidget(),
 
-                      /// Flash Sale
-                      const FlashSaleWidget(),
+                        /// Flash Sale
+                        const FlashSaleWidget(),
 
-                      /// Banner
-                      ResponsiveHelper.isDesktop(context)
-                          ? const SizedBox()
-                          : Consumer<BannerProvider>(
-                              builder: (context, banner, child) {
-                                return banner.bannerList == null
-                                    ? const BannerWidget()
-                                    : banner.bannerList!.isEmpty
-                                        ? const SizedBox()
-                                        : const BannerWidget();
-                              },
+                        /// Banner
+                        ResponsiveHelper.isDesktop(context)
+                            ? const SizedBox()
+                            : Consumer<BannerProvider>(
+                                builder: (context, banner, child) {
+                                  return banner.bannerList == null
+                                      ? const BannerWidget()
+                                      : banner.bannerList!.isEmpty
+                                          ? const SizedBox()
+                                          : const BannerWidget();
+                                },
+                              ),
+
+                        /// Offer Product
+                        Consumer<ProductProvider>(
+                          builder: (context, offerProduct, child) {
+                            return offerProduct.offerProductList == null
+                                ? const SizedBox()
+                                : offerProduct.offerProductList!.isEmpty
+                                    ? const SizedBox()
+                                    : const OfferProductWidget();
+                          },
+                        ),
+                        const SizedBox(height: Dimensions.paddingSizeDefault),
+
+                        /// Campaign
+                        if (!ResponsiveHelper.isDesktop(context))
+                          Consumer<BannerProvider>(
+                              builder: (context, bannerProvider, _) {
+                            return MainSliderWidget(
+                              bannerType: BannerType.secondary,
+                              bannerList: bannerProvider.secondaryBannerList,
+                            );
+                          }),
+
+                        //Banner
+                        BannerDisplayWidget(),
+
+                        const NewArrivalWidget(),
+                        Consumer<CategoryProvider>(
+                            builder: (context, categoryProvider, _) {
+                          return categoryProvider.featureCategoryMode != null
+                              ? CustomSingleChildListWidget(
+                                  itemCount: categoryProvider
+                                          .featureCategoryMode
+                                          ?.featuredData
+                                          ?.length ??
+                                      0,
+                                  itemBuilder: (index) => FeatureCategoryWidget(
+                                    featuredCategory: categoryProvider
+                                        .featureCategoryMode!
+                                        .featuredData?[index],
+                                  ),
+                                )
+                              : const SizedBox();
+                        }),
+                        NewMobileBannerWidget(),
+                        Consumer<ProductProvider>(
+                            builder: (context, productProvider, _) {
+                          return Padding(
+                            padding: ResponsiveHelper.isDesktop(context)
+                                ? const EdgeInsets.only(
+                                    top: Dimensions.paddingSizeExtraLarge,
+                                    bottom: Dimensions.paddingSizeLarge)
+                                : const EdgeInsets.fromLTRB(10, 20, 10, 10),
+                            child: TitleWidget(
+                              title: getTranslated('all_items', context),
+                              leadingButton: ProductFilterPopupWidget(
+                                isFilterActive: filterType != null,
+                                onSelected: (result) {
+                                  filterType = result;
+                                  productProvider.getLatestProductList(1,
+                                      filterType: result);
+                                },
+                              ),
                             ),
-
-                      /// Offer Product
-                      Consumer<ProductProvider>(
-                        builder: (context, offerProduct, child) {
-                          return offerProduct.offerProductList == null
-                              ? const SizedBox()
-                              : offerProduct.offerProductList!.isEmpty
-                                  ? const SizedBox()
-                                  : const OfferProductWidget();
-                        },
-                      ),
-                      const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                      /// Campaign
-                      if (!ResponsiveHelper.isDesktop(context))
-                        Consumer<BannerProvider>(builder: (context, bannerProvider, _) {
-                          return MainSliderWidget(
-                            bannerType: BannerType.secondary,
-                            bannerList: bannerProvider.secondaryBannerList,
                           );
                         }),
-
-                      //Banner
-                      BannerDisplayWidget(),
-
-                      /// New Arrival
-                      const NewArrivalWidget(),
-
-                      Consumer<CategoryProvider>(builder: (context, categoryProvider, _) {
-                        return categoryProvider.featureCategoryMode != null
-                            ? CustomSingleChildListWidget(
-                                itemCount: categoryProvider.featureCategoryMode?.featuredData?.length ?? 0,
-                                itemBuilder: (index) => FeatureCategoryWidget(
-                                  featuredCategory: categoryProvider.featureCategoryMode!.featuredData?[index],
-                                ),
-                              )
-                            : const SizedBox();
-                      }),
-
-                      NewMobileBannerWidget(),
-                      Consumer<ProductProvider>(builder: (context, productProvider, _) {
-                        return Padding(
-                          padding: ResponsiveHelper.isDesktop(context)
-                              ? const EdgeInsets.only(top: Dimensions.paddingSizeExtraLarge, bottom: Dimensions.paddingSizeLarge)
-                              : const EdgeInsets.fromLTRB(10, 20, 10, 10),
-                          child: TitleWidget(
-                            title: getTranslated('all_items', context),
-                            leadingButton: ProductFilterPopupWidget(
-                              isFilterActive: filterType != null,
-                              onSelected: (result) {
-                                filterType = result;
-                                productProvider.getLatestProductList(1, filterType: result);
-                              },
-                            ),
-                          ),
-                        );
-                      }),
-
-                      ProductListWidget(scrollController: scrollController, filterType: filterType),
-                      const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                      if (ResponsiveHelper.isDesktop(context)) NewSingleBannerWidget(),
-                    ]),
+                        ProductListWidget(
+                          scrollController: scrollController,
+                          filterType: filterType,
+                        ),
+                      ],
+                    ),
                   )),
                 ],
               ),
             ),
-
             const FooterWebWidget(footerType: FooterType.sliver),
           ],
         ),
@@ -320,7 +305,8 @@ class _SliverDelegate extends SliverPersistentHeaderDelegate {
   _SliverDelegate({required this.child});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 
@@ -332,7 +318,9 @@ class _SliverDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverDelegate oldDelegate) {
-    return oldDelegate.maxExtent != 50 || oldDelegate.minExtent != 50 || child != oldDelegate.child;
+    return oldDelegate.maxExtent != 50 ||
+        oldDelegate.minExtent != 50 ||
+        child != oldDelegate.child;
   }
 }
 
@@ -343,8 +331,10 @@ class SingleBannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
     final double bannerWidth = isMobile
-        ? MediaQuery.of(context).size.width / 2 - 20 // Adjust width for two banners on mobile
-        : (MediaQuery.of(context).size.width / 2) - 30; // Adjust width for desktop spacing
+        ? MediaQuery.of(context).size.width / 2 -
+            20 // Adjust width for two banners on mobile
+        : (MediaQuery.of(context).size.width / 2) -
+            30; // Adjust width for desktop spacing
 
     return Column(
       children: [
@@ -376,7 +366,8 @@ class SingleBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -422,7 +413,8 @@ class MobileBannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double bannerWidth = MediaQuery.of(context).size.width - 40; // Full width with padding adjustment for mobile
+    final double bannerWidth = MediaQuery.of(context).size.width -
+        40; // Full width with padding adjustment for mobile
 
     return Consumer<BannerProvider>(
       builder: (context, banner, child) {
@@ -433,7 +425,8 @@ class MobileBannerWidget extends StatelessWidget {
                   Center(
                     child: _buildBannerItem(
                       context,
-                      banner.bannerList!.first, // Display only the first banner item
+                      banner.bannerList!
+                          .first, // Display only the first banner item
                       bannerWidth,
                       160, // Height for mobile banners
                     ),
@@ -450,7 +443,8 @@ class MobileBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -487,7 +481,9 @@ class NewSingleBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
-    final double bannerWidth = isMobile ? MediaQuery.of(context).size.width / 2 - 20 : (MediaQuery.of(context).size.width / 2) - 30;
+    final double bannerWidth = isMobile
+        ? MediaQuery.of(context).size.width / 2 - 20
+        : (MediaQuery.of(context).size.width / 2) - 30;
 
     return Column(
       children: [
@@ -526,7 +522,8 @@ class NewSingleBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -565,7 +562,9 @@ class NewMobileBannerWidget extends StatelessWidget {
     return Consumer<BannerProvider>(
       builder: (context, banner, child) {
         if (banner.bannerList != null && banner.bannerList!.length > 6) {
-          final bannerItem = banner.bannerList!.length > 7 ? banner.bannerList![7] : banner.bannerList![6];
+          final bannerItem = banner.bannerList!.length > 7
+              ? banner.bannerList![7]
+              : banner.bannerList![6];
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -592,7 +591,8 @@ class NewMobileBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(
+      BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(

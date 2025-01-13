@@ -123,8 +123,8 @@
   "edit": "Edit",
   "delete": "Delete",
   "notification": "Notification",
-  "please_enter_your_number_to": "Please enter your email address",
-  "please_enter_your_mobile_number_to": "Please enter your mobile Number",
+  "please_enter_your_number_to": "Please enter your email address"
+,  "please_enter_your_mobile_number_to": "Please enter your mobile Number",
   "send": "Send",
   "verify_email": "Verify Email",
   "verify_phone": "Verify Phone",
@@ -435,4 +435,5 @@
   "do_you_want_to_close_and" : "Do you want to close and exit the app ?",
   "close_the_app" : "Close the App",
   "exit" : "Exit"
+
 }
