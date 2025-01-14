@@ -230,39 +230,41 @@ class _MyAppState extends State<MyApp> {
                   child: Material(
                       child: Stack(children: [
                     widget!,
-                    if (ResponsiveHelper.isDesktop(context))
-                       Positioned.fill(
-                        child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 50, horizontal: 20),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, Routes.getChatRoute());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: Dimensions.paddingSizeExtraSmall,
-                                        horizontal: Dimensions.paddingSizeSmall,
-                                      ),
-                                      height: 35,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.white,
-                                      ),
-                                      child: Image.asset(Images.emailWithBackground),
-                                    ),
-                                  ),
-
-                                  const ThirdPartyChatWidget(),
-                                ],
-                              ),
-                            )),
-                      ),
+                    // if (ResponsiveHelper.isDesktop(context))
+                    //   Positioned.fill(
+                    //     child: Align(
+                    //         alignment: Alignment.bottomRight,
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.symmetric(
+                    //               vertical: 50, horizontal: 20),
+                    //           child: Column(
+                    //             children: [
+                    //               GestureDetector(
+                    //                 onTap: () {
+                    //                   Navigator.pushNamed(
+                    //                       context, Routes.getChatRoute());
+                    //                 },
+                    //                 child: Container(
+                    //                   padding: const EdgeInsets.symmetric(
+                    //                     vertical:
+                    //                         Dimensions.paddingSizeExtraSmall,
+                    //                     horizontal: Dimensions.paddingSizeSmall,
+                    //                   ),
+                    //                   height: 35,
+                    //                   width: 55,
+                    //                   decoration: BoxDecoration(
+                    //                     borderRadius: BorderRadius.circular(20),
+                    //                     color: Colors.white,
+                    //                   ),
+                    //                   child: Image.asset(
+                    //                       Images.emailWithBackground),
+                    //                 ),
+                    //               ),
+                    //               const ThirdPartyChatWidget(),
+                    //             ],
+                    //           ),
+                    //         )),
+                    //   ),
                     if (kIsWeb &&
                         splashProvider.configModel!.cookiesManagement != null &&
                         splashProvider

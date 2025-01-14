@@ -7,6 +7,7 @@ import 'package:klixstore/common/widgets/custom_single_child_list_widget.dart';
 import 'package:klixstore/common/widgets/footer_web_widget.dart';
 import 'package:klixstore/common/widgets/home_app_bar_widget.dart';
 import 'package:klixstore/common/widgets/product_filter_popup_widget.dart';
+import 'package:klixstore/common/widgets/third_party_chat_widget.dart';
 import 'package:klixstore/common/widgets/title_widget.dart';
 import 'package:klixstore/common/widgets/web_app_bar_widget.dart';
 import 'package:klixstore/features/auth/providers/auth_provider.dart';
@@ -295,6 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: const ThirdPartyChatWidget(),
     );
   }
 }

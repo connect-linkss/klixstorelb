@@ -25,7 +25,8 @@ class _ThirdPartyChatWidgetState extends State<ThirdPartyChatWidget> {
         Provider.of<SplashProvider>(context, listen: false).configModel;
     List<SpeedDialChild> dialList = [];
 
-    dialList.add(SpeedDialChild(
+    dialList.add(
+      SpeedDialChild(
         backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.symmetric(
