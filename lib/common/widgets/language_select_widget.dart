@@ -8,12 +8,24 @@ import 'package:klixstore/utill/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LanguageSelectWidget extends StatelessWidget {
+class LanguageSelectWidget extends StatefulWidget {
   final bool fromMenu;
   const LanguageSelectWidget({
     Key? key,
     required this.fromMenu,
   }) : super(key: key);
+
+  @override
+  State<LanguageSelectWidget> createState() => _LanguageSelectWidgetState();
+}
+
+class _LanguageSelectWidgetState extends State<LanguageSelectWidget> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<LanguageProvider>(context, listen: false)
+        .initializeAllLanguages(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +36,7 @@ class LanguageSelectWidget extends StatelessWidget {
         child: CustomSingleChildListWidget(
             itemCount: languageProvider.languages.length,
             itemBuilder: (index) => _LanguageItemWidget(
-                  fromMenu: fromMenu,
+                  fromMenu: widget.fromMenu,
                   languageModel: languageProvider.languages[index],
                   index: index,
                 )),
