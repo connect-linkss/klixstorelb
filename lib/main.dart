@@ -13,6 +13,8 @@ import 'package:klixstore/helper/notification_helper.dart';
 import 'package:klixstore/helper/responsive_helper.dart';
 import 'package:klixstore/helper/router_helper.dart';
 import 'package:klixstore/features/flash_sale/providers/flash_sale_provider.dart';
+import 'package:klixstore/utill/dimensions.dart';
+import 'package:klixstore/utill/images.dart';
 import 'package:klixstore/utill/routes.dart';
 import 'package:klixstore/common/widgets/third_party_chat_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -229,13 +231,36 @@ class _MyAppState extends State<MyApp> {
                       child: Stack(children: [
                     widget!,
                     if (ResponsiveHelper.isDesktop(context))
-                      const Positioned.fill(
+                       Positioned.fill(
                         child: Align(
                             alignment: Alignment.bottomRight,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 50, horizontal: 20),
-                              child: ThirdPartyChatWidget(),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, Routes.getChatRoute());
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: Dimensions.paddingSizeExtraSmall,
+                                        horizontal: Dimensions.paddingSizeSmall,
+                                      ),
+                                      height: 35,
+                                      width: 55,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white,
+                                      ),
+                                      child: Image.asset(Images.emailWithBackground),
+                                    ),
+                                  ),
+
+                                  const ThirdPartyChatWidget(),
+                                ],
+                              ),
                             )),
                       ),
                     if (kIsWeb &&

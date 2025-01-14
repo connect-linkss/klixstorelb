@@ -25,7 +25,6 @@ class _ThirdPartyChatWidgetState extends State<ThirdPartyChatWidget> {
         Provider.of<SplashProvider>(context, listen: false).configModel;
     List<SpeedDialChild> dialList = [];
 
-   
     dialList.add(SpeedDialChild(
         backgroundColor: Colors.transparent,
         child: Container(
@@ -40,9 +39,10 @@ class _ThirdPartyChatWidgetState extends State<ThirdPartyChatWidget> {
           child: Image.asset(Images.emailWithBackground),
         ),
         onPressed: () async {
-          Navigator.of(context).pushNamed(Routes.getChatRoute());
+          Navigator.pushNamed(context, Routes.getChatRoute());
         },
-      ));
+      ),
+    );
 
     if ((configModel != null &&
         configModel.whatsapp != null &&

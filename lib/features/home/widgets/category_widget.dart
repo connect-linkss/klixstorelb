@@ -65,7 +65,9 @@ class CategoryWidget extends StatelessWidget {
                                                       )),
                                                   child: Container(
                                                     width: 100,
-                                                    color: Provider.of<ThemeProvider>(context).darkTheme ? Theme.of(context).cardColor : Colors.grey[200] ,
+                                                    color: Provider.of<ThemeProvider>(context).darkTheme
+                                                        ? Theme.of(context).cardColor
+                                                        : Colors.grey[200],
                                                     child: Column(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [

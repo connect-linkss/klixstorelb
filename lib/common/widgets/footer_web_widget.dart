@@ -27,36 +27,19 @@ class FooterWebWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ConfigModel configModel =
-        Provider.of<SplashProvider>(context, listen: false).configModel!;
+    final ConfigModel configModel = Provider.of<SplashProvider>(context, listen: false).configModel!;
 
     final List<QuickLinkModel> accountQuickLink = [
-      QuickLinkModel(
-          title: getTranslated('profile', context),
-          route: Routes.getProfileRoute()),
-      QuickLinkModel(
-          title: getTranslated('address', context),
-          route: Routes.getAddressRoute()),
-      QuickLinkModel(
-          title: getTranslated('live_chat', context),
-          route: Routes.getChatRoute(orderModel: null)),
-      QuickLinkModel(
-          title: getTranslated('order', context),
-          route: Routes.getOrderListScreen()),
+      QuickLinkModel(title: getTranslated('profile', context), route: Routes.getProfileRoute()),
+      QuickLinkModel(title: getTranslated('address', context), route: Routes.getAddressRoute()),
+      QuickLinkModel(title: getTranslated('live_chat', context), route: Routes.getChatRoute(orderModel: null)),
+      QuickLinkModel(title: getTranslated('order', context), route: Routes.getOrderListScreen()),
     ];
     final List<QuickLinkModel> otherQuickLink = [
-      QuickLinkModel(
-          title: getTranslated('contact_us', context),
-          route: Routes.getSupportRoute()),
-      QuickLinkModel(
-          title: getTranslated('privacy_policy', context),
-          route: Routes.getPolicyRoute()),
-      QuickLinkModel(
-          title: getTranslated('terms_and_condition', context),
-          route: Routes.getTermsRoute()),
-      QuickLinkModel(
-          title: getTranslated('about_us', context),
-          route: Routes.getAboutUsRoute()),
+      QuickLinkModel(title: getTranslated('contact_us', context), route: Routes.getSupportRoute()),
+      QuickLinkModel(title: getTranslated('privacy_policy', context), route: Routes.getPolicyRoute()),
+      QuickLinkModel(title: getTranslated('terms_and_condition', context), route: Routes.getTermsRoute()),
+      QuickLinkModel(title: getTranslated('about_us', context), route: Routes.getAboutUsRoute()),
     ];
 
     TextEditingController newsLetterController = TextEditingController();
@@ -68,15 +51,12 @@ class FooterWebWidget extends StatelessWidget {
           child: Consumer<ThemeProvider>(builder: (context, themeProvider, _) {
             return Consumer<SplashProvider>(
                 builder: (context, splashProvider, _) => Container(
-                      color: Theme.of(context)
-                          .secondaryHeaderColor
-                          .withOpacity(themeProvider.darkTheme ? 0.2 : 0.5),
+                      color: Theme.of(context).secondaryHeaderColor.withOpacity(themeProvider.darkTheme ? 0.2 : 0.5),
                       width: double.maxFinite,
                       child: Center(
                           child: SizedBox(
                         width: Dimensions.webScreenWidth,
-                        child:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
+                        child: Column(mainAxisSize: MainAxisSize.min, children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,72 +64,48 @@ class FooterWebWidget extends StatelessWidget {
                               Expanded(
                                   flex: 4,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
 
                                       Consumer<SplashProvider>(
-                                          builder: (context, splash, child) =>
-                                              Row(children: [
+                                          builder: (context, splash, child) => Row(children: [
                                                 SizedBox(
                                                     height: 40,
                                                     child: CustomImageWidget(
                                                       placeholder: Images.logo,
-                                                      image: splash.baseUrls !=
-                                                              null
+                                                      image: splash.baseUrls != null
                                                           ? '${splash.baseUrls!.ecommerceImageUrl}/${splash.configModel!.appLogo}'
                                                           : '',
                                                       fit: BoxFit.contain,
                                                     )),
-                                                const SizedBox(
-                                                    width: Dimensions
-                                                        .paddingSizeSmall),
+                                                const SizedBox(width: Dimensions.paddingSizeSmall),
                                                 Text(
-                                                  splash.configModel
-                                                          ?.ecommerceName ??
-                                                      AppConstants.appName,
-                                                  style: rubikBold.copyWith(
-                                                      fontSize: 30,
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
+                                                  splash.configModel?.ecommerceName ?? AppConstants.appName,
+                                                  style: rubikBold.copyWith(fontSize: 30, color: Theme.of(context).primaryColor),
                                                 ),
                                               ])),
 
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                                      Text(
-                                          getTranslated('news_letter', context),
-                                          style: rubikBold.copyWith(
-                                              fontSize: Dimensions
-                                                  .fontSizeExtraLarge)),
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeSmall),
+                                      Text(getTranslated('news_letter', context),
+                                          style: rubikBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
+                                      const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                      Text(
-                                          getTranslated(
-                                              'subscribe_to_out_new_channel_to_get_latest_updates',
-                                              context),
+                                      Text(getTranslated('subscribe_to_out_new_channel_to_get_latest_updates', context),
                                           style: rubikRegular.copyWith(
-                                            fontSize:
-                                                Dimensions.fontSizeDefault,
+                                            fontSize: Dimensions.fontSizeDefault,
                                           )),
-                                      const SizedBox(
-                                          height:
-                                              Dimensions.paddingSizeDefault),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
                                       Container(
                                         width: 400,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(
-                                                Dimensions.radiusSizeDefault),
+                                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.05),
+                                                color: Colors.black.withOpacity(0.05),
                                                 blurRadius: 2,
                                               )
                                             ]),
@@ -159,139 +115,78 @@ class FooterWebWidget extends StatelessWidget {
                                             Expanded(
                                                 child: TextField(
                                               controller: newsLetterController,
-                                              style: rubikMedium.copyWith(
-                                                  color: Colors.black),
+                                              style: rubikMedium.copyWith(color: Colors.black),
                                               decoration: InputDecoration(
-                                                hintText: getTranslated(
-                                                    'your_email_address',
-                                                    context),
-                                                hintStyle:
-                                                    rubikRegular.copyWith(
-                                                        color: ColorResources
-                                                            .getGreyColor(
-                                                                context),
-                                                        fontSize: Dimensions
-                                                            .fontSizeLarge),
+                                                hintText: getTranslated('your_email_address', context),
+                                                hintStyle: rubikRegular.copyWith(
+                                                    color: ColorResources.getGreyColor(context), fontSize: Dimensions.fontSizeLarge),
                                                 border: InputBorder.none,
                                               ),
                                               maxLines: 1,
                                             )),
                                             InkWell(
                                               onTap: () {
-                                                String email =
-                                                    newsLetterController.text
-                                                        .trim()
-                                                        .toString();
+                                                String email = newsLetterController.text.trim().toString();
                                                 if (email.isEmpty) {
-                                                  showCustomSnackBar(
-                                                      getTranslated(
-                                                          'enter_email_address',
-                                                          context),
-                                                      context);
-                                                } else if (EmailCheckerHelper
-                                                    .isNotValid(email)) {
-                                                  showCustomSnackBar(
-                                                      getTranslated(
-                                                          'enter_valid_email',
-                                                          context),
-                                                      context);
+                                                  showCustomSnackBar(getTranslated('enter_email_address', context), context);
+                                                } else if (EmailCheckerHelper.isNotValid(email)) {
+                                                  showCustomSnackBar(getTranslated('enter_valid_email', context), context);
                                                 } else {
-                                                  Provider.of<NewsLetterProvider>(
-                                                          context,
-                                                          listen: false)
+                                                  Provider.of<NewsLetterProvider>(context, listen: false)
                                                       .addToNewsLetter(email)
                                                       .then((value) {
-                                                    newsLetterController
-                                                        .clear();
+                                                    newsLetterController.clear();
                                                   });
                                                 }
                                               },
                                               child: Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 2,
-                                                        vertical: 2),
+                                                margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                                                 decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  borderRadius: BorderRadius
-                                                      .circular(Dimensions
-                                                          .radiusSizeDefault),
+                                                  color: Theme.of(context).primaryColor,
+                                                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
                                                 ),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 15,
-                                                        vertical: 10),
-                                                child: Text(
-                                                    getTranslated(
-                                                        'subscribe', context),
-                                                    style: rubikRegular.copyWith(
-                                                        color: Colors.white,
-                                                        fontSize: Dimensions
-                                                            .fontSizeDefault)),
+                                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                                child: Text(getTranslated('subscribe', context),
+                                                    style:
+                                                        rubikRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault)),
                                               ),
                                             )
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(
-                                          height:
-                                              Dimensions.paddingSizeDefault),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
                                       // const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
                                     ],
                                   )),
-                              if (configModel.playStoreConfig!.status! ||
-                                  configModel.appStoreConfig!.status!)
+                              if (configModel.playStoreConfig!.status! || configModel.appStoreConfig!.status!)
                                 Expanded(
                                     flex: 4,
                                     child: Column(children: [
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
                                       Text(
-                                        configModel.playStoreConfig!.status! &&
-                                                configModel
-                                                    .appStoreConfig!.status!
-                                            ? getTranslated(
-                                                'download_our_apps', context)
-                                            : getTranslated(
-                                                'download_our_app', context),
-                                        style: rubikMedium.copyWith(
-                                            fontSize: Dimensions.fontSizeLarge),
+                                        configModel.playStoreConfig!.status! && configModel.appStoreConfig!.status!
+                                            ? getTranslated('download_our_apps', context)
+                                            : getTranslated('download_our_app', context),
+                                        style: rubikMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                                       ),
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
                                       Column(children: [
-                                        if (configModel
-                                            .playStoreConfig!.status!)
+                                        if (configModel.playStoreConfig!.status!)
                                           InkWell(
-                                            onTap: () => _launchURL(configModel
-                                                .playStoreConfig!.link!),
+                                            onTap: () => _launchURL(configModel.playStoreConfig!.link!),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Image.asset(
-                                                  Images.playStore,
-                                                  height: 50,
-                                                  fit: BoxFit.contain),
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: Image.asset(Images.playStore, height: 50, fit: BoxFit.contain),
                                             ),
                                           ),
-                                        const SizedBox(
-                                            height:
-                                                Dimensions.paddingSizeLarge),
+                                        const SizedBox(height: Dimensions.paddingSizeLarge),
                                         if (configModel.appStoreConfig!.status!)
                                           InkWell(
-                                            onTap: () => _launchURL(configModel
-                                                .appStoreConfig!.link!),
+                                            onTap: () => _launchURL(configModel.appStoreConfig!.link!),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Image.asset(
-                                                  Images.appStore,
-                                                  height: 50,
-                                                  fit: BoxFit.contain),
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: Image.asset(Images.appStore, height: 50, fit: BoxFit.contain),
                                             ),
                                           ),
                                       ])
@@ -299,45 +194,27 @@ class FooterWebWidget extends StatelessWidget {
                               Expanded(
                                   flex: 2,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
-                                      Text(
-                                          getTranslated('my_account', context)
-                                              .toUpperCase(),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                                      Text(getTranslated('my_account', context).toUpperCase(),
                                           style: rubikMedium.copyWith(
                                             fontSize: Dimensions.fontSizeLarge,
                                           )),
-                                      const SizedBox(
-                                          height:
-                                              Dimensions.paddingSizeDefault),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
                                       Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: accountQuickLink
                                               .map((link) => OnHover(
                                                     child: TextHoverWidget(
-                                                        builder: (hovered) =>
-                                                            Padding(
-                                                              padding: const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical:
-                                                                      Dimensions
-                                                                          .paddingSizeExtraSmall),
+                                                        builder: (hovered) => Padding(
+                                                              padding:
+                                                                  const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                                                               child: InkWell(
-                                                                onTap: () => Navigator
-                                                                    .pushNamed(
-                                                                        context,
-                                                                        link.route),
-                                                                child: Text(
-                                                                    link.title,
-                                                                    style: rubikSemiBold
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          Dimensions
-                                                                              .fontSizeSmall,
+                                                                onTap: () => Navigator.pushNamed(context, link.route),
+                                                                child: Text(link.title,
+                                                                    style: rubikSemiBold.copyWith(
+                                                                      fontSize: Dimensions.fontSizeSmall,
                                                                     )),
                                                               ),
                                                             )),
@@ -348,45 +225,27 @@ class FooterWebWidget extends StatelessWidget {
                               Expanded(
                                   flex: 2,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const SizedBox(
-                                          height: Dimensions.paddingSizeLarge),
-                                      Text(
-                                          getTranslated('quick_links', context)
-                                              .toUpperCase(),
+                                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                                      Text(getTranslated('quick_links', context).toUpperCase(),
                                           style: rubikMedium.copyWith(
                                             fontSize: Dimensions.fontSizeLarge,
                                           )),
-                                      const SizedBox(
-                                          height:
-                                              Dimensions.paddingSizeDefault),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
                                       Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: otherQuickLink
                                               .map((link) => OnHover(
                                                     child: TextHoverWidget(
-                                                        builder: (hovered) =>
-                                                            Padding(
-                                                              padding: const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical:
-                                                                      Dimensions
-                                                                          .paddingSizeExtraSmall),
+                                                        builder: (hovered) => Padding(
+                                                              padding:
+                                                                  const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                                                               child: InkWell(
-                                                                onTap: () => Navigator
-                                                                    .pushNamed(
-                                                                        context,
-                                                                        link.route),
-                                                                child: Text(
-                                                                    link.title,
-                                                                    style: rubikSemiBold
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          Dimensions
-                                                                              .fontSizeSmall,
+                                                                onTap: () => Navigator.pushNamed(context, link.route),
+                                                                child: Text(link.title,
+                                                                    style: rubikSemiBold.copyWith(
+                                                                      fontSize: Dimensions.fontSizeSmall,
                                                                     )),
                                                               ),
                                                             )),
@@ -402,68 +261,37 @@ class FooterWebWidget extends StatelessWidget {
                               height: 30,
                               child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        if (splashProvider.configModel!
-                                            .socialMediaLink!.isNotEmpty)
-                                          Text(
-                                              getTranslated(
-                                                  'follow_us_on', context),
+                                        if (splashProvider.configModel!.socialMediaLink!.isNotEmpty)
+                                          Text(getTranslated('follow_us_on', context),
                                               style: rubikMedium.copyWith(
-                                                fontSize:
-                                                    Dimensions.fontSizeLarge,
+                                                fontSize: Dimensions.fontSizeLarge,
                                               )),
-                                        const SizedBox(
-                                            width:
-                                                Dimensions.paddingSizeDefault),
+                                        const SizedBox(width: Dimensions.paddingSizeDefault),
                                         SizedBox(
                                           height: Dimensions.paddingSizeLarge,
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
-                                              itemCount: splashProvider
-                                                  .configModel!
-                                                  .socialMediaLink!
-                                                  .length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      index) {
-                                                return splashProvider
-                                                        .configModel!
-                                                        .socialMediaLink!
-                                                        .isNotEmpty
+                                              itemCount: splashProvider.configModel!.socialMediaLink!.length,
+                                              itemBuilder: (BuildContext context, index) {
+                                                return splashProvider.configModel!.socialMediaLink!.isNotEmpty
                                                     ? InkWell(
                                                         onTap: () {
-                                                          _launchURL(splashProvider
-                                                              .configModel!
-                                                              .socialMediaLink![
-                                                                  index]
-                                                              .link!);
+                                                          _launchURL(splashProvider.configModel!.socialMediaLink![index].link!);
                                                         },
                                                         child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      8.0),
+                                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                           child: Image.asset(
                                                             Images.getSocialImage(
-                                                                splashProvider
-                                                                    .configModel!
-                                                                    .socialMediaLink![
-                                                                        index]
-                                                                    .name!),
-                                                            height: Dimensions
-                                                                .paddingSizeExtraLarge,
-                                                            width: Dimensions
-                                                                .paddingSizeExtraLarge,
+                                                                splashProvider.configModel!.socialMediaLink![index].name!),
+                                                            height: Dimensions.paddingSizeExtraLarge,
+                                                            width: Dimensions.paddingSizeExtraLarge,
                                                             fit: BoxFit.contain,
                                                           ),
                                                         ),
@@ -474,8 +302,7 @@ class FooterWebWidget extends StatelessWidget {
                                       ],
                                     ),
                                     Text(
-                                      configModel.footerCopyright ??
-                                          '${getTranslated('copyright', context)} ${configModel.ecommerceName}',
+                                      configModel.footerCopyright ?? '${getTranslated('copyright', context)} ${configModel.ecommerceName}',
                                       style: rubikRegular,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
@@ -519,8 +346,7 @@ class _FooterFormatter extends StatelessWidget {
             ? child
             : SliverFillRemaining(
                 hasScrollBody: false,
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   const SizedBox(height: Dimensions.paddingSizeLarge),
                   child,
                 ]),

@@ -142,7 +142,7 @@ class _MapWidgetState extends State<MapWidget> {
                                   color: Theme.of(context).primaryColor,
                                   fontSize: Dimensions.fontSizeLarge,
                                 )),
-                            Text('- ${widget.address!.contactPersonNumber}',
+                            Text('- ${widget.address!.contactPersonNumber}', 
                                 style: rubikRegular),
                           ],
                         ),

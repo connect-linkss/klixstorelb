@@ -9,7 +9,6 @@ import 'package:klixstore/utill/dimensions.dart';
 import 'package:klixstore/utill/routes.dart';
 import 'package:klixstore/utill/styles.dart';
 import 'package:klixstore/common/widgets/custom_image_widget.dart';
-import 'package:klixstore/common/widgets/custom_slider_list_widget.dart';
 import 'package:klixstore/common/widgets/on_hover.dart';
 import 'package:klixstore/common/widgets/text_hover_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,23 +42,21 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                   child: Stack(
                     children: [
                       ListView.builder(
-                        scrollDirection:
-                            Axis.horizontal, // Horizontal scrolling
+                        scrollDirection: Axis.horizontal, // Horizontal scrolling
                         controller: scrollController,
                         itemCount: category.categoryList?.length,
                         itemBuilder: (context, index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Provider.of<ThemeProvider>(context).darkTheme
+                                                        ? Theme.of(context).cardColor
+                                                        : Colors.grey[200],
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: InkWell(
                               hoverColor: Colors.transparent,
-                              onTap: () => Navigator.pushNamed(
-                                  context,
-                                  Routes.getCategoryRoute(
-                                      category.categoryList![index])),
+                              onTap: () => Navigator.pushNamed(context, Routes.getCategoryRoute(category.categoryList![index])),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -75,31 +72,23 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                                       //         : 1),
                                       // borderRadius: BorderRadius.circular(
                                       //     100), // Circular shape
-                                      boxShadow:
-                                          Provider.of<ThemeProvider>(context)
-                                                  .darkTheme
-                                              ? null
-                                              : [
-                                                  BoxShadow(
-                                                    color: Theme.of(context)
-                                                        .shadowColor,
-                                                    blurRadius: 15,
-                                                    offset: const Offset(3, 0),
-                                                  ),
-                                                ],
+                                      boxShadow: Provider.of<ThemeProvider>(context).darkTheme
+                                          ? null
+                                          : [
+                                              BoxShadow(
+                                                color: Theme.of(context).shadowColor,
+                                                blurRadius: 15,
+                                                offset: const Offset(3, 0),
+                                              ),
+                                            ],
                                     ),
                                     child: Center(
                                       // Center the image inside the container
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            75), // Smaller radius for the image
+                                        borderRadius: BorderRadius.circular(75), // Smaller radius for the image
                                         child: OnHover(
                                           child: CustomImageWidget(
-                                            image: Provider.of<SplashProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .baseUrls !=
-                                                    null
+                                            image: Provider.of<SplashProvider>(context, listen: false).baseUrls != null
                                                 ? '${category.categoryList![index].image}'
                                                 : '',
                                             width: 120, // Smaller image width
@@ -122,12 +111,8 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                                             category.categoryList![index].name!,
                                             style: rubikRegular.copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: hovered
-                                                  ? Theme.of(context)
-                                                      .primaryColor
-                                                  : null,
-                                              fontSize:
-                                                  Dimensions.fontSizeDefault,
+                                              color: hovered ? Theme.of(context).primaryColor : null,
+                                              fontSize: Dimensions.fontSizeDefault,
                                             ),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -167,8 +152,7 @@ class _CategoriesWebWidgetState extends State<CategoriesWebWidget> {
                     ],
                   ),
                 )
-              : Center(
-                  child: Text(getTranslated('no_category_available', context)))
+              : Center(child: Text(getTranslated('no_category_available', context)))
           : const CategoryShimmerWidget();
     });
   }
