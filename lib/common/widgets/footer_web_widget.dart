@@ -73,17 +73,17 @@ class FooterWebWidget extends StatelessWidget {
                                                 SizedBox(
                                                     height: 40,
                                                     child: CustomImageWidget(
-                                                      placeholder: Images.logo,
+                                                      placeholder: Provider.of<ThemeProvider>(context).darkTheme ? Images.logoDark : Images.logoLight,
                                                       image: splash.baseUrls != null
                                                           ? '${splash.baseUrls!.ecommerceImageUrl}/${splash.configModel!.appLogo}'
                                                           : '',
                                                       fit: BoxFit.contain,
                                                     )),
                                                 const SizedBox(width: Dimensions.paddingSizeSmall),
-                                                Text(
-                                                  splash.configModel?.ecommerceName ?? AppConstants.appName,
-                                                  style: rubikBold.copyWith(fontSize: 30, color: Theme.of(context).primaryColor),
-                                                ),
+                                                // Text(
+                                                //   splash.configModel?.ecommerceName ?? AppConstants.appName,
+                                                //   style: rubikBold.copyWith(fontSize: 30, color: Theme.of(context).primaryColor),
+                                                // ),
                                               ])),
 
                                       const SizedBox(height: Dimensions.paddingSizeLarge),

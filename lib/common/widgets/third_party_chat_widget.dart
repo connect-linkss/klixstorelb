@@ -33,10 +33,10 @@ class _ThirdPartyChatWidgetState extends State<ThirdPartyChatWidget> {
             vertical: Dimensions.paddingSizeExtraSmall,
             horizontal: Dimensions.paddingSizeSmall,
           ),
-          height: 35,
-          width: 55,
+          height: 55,
+          width: 75,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: Colors.white),
+              borderRadius: BorderRadius.circular(20), color: Colors.transparent),
           child: Image.asset(Images.emailWithBackground),
         ),
         onPressed: () async {

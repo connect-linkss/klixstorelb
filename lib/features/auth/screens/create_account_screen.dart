@@ -9,6 +9,7 @@ import 'package:klixstore/localization/language_constrants.dart';
 import 'package:klixstore/main.dart';
 import 'package:klixstore/features/auth/providers/auth_provider.dart';
 import 'package:klixstore/features/splash/providers/splash_provider.dart';
+import 'package:klixstore/provider/theme_provider.dart';
 import 'package:klixstore/utill/dimensions.dart';
 import 'package:klixstore/utill/images.dart';
 import 'package:klixstore/utill/routes.dart';
@@ -113,7 +114,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(Images.logo, width: 40, height: 40),
+                          Image.asset(
+                            Provider.of<ThemeProvider>(context).darkTheme ? Images.logoDark : Images.logoLight,
+                            width: 40, height: 40),
                           const SizedBox(width: 10),
                           Text(
                             getTranslated('signup', context),

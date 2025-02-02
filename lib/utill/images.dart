@@ -48,7 +48,7 @@ class Images {
   static const String logoDark = 'assets/image/logo_dark.png';
   static const String logoLight = 'assets/image/logo_light.png';
   static const String logo2 = 'assets/image/logo2.png';
-  static const String login = 'assets/icon/login.png';
+  static const String login = 'assets/icon/login.png'; 
   // static const String helpSupport = 'assets/icon/help_support.png';
   // static const String privacyPolicy = 'assets/icon/privacy_policy.png';
   // static const String termsAndCondition = 'assets/icon/terms_and_condition.png';

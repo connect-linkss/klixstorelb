@@ -1,0 +1,4 @@
+storePassword=connect2024
+keyPassword=connect2024
+keyAlias=alias
+storeFile=key.jks

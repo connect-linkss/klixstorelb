@@ -45,22 +45,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 
   static Future<void> loadData(BuildContext context, bool reload) async {
-    final CategoryProvider categoryProvider =
-        Provider.of<CategoryProvider>(context, listen: false);
-    final BannerProvider bannerProvider =
-        Provider.of<BannerProvider>(context, listen: false);
-    final ProductProvider productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    final SplashProvider splashProvider =
-        Provider.of<SplashProvider>(context, listen: false);
-    final WishListProvider wishListProvider =
-        Provider.of<WishListProvider>(context, listen: false);
-    final FlashSaleProvider flashSaleProvider =
-        Provider.of<FlashSaleProvider>(context, listen: false);
-    final ProfileProvider profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    final CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+    final BannerProvider bannerProvider = Provider.of<BannerProvider>(context, listen: false);
+    final ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
+    final SplashProvider splashProvider = Provider.of<SplashProvider>(context, listen: false);
+    final WishListProvider wishListProvider = Provider.of<WishListProvider>(context, listen: false);
+    final FlashSaleProvider flashSaleProvider = Provider.of<FlashSaleProvider>(context, listen: false);
+    final ProfileProvider profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (reload) {
       await splashProvider.initConfig();
@@ -68,8 +60,7 @@ class HomeScreen extends StatefulWidget {
 
     splashProvider.getPolicyPage(reload: reload);
 
-    if (authProvider.isLoggedIn() &&
-        (profileProvider.userInfoModel == null || reload)) {
+    if (authProvider.isLoggedIn() && (profileProvider.userInfoModel == null || reload)) {
       await profileProvider.getUserInfo();
       await wishListProvider.getWishList();
     }
@@ -117,13 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: drawerGlobalKey,
       endDrawerEnableOpenDragGesture: false,
-      drawer: ResponsiveHelper.isTab(context)
-          ? const Drawer(child: OptionsWidget(onTap: null))
-          : const SizedBox(),
-      appBar: ResponsiveHelper.isDesktop(context)
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(90), child: WebAppBarWidget())
-          : null,
+      drawer: ResponsiveHelper.isTab(context) ? const Drawer(child: OptionsWidget(onTap: null)) : const SizedBox(),
+      appBar:
+          ResponsiveHelper.isDesktop(context) ? const PreferredSize(preferredSize: Size.fromHeight(90), child: WebAppBarWidget()) : null,
       body: RefreshIndicator(
         color: Theme.of(context).secondaryHeaderColor,
         onRefresh: () async {
@@ -149,51 +136,31 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ResponsiveHelper.isDesktop(context)
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    top: Dimensions.paddingSizeDefault),
-                                child: Consumer<BannerProvider>(
-                                    builder: (context, bannerProvider, _) {
+                                padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
+                                child: Consumer<BannerProvider>(builder: (context, bannerProvider, _) {
                                   return bannerProvider.bannerList == null
                                       ? const MainSliderShimmerWidget()
                                       : SizedBox(
                                           height: 380,
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                if (bannerProvider
-                                                    .bannerList!.isNotEmpty)
-                                                  SizedBox(
-                                                    width: bannerProvider
-                                                            .secondaryBannerList!
-                                                            .isNotEmpty
-                                                        ? 780
-                                                        : Dimensions
-                                                            .webScreenWidth,
-                                                    child: MainSliderWidget(
-                                                      bannerList: bannerProvider
-                                                          .bannerList,
-                                                      bannerType:
-                                                          BannerType.primary,
-                                                      isMainOnly: bannerProvider
-                                                          .secondaryBannerList!
-                                                          .isEmpty,
-                                                    ),
-                                                  ),
-                                                if (bannerProvider
-                                                    .secondaryBannerList!
-                                                    .isNotEmpty)
-                                                  SizedBox(
-                                                    width: 380,
-                                                    child: MainSliderWidget(
-                                                      bannerList: bannerProvider
-                                                          .secondaryBannerList,
-                                                      bannerType:
-                                                          BannerType.secondary,
-                                                    ),
-                                                  ),
-                                              ]),
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                            if (bannerProvider.bannerList!.isNotEmpty)
+                                              SizedBox(
+                                                width: bannerProvider.secondaryBannerList!.isNotEmpty ? 780 : Dimensions.webScreenWidth,
+                                                child: MainSliderWidget(
+                                                  bannerList: bannerProvider.bannerList,
+                                                  bannerType: BannerType.primary,
+                                                  isMainOnly: bannerProvider.secondaryBannerList!.isEmpty,
+                                                ),
+                                              ),
+                                            if (bannerProvider.secondaryBannerList!.isNotEmpty)
+                                              SizedBox(
+                                                width: 380,
+                                                child: MainSliderWidget(
+                                                  bannerList: bannerProvider.secondaryBannerList,
+                                                  bannerType: BannerType.secondary,
+                                                ),
+                                              ),
+                                          ]),
                                         );
                                 }),
                               )
@@ -231,8 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         /// Campaign
                         if (!ResponsiveHelper.isDesktop(context))
-                          Consumer<BannerProvider>(
-                              builder: (context, bannerProvider, _) {
+                          Consumer<BannerProvider>(builder: (context, bannerProvider, _) {
                             return MainSliderWidget(
                               bannerType: BannerType.secondary,
                               bannerList: bannerProvider.secondaryBannerList,
@@ -243,31 +209,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         BannerDisplayWidget(),
 
                         const NewArrivalWidget(),
-                        Consumer<CategoryProvider>(
-                            builder: (context, categoryProvider, _) {
+                        Consumer<CategoryProvider>(builder: (context, categoryProvider, _) {
                           return categoryProvider.featureCategoryMode != null
                               ? CustomSingleChildListWidget(
-                                  itemCount: categoryProvider
-                                          .featureCategoryMode
-                                          ?.featuredData
-                                          ?.length ??
-                                      0,
+                                  itemCount: categoryProvider.featureCategoryMode?.featuredData?.length ?? 0,
                                   itemBuilder: (index) => FeatureCategoryWidget(
-                                    featuredCategory: categoryProvider
-                                        .featureCategoryMode!
-                                        .featuredData?[index],
+                                    featuredCategory: categoryProvider.featureCategoryMode!.featuredData?[index],
                                   ),
                                 )
                               : const SizedBox();
                         }),
                         NewMobileBannerWidget(),
-                        Consumer<ProductProvider>(
-                            builder: (context, productProvider, _) {
+                        Consumer<ProductProvider>(builder: (context, productProvider, _) {
                           return Padding(
                             padding: ResponsiveHelper.isDesktop(context)
-                                ? const EdgeInsets.only(
-                                    top: Dimensions.paddingSizeExtraLarge,
-                                    bottom: Dimensions.paddingSizeLarge)
+                                ? const EdgeInsets.only(top: Dimensions.paddingSizeExtraLarge, bottom: Dimensions.paddingSizeLarge)
                                 : const EdgeInsets.fromLTRB(10, 20, 10, 10),
                             child: TitleWidget(
                               title: getTranslated('all_items', context),
@@ -275,8 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isFilterActive: filterType != null,
                                 onSelected: (result) {
                                   filterType = result;
-                                  productProvider.getLatestProductList(1,
-                                      filterType: result);
+                                  productProvider.getLatestProductList(1, filterType: result);
                                 },
                               ),
                             ),
@@ -307,8 +262,7 @@ class _SliverDelegate extends SliverPersistentHeaderDelegate {
   _SliverDelegate({required this.child});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 
@@ -320,9 +274,7 @@ class _SliverDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverDelegate oldDelegate) {
-    return oldDelegate.maxExtent != 50 ||
-        oldDelegate.minExtent != 50 ||
-        child != oldDelegate.child;
+    return oldDelegate.maxExtent != 50 || oldDelegate.minExtent != 50 || child != oldDelegate.child;
   }
 }
 
@@ -333,10 +285,8 @@ class SingleBannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
     final double bannerWidth = isMobile
-        ? MediaQuery.of(context).size.width / 2 -
-            20 // Adjust width for two banners on mobile
-        : (MediaQuery.of(context).size.width / 2) -
-            30; // Adjust width for desktop spacing
+        ? MediaQuery.of(context).size.width / 2 - 20 // Adjust width for two banners on mobile
+        : (MediaQuery.of(context).size.width / 2) - 30; // Adjust width for desktop spacing
 
     return Column(
       children: [
@@ -368,8 +318,7 @@ class SingleBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(
-      BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -415,8 +364,7 @@ class MobileBannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double bannerWidth = MediaQuery.of(context).size.width -
-        40; // Full width with padding adjustment for mobile
+    final double bannerWidth = MediaQuery.of(context).size.width - 40; // Full width with padding adjustment for mobile
 
     return Consumer<BannerProvider>(
       builder: (context, banner, child) {
@@ -427,8 +375,7 @@ class MobileBannerWidget extends StatelessWidget {
                   Center(
                     child: _buildBannerItem(
                       context,
-                      banner.bannerList!
-                          .first, // Display only the first banner item
+                      banner.bannerList!.first, // Display only the first banner item
                       bannerWidth,
                       160, // Height for mobile banners
                     ),
@@ -445,8 +392,7 @@ class MobileBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(
-      BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -483,9 +429,7 @@ class NewSingleBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
-    final double bannerWidth = isMobile
-        ? MediaQuery.of(context).size.width / 2 - 20
-        : (MediaQuery.of(context).size.width / 2) - 30;
+    final double bannerWidth = isMobile ? MediaQuery.of(context).size.width / 2 - 20 : (MediaQuery.of(context).size.width / 2) - 30;
 
     return Column(
       children: [
@@ -524,8 +468,7 @@ class NewSingleBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(
-      BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
@@ -564,9 +507,7 @@ class NewMobileBannerWidget extends StatelessWidget {
     return Consumer<BannerProvider>(
       builder: (context, banner, child) {
         if (banner.bannerList != null && banner.bannerList!.length > 6) {
-          final bannerItem = banner.bannerList!.length > 7
-              ? banner.bannerList![7]
-              : banner.bannerList![6];
+          final bannerItem = banner.bannerList!.length > 7 ? banner.bannerList![7] : banner.bannerList![6];
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -593,8 +534,7 @@ class NewMobileBannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerItem(
-      BuildContext context, bannerItem, double width, double height) {
+  Widget _buildBannerItem(BuildContext context, bannerItem, double width, double height) {
     return InkWell(
       onTap: () => ProductHelper.onTapBannerForRoute(bannerItem, context),
       child: Container(
